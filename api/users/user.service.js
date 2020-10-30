@@ -31,7 +31,7 @@ module.exports = {
   },
   getUserByUserId: (user_id, callBack) => {
     pool.query(
-      `SELECT user_id, id,user_name, password, email, role_id, is_deleted FROM user where user_id = ?`,
+      `SELECT * FROM user where user_id = ?`,
       [user_id],
       (error, results, fields) => {
           if (error){

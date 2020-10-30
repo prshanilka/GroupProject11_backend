@@ -9,7 +9,7 @@ const {
 
 const { genSaltSync, hashSync, compareSync } = require("bcrypt");
 const { sign } = require("jsonwebtoken");
-
+const { checkPermision } = require("../../auth/roleauth")
 module.exports = {
   createUser: (req, res) => {
 
@@ -31,17 +31,42 @@ module.exports = {
       });
     });
   },
-  getUsers: (req, res) => {
-    getUsers((err, results) => {
-      if (err) {
-        console.log(err);
-        return;
-      }
-      return res.json({
-        success: 1,
-        data: results
+     getUsers: (req, res) => {
+      const rcid = {
+        role_id:req.auth.result.role_id,
+        cap_id:1
+      };
+
+      checkPermision(rcid, (err, results) => {
+        if (err) {
+          console.log(err);
+        }
+
+        if(!results){
+          return res.json({
+            success: 0,
+            error: "Unauthorized access",
+          });
+        }
+        getUsers((err, results) => {
+            if (err) {
+              console.log(err);
+              return;
+            }
+            return res.json({
+              success: 1,
+              data: results
+            
+            });
+          });
+
+
+        
       });
-    });
+
+
+
+
   },
   getUserByUserId: (req, res) => {
     const user_id = req.params.user_id;
@@ -58,7 +83,8 @@ module.exports = {
       }
       return res.json({
         success:1,
-        data:results
+        data:results,
+   
 
       });
     });
@@ -100,7 +126,7 @@ module.exports = {
   },
   login: (req, res) =>{
     const body = req.body;
-    getUserByUserName(body.user_name, (err, results)=>{
+    getUserByUserName(body.username, (err, results)=>{
       console.log(results);
       if(err){
         console.log(err);
@@ -108,7 +134,8 @@ module.exports = {
       if(!results){
         return res.json({
           success:0,
-          data:"Invalid email or password"
+          message:"Invalid email or password"
+
         });
       }
       const result = compareSync(body.password,results.password);
@@ -118,11 +145,23 @@ module.exports = {
         const jsontoken = sign({ result: results },salt,{
           expiresIn: "12h"
         });
+      console.log(results);
+        const userData = {
+          id: results.user_id,
+          title: results.user_name,
+          img: '/assets/img/profiles/l-1.jpg',
+          date: 'Last seen today 15:24',
+          role: results.role_id
+        };
+
         return res.json({
+          
           success:1,
           message:"Login Succesfully",
-          token: jsontoken
+          token: jsontoken,
+          data:userData
         });
+
       }
       else{
         return res.json({
@@ -132,5 +171,14 @@ module.exports = {
       }
     });
 
-  }
+  },
+
+
+
+
+
+
+
+
+  
 }
