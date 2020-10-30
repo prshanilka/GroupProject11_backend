@@ -1,11 +1,11 @@
-require("dotenv").config(); 
+require("dotenv").config();
 const express = require("express");
 const app = express();
 const userRouter = require("./api/users/user.router");
 
 app.use(express.json());
 
-app.use("/api/",userRouter);
+app.use("/api/", userRouter);
 /*
 app.get("/api" , (req , res) => {
   res.json({
@@ -15,5 +15,5 @@ app.get("/api" , (req , res) => {
 });
 */
 app.listen(process.env.APP_PORT, () => {
-  console.log("Server up and running");
-})
+  console.log("Server up and running " + process.env.APP_PORT);
+});
