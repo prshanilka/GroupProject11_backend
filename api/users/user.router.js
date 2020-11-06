@@ -9,12 +9,13 @@ const {
 } = require("./user.controller");
 const { checkToken } = require("../../auth/token_validation");
 
-router.post("/users",createUser);
-router.get("/users",checkToken,getUsers);
-router.get("/users/:user_id",checkToken,getUserByUserId);
-router.patch("/users",checkToken,updateUsers);
-router.delete("/users",checkToken,deleteUser);
-router.post("/users/login",login);
+router.post("/",createUser);
+router.get("/",checkToken,getUsers);
+router.get("/:user_id",checkToken,getUserByUserId);
+router.patch("/",checkToken,updateUsers);
+router.delete("/",checkToken,deleteUser);
+router.post("/login",login);
+
 
 
 

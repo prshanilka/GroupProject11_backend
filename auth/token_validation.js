@@ -13,6 +13,7 @@ module.exports = {
           });
         }
         else{
+          req.auth=decoded;
           next();
         }
       })
