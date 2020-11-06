@@ -1,0 +1,585 @@
+-- phpMyAdmin SQL Dump
+-- version 4.9.2
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: Nov 06, 2020 at 02:29 PM
+-- Server version: 10.4.11-MariaDB
+-- PHP Version: 7.3.13
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `gp`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `agent`
+--
+
+CREATE TABLE `agent` (
+  `agent_id` int(11) NOT NULL,
+  `elder_id` int(11) NOT NULL,
+  `name` varchar(30) NOT NULL,
+  `nic` varchar(15) NOT NULL,
+  `address` varchar(60) NOT NULL,
+  `phone` varchar(10) NOT NULL,
+  `email` varchar(30) NOT NULL,
+  `is_deleted` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `benifesher`
+--
+
+CREATE TABLE `benifesher` (
+  `benifesher_id` int(11) NOT NULL,
+  `elder_id` int(11) NOT NULL,
+  `added_officer_id` varchar(20) NOT NULL,
+  `removed_officer_id` varchar(20) NOT NULL,
+  `added_date` date NOT NULL,
+  `removed_date` date NOT NULL,
+  `remove_reason` varchar(75) NOT NULL,
+  `is_deleted` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `capability`
+--
+
+CREATE TABLE `capability` (
+  `cap_id` int(10) NOT NULL,
+  `cap_name` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `capability`
+--
+
+INSERT INTO `capability` (`cap_id`, `cap_name`) VALUES
+(1, 'view all users');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `divisional_secratory_office`
+--
+
+CREATE TABLE `divisional_secratory_office` (
+  `divisional_secratary_id` varchar(20) NOT NULL,
+  `district_id` varchar(20) NOT NULL,
+  `name` varchar(40) NOT NULL,
+  `address` varchar(60) NOT NULL,
+  `number` varchar(10) NOT NULL,
+  `email` varchar(30) NOT NULL,
+  `bank_account` varchar(30) NOT NULL,
+  `no_of_officers` int(11) NOT NULL,
+  `count_of_priority_listed_elders` int(11) NOT NULL,
+  `count_of_benifishers_elders` int(11) NOT NULL,
+  `is_deleted` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `divisional_secratory_officer`
+--
+
+CREATE TABLE `divisional_secratory_officer` (
+  `officer_id` varchar(20) NOT NULL,
+  `divisional_secratary_id` varchar(20) NOT NULL,
+  `designation` varchar(20) NOT NULL,
+  `role` varchar(20) NOT NULL,
+  `type` varchar(20) NOT NULL,
+  `area` varchar(35) NOT NULL,
+  `is_deleted` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `elder`
+--
+
+CREATE TABLE `elder` (
+  `elder_id` int(11) NOT NULL,
+  `district_id` varchar(20) NOT NULL,
+  `divisional_secratory_id` varchar(20) NOT NULL,
+  `gramaniladari_division_id` varchar(20) NOT NULL,
+  `near_post_office_id` varchar(20) NOT NULL,
+  `name` varchar(40) NOT NULL,
+  `address` varchar(70) NOT NULL,
+  `birth_day` date NOT NULL,
+  `number` varchar(10) NOT NULL,
+  `nic_id` varchar(12) NOT NULL,
+  `elders_reg_id` varchar(20) NOT NULL,
+  `local_commity_elder_name` varchar(40) NOT NULL,
+  `local_commity_elder_id` varchar(20) NOT NULL,
+  `lives_with_whome` varchar(30) NOT NULL,
+  `other_elders_name` varchar(40) NOT NULL,
+  `other_elders_nic` varchar(12) NOT NULL,
+  `elders_member_no` varchar(20) NOT NULL,
+  `other_name_and_description` varchar(50) NOT NULL,
+  `source_of_income` varchar(70) NOT NULL,
+  `income` double NOT NULL,
+  `samurdi_no` varchar(20) NOT NULL,
+  `people_adi_no` varchar(20) NOT NULL,
+  `still_alive` tinyint(1) NOT NULL,
+  `is_deleted` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `elder`
+--
+
+INSERT INTO `elder` (`elder_id`, `district_id`, `divisional_secratory_id`, `gramaniladari_division_id`, `near_post_office_id`, `name`, `address`, `birth_day`, `number`, `nic_id`, `elders_reg_id`, `local_commity_elder_name`, `local_commity_elder_id`, `lives_with_whome`, `other_elders_name`, `other_elders_nic`, `elders_member_no`, `other_name_and_description`, `source_of_income`, `income`, `samurdi_no`, `people_adi_no`, `still_alive`, `is_deleted`) VALUES
+(1, '1', '1', '1', '1', 'kamla', 'dsdf', '2020-10-14', '076532552', '', '23', 'sd', '3', 'dsfsdf', 'sdfsdf', '32434', '323423', 'sdsf', 'sdfsdf', 23323, '32323', 'sdf', 1, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `gramaniladari`
+--
+
+CREATE TABLE `gramaniladari` (
+  `gramaniladari_division_id` varchar(20) NOT NULL,
+  `grmaniladari_officer_id` varchar(20) NOT NULL,
+  `district_id` varchar(20) NOT NULL,
+  `divisional_secratary_id` varchar(20) NOT NULL,
+  `is_deleted` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `gramaniladari_division`
+--
+
+CREATE TABLE `gramaniladari_division` (
+  `gramaniladari_division_id` varchar(20) NOT NULL,
+  `district_id` varchar(20) NOT NULL,
+  `divisional_secratory_id` varchar(20) NOT NULL,
+  `name` varchar(40) NOT NULL,
+  `address` varchar(60) NOT NULL,
+  `number` varchar(10) NOT NULL,
+  `email` varchar(40) NOT NULL,
+  `count_of_prority_elders` int(11) NOT NULL,
+  `count_of_benifishers` int(11) NOT NULL,
+  `is_deleted` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `officers`
+--
+
+CREATE TABLE `officers` (
+  `officer_id` varchar(20) NOT NULL,
+  `nic_no` varchar(12) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `email` varchar(30) NOT NULL,
+  `phone` varchar(12) NOT NULL,
+  `is_deleted` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `payments_devisional_to_post_office`
+--
+
+CREATE TABLE `payments_devisional_to_post_office` (
+  `payment_id` int(11) NOT NULL,
+  `district_id` varchar(20) NOT NULL,
+  `divisional_id` varchar(20) NOT NULL,
+  `post_office_id` varchar(20) NOT NULL,
+  `check_no` varchar(30) NOT NULL,
+  `date` date NOT NULL,
+  `total_money_amount` double NOT NULL,
+  `credite_account_no` varchar(30) NOT NULL,
+  `debited_account_no` varchar(30) NOT NULL,
+  `no_qualified_elders` int(11) NOT NULL,
+  `amount_of_money_debited_to_centrel_bank` double NOT NULL,
+  `sent_amount_to_post_office` double NOT NULL,
+  `centrel_bank_acount_no` double NOT NULL,
+  `year` int(11) NOT NULL,
+  `month` int(11) NOT NULL,
+  `no_of_elders_got_money` int(11) NOT NULL,
+  `elders_dose_not_resive_total_money` double NOT NULL,
+  `send_date` date NOT NULL,
+  `completed_date` date NOT NULL,
+  `is_deleted` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `payments_post_office_to_benifishers`
+--
+
+CREATE TABLE `payments_post_office_to_benifishers` (
+  `payment_id` int(11) NOT NULL,
+  `elder_id` int(11) NOT NULL,
+  `district_id` varchar(20) NOT NULL,
+  `agent_id` int(11) NOT NULL,
+  `divisional_id` varchar(20) NOT NULL,
+  `post_office_id` varchar(20) NOT NULL,
+  `money_amount` double NOT NULL,
+  `ajent_available` tinyint(1) NOT NULL,
+  `person_got_money` varchar(10) NOT NULL,
+  `date_and_time_got_money` datetime NOT NULL,
+  `year` int(11) NOT NULL,
+  `month` int(11) NOT NULL,
+  `is_taken_money` tinyint(1) NOT NULL,
+  `reson_for_not_take_money` varchar(150) NOT NULL,
+  `is_deleted` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `post_office_officers`
+--
+
+CREATE TABLE `post_office_officers` (
+  `post_office_id` varchar(20) NOT NULL,
+  `district_id` varchar(20) NOT NULL,
+  `division` varchar(20) NOT NULL,
+  `type` varchar(30) NOT NULL,
+  `designation` varchar(30) NOT NULL,
+  `is_deleted` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `post_office_table`
+--
+
+CREATE TABLE `post_office_table` (
+  `post_office_id` varchar(20) NOT NULL,
+  `district_id` varchar(20) NOT NULL,
+  `divisional_id` varchar(20) NOT NULL,
+  `name` varchar(40) NOT NULL,
+  `address` varchar(60) NOT NULL,
+  `phone_no` varchar(10) NOT NULL,
+  `bank_account_no` varchar(25) NOT NULL,
+  `email` varchar(30) NOT NULL,
+  `num_of_offices` int(11) NOT NULL,
+  `is_delated` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `priority_list`
+--
+
+CREATE TABLE `priority_list` (
+  `elder_id` int(11) NOT NULL,
+  `grmaniladari_officer_id` varchar(20) NOT NULL,
+  `gramaniladari_division_id` varchar(20) NOT NULL,
+  `divisional_secratary_officer_id` varchar(20) NOT NULL,
+  `divisional_head_id` varchar(20) NOT NULL,
+  `added_officer_id` varchar(20) NOT NULL,
+  `marks` int(11) NOT NULL,
+  `still_dead_or_alive` tinyint(1) NOT NULL,
+  `reason_for_remove` varchar(150) NOT NULL,
+  `eligibility` tinyint(1) NOT NULL,
+  `is_deleted` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `role`
+--
+
+CREATE TABLE `role` (
+  `role_id` int(10) NOT NULL DEFAULT 0,
+  `role_name` varchar(20) NOT NULL,
+  `is_deleted` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `role`
+--
+
+INSERT INTO `role` (`role_id`, `role_name`, `is_deleted`) VALUES
+(1, 'admin', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `rolecapability`
+--
+
+CREATE TABLE `rolecapability` (
+  `role_id` int(10) NOT NULL,
+  `cap_id` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `rolecapability`
+--
+
+INSERT INTO `rolecapability` (`role_id`, `cap_id`) VALUES
+(1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tokenbl`
+--
+
+CREATE TABLE `tokenbl` (
+  `u_id` int(11) NOT NULL,
+  `token` varchar(500) NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tokenbl`
+--
+
+INSERT INTO `tokenbl` (`u_id`, `token`, `timestamp`) VALUES
+(13, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEzLCJpYXQiOjE2MDQ2Njg2MDIsImV4cCI6MTYwNDg0MTQwMn0.kc_074SkAIAh-sTLMvnvtlSd7T8sAhVtKyPpyQ5Nz9k', '2020-11-06 13:16:45');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user`
+--
+
+CREATE TABLE `user` (
+  `user_id` int(11) NOT NULL,
+  `id` varchar(20) DEFAULT NULL,
+  `user_name` varchar(50) NOT NULL,
+  `password` varchar(128) NOT NULL,
+  `email` varchar(30) NOT NULL,
+  `table_id` int(3) NOT NULL,
+  `role_id` int(11) NOT NULL,
+  `is_deleted` tinyint(1) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`user_id`, `id`, `user_name`, `password`, `email`, `table_id`, `role_id`, `is_deleted`) VALUES
+(2, '', 'ddd', '$2b$10$I1yXO5QJ4NFCakYc43ktXOto7DLyXgCBvZyuXyerYTd4yo35wtXLC', 'sss@dd.com', 0, 1, 1),
+(7, '1', 'aaaaaaaj', '$2b$10$QlgSRhs1fON4iGmkypiNRu0bkS2beA7qNL6E.Z2iZVTtqLouwde16', 'sss@dd.com', 0, 1, 0),
+(8, NULL, 'aaad', '$2b$10$jtfIYtbiq5o1AOCgl4hEgeLi1MbtnIxqkx2iYpG83NxR97EwG611C', 'sss@dd.com', 0, 1, 1),
+(9, NULL, 'aaadr', '$2b$10$CBcJhXMzwUHrCaT974NNE.LXXlcktY0NzQ9c.OyygN7Tynpyjk2dq', 'sss@dd.com', 0, 1, 1),
+(10, NULL, 'ramesh', '$2b$10$2dqXJ6FC.J14f99H9mDJi.DU8tikI/kU.AqqgSwssyjdgJEu.3J.W', 'ddd@dd.com', 0, 1, 1),
+(12, NULL, 'ramesht', '$2b$10$KZ6j/ordbODyPliTgYd0feV3AiMYiU31pS8o8SDYo1OeW.oXmAAfe', 'ddd@dd.com', 0, 1, 0),
+(13, NULL, 'yuih', '$2b$10$S16eENHFpEEJTYsqIAPASukIOM3tDHVVGX6w.lM7/5n7mym7eFUrG', 'sss@dd.com', 0, 1, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `verification_of_elders`
+--
+
+CREATE TABLE `verification_of_elders` (
+  `vid` int(11) NOT NULL,
+  `elder_id` int(11) NOT NULL,
+  `gramaniladari_id` varchar(20) NOT NULL,
+  `divisional_officer_id` varchar(20) NOT NULL,
+  `divisional_head_id` varchar(20) NOT NULL,
+  `gramaniladari_comment` varchar(100) NOT NULL,
+  `divisional_officers_comment` varchar(100) NOT NULL,
+  `divisional_head_comment` varchar(100) NOT NULL,
+  `validity_by_gramaniladari` tinyint(1) NOT NULL,
+  `validity_by_divisional_officer` tinyint(1) NOT NULL,
+  `validity_by_divisional_head` tinyint(1) NOT NULL,
+  `is_deleted` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `agent`
+--
+ALTER TABLE `agent`
+  ADD PRIMARY KEY (`agent_id`);
+
+--
+-- Indexes for table `benifesher`
+--
+ALTER TABLE `benifesher`
+  ADD PRIMARY KEY (`benifesher_id`);
+
+--
+-- Indexes for table `divisional_secratory_office`
+--
+ALTER TABLE `divisional_secratory_office`
+  ADD PRIMARY KEY (`divisional_secratary_id`);
+
+--
+-- Indexes for table `divisional_secratory_officer`
+--
+ALTER TABLE `divisional_secratory_officer`
+  ADD PRIMARY KEY (`officer_id`,`divisional_secratary_id`);
+
+--
+-- Indexes for table `elder`
+--
+ALTER TABLE `elder`
+  ADD PRIMARY KEY (`elder_id`);
+
+--
+-- Indexes for table `gramaniladari`
+--
+ALTER TABLE `gramaniladari`
+  ADD PRIMARY KEY (`gramaniladari_division_id`,`grmaniladari_officer_id`);
+
+--
+-- Indexes for table `gramaniladari_division`
+--
+ALTER TABLE `gramaniladari_division`
+  ADD PRIMARY KEY (`gramaniladari_division_id`);
+
+--
+-- Indexes for table `officers`
+--
+ALTER TABLE `officers`
+  ADD PRIMARY KEY (`officer_id`);
+
+--
+-- Indexes for table `payments_devisional_to_post_office`
+--
+ALTER TABLE `payments_devisional_to_post_office`
+  ADD PRIMARY KEY (`payment_id`);
+
+--
+-- Indexes for table `payments_post_office_to_benifishers`
+--
+ALTER TABLE `payments_post_office_to_benifishers`
+  ADD PRIMARY KEY (`payment_id`);
+
+--
+-- Indexes for table `post_office_officers`
+--
+ALTER TABLE `post_office_officers`
+  ADD PRIMARY KEY (`post_office_id`);
+
+--
+-- Indexes for table `post_office_table`
+--
+ALTER TABLE `post_office_table`
+  ADD PRIMARY KEY (`post_office_id`);
+
+--
+-- Indexes for table `priority_list`
+--
+ALTER TABLE `priority_list`
+  ADD PRIMARY KEY (`elder_id`);
+
+--
+-- Indexes for table `role`
+--
+ALTER TABLE `role`
+  ADD PRIMARY KEY (`role_id`);
+
+--
+-- Indexes for table `rolecapability`
+--
+ALTER TABLE `rolecapability`
+  ADD PRIMARY KEY (`role_id`,`cap_id`);
+
+--
+-- Indexes for table `tokenbl`
+--
+ALTER TABLE `tokenbl`
+  ADD PRIMARY KEY (`u_id`),
+  ADD UNIQUE KEY `token` (`token`);
+
+--
+-- Indexes for table `user`
+--
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`user_id`),
+  ADD UNIQUE KEY `user_name` (`user_name`),
+  ADD UNIQUE KEY `id` (`id`);
+
+--
+-- Indexes for table `verification_of_elders`
+--
+ALTER TABLE `verification_of_elders`
+  ADD PRIMARY KEY (`vid`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `agent`
+--
+ALTER TABLE `agent`
+  MODIFY `agent_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `benifesher`
+--
+ALTER TABLE `benifesher`
+  MODIFY `benifesher_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `elder`
+--
+ALTER TABLE `elder`
+  MODIFY `elder_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `payments_devisional_to_post_office`
+--
+ALTER TABLE `payments_devisional_to_post_office`
+  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `payments_post_office_to_benifishers`
+--
+ALTER TABLE `payments_post_office_to_benifishers`
+  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `priority_list`
+--
+ALTER TABLE `priority_list`
+  MODIFY `elder_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `user`
+--
+ALTER TABLE `user`
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT for table `verification_of_elders`
+--
+ALTER TABLE `verification_of_elders`
+  MODIFY `vid` int(11) NOT NULL AUTO_INCREMENT;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
