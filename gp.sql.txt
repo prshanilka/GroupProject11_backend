@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 30, 2020 at 03:16 PM
+-- Generation Time: Nov 06, 2020 at 02:29 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.3.13
 
@@ -345,6 +345,25 @@ INSERT INTO `rolecapability` (`role_id`, `cap_id`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tokenbl`
+--
+
+CREATE TABLE `tokenbl` (
+  `u_id` int(11) NOT NULL,
+  `token` varchar(500) NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tokenbl`
+--
+
+INSERT INTO `tokenbl` (`u_id`, `token`, `timestamp`) VALUES
+(13, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEzLCJpYXQiOjE2MDQ2Njg2MDIsImV4cCI6MTYwNDg0MTQwMn0.kc_074SkAIAh-sTLMvnvtlSd7T8sAhVtKyPpyQ5Nz9k', '2020-11-06 13:16:45');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `user`
 --
 
@@ -486,6 +505,13 @@ ALTER TABLE `role`
 --
 ALTER TABLE `rolecapability`
   ADD PRIMARY KEY (`role_id`,`cap_id`);
+
+--
+-- Indexes for table `tokenbl`
+--
+ALTER TABLE `tokenbl`
+  ADD PRIMARY KEY (`u_id`),
+  ADD UNIQUE KEY `token` (`token`);
 
 --
 -- Indexes for table `user`

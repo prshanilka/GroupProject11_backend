@@ -6,8 +6,15 @@ const elderRouter = require("./api/elders/elder.router");
 
 app.use(express.json());
 
+<<<<<<< HEAD
 app.use("/api/users", userRouter);
 app.use("/api/elders", elderRouter);
+=======
+ 
+app.use("/api/users",userRouter);
+app.use("/api/elders",elderRouter);
+ 
+>>>>>>> 307a36980009683bc2bfd5f1361fec9fcc405bc5
 /*
 app.get("/api" , (req , res) => {
   res.json({
