@@ -13,7 +13,8 @@ module.exports = {
 
           res.status(401).json({
             success:0,
-            message:"Invalid Token"
+            message:"Invalid Token",
+            trefresh:1
           });
         }
         else{
@@ -25,7 +26,8 @@ module.exports = {
     else{
       res.json({
           success:0,
-          message:"Access denied unathorized user"
+          message:"Access denied unathorized user",
+          trefresh:1
       });
     }
   },
