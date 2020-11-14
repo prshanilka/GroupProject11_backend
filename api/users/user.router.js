@@ -15,7 +15,7 @@ const { checkToken,
 
 
 
-router.get("/refresh",checkRToken,refresh);
+router.post("/refresh",checkRToken,refresh);
 router.post("/",createUser);
 router.get("/",checkToken,getUsers);
 router.get("/:user_id",checkToken,getUserByUserId);

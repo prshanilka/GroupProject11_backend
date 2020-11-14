@@ -151,7 +151,7 @@ module.exports = {
           }
         });
 
-        console.log(results);
+        //console.log(results);
         const userData = {
           id: results.user_id,
           title: results.user_name,
