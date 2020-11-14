@@ -6,10 +6,12 @@ const {
   deleteUser,
   getUserByUserName
 } = require("./user.service");
-
-const { genSaltSync, hashSync, compareSync } = require("bcrypt");
+const { tokenLogin } = require("../token/token.controller")
+const { genSaltSync, hashSync, compareSync } = require("bcrypt")
 const { sign } = require("jsonwebtoken");
 const { checkPermision } = require("../../auth/roleauth")
+const  getIP = require('ipware')().get_ip
+
 module.exports = {
   createUser: (req, res) => {
 
@@ -31,10 +33,10 @@ module.exports = {
       });
     });
   },
-     getUsers: (req, res) => {
+  getUsers: (req, res) => {
       const rcid = {
-        role_id:req.auth.result.role_id,
-        cap_id:1
+        role_id : req.auth.result.role_id,
+        cap_id  : 1
       };
 
       checkPermision(rcid, (err, results) => {
@@ -70,7 +72,7 @@ module.exports = {
   },
   getUserByUserId: (req, res) => {
     const user_id = req.params.user_id;
-    getUserByUserId(user_id, (err,results) =>{
+  getUserByUserId(user_id, (err,results) =>{
       if (err){
         console.log(err);
         return ;
@@ -126,8 +128,8 @@ module.exports = {
   },
   login: (req, res) =>{
     const body = req.body;
-    getUserByUserName(body.username, (err, results)=>{
-      console.log(results);
+    getUserByUserName(body.username, (err, results) => {
+
       if(err){
         console.log(err);
       }
@@ -140,12 +142,28 @@ module.exports = {
       }
       const result = compareSync(body.password,results.password);
       if(result){
+       // console.log('dddd');
+       // console.log(results);
+
         results.password = undefined;
-        const salt =process.env.JSONSALTA;
+        const salt =process.env.JSONSALTA+getIP(req).clientIp;
+        const rsalt =process.env.JSONRSALTA+getIP(req).clientIp;
+        //getIP(req).clientIp
         const jsontoken = sign({ result: results },salt,{
-          expiresIn: "12h"
+          expiresIn: "10m"
         });
-      console.log(results);
+
+        const refreshtoken = sign({ uid : results.user_id },rsalt,{
+          expiresIn: "2d"
+        });
+
+        tokenLogin({id: results.user_id, token: refreshtoken  } , (err) => {
+          if(err){
+            console.log(err);
+          }
+        });
+
+      //console.log(results);
         const userData = {
           id: results.user_id,
           title: results.user_name,
@@ -159,6 +177,7 @@ module.exports = {
           success:1,
           message:"Login Succesfully",
           token: jsontoken,
+          refresh: refreshtoken,
           data:userData
         });
 
@@ -170,6 +189,55 @@ module.exports = {
         });
       }
     });
+
+  },
+  refresh: (req, res) =>{
+
+    /*
+    return res.json({
+      success:0,
+      message: req.auth
+
+    });
+
+
+    */
+    //getIP(req).clientIp;
+
+
+      const auth = req.auth;
+      getUserByUserId(auth.uid, (err, results)=>{
+      console.log(results);
+      if(err){
+        console.log(err);
+      }
+      if(!results){
+        res.status(401).json({
+          success:0,
+          logout:1,
+          message:"Expired Refresh Token"
+        });
+      }
+      console.log(results);
+      results.password = undefined;
+      const salt =process.env.JSONSALTA+getIP(req).clientIp;
+      const jsontoken = sign({ result: results },salt,{
+        expiresIn: "10m"
+      });
+      console.log(results);
+
+        return res.json({
+          
+          success:1,
+          message:"token refresh",
+          token: jsontoken
+        });
+
+
+
+    });
+
+ 
 
   },
 

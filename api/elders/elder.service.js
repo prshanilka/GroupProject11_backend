@@ -11,6 +11,18 @@ module.exports = {
           return callBack(null,results[0]);
       }
     );
-  }
+  },
+  getElders : callBack => {
+    pool.query(
+      `SELECT * FROM elder`,
+      [],
+      (error,results,fields) => {
+        if(error){
+          return callBack(error);
+        }
+        return callBack(null, results);
+      }
+    );
+  },
 
 };

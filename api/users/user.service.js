@@ -37,6 +37,7 @@ module.exports = {
           if (error){
             return callBack(error);
           }
+          //console.log(results);
           return callBack(null,results[0]);
       }
     );
@@ -83,5 +84,8 @@ module.exports = {
       }
     );
   }
+
+
+
 
 };
