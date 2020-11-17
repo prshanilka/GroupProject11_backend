@@ -35,8 +35,8 @@ module.exports = {
   },
   getUsers: (req, res) => {
       const rcid = {
-        role_id:req.auth.result.role_id,
-        cap_id:1
+        role_id : req.auth.result.role_id,
+        cap_id  : 1
       };
 
       checkPermision(rcid, (err, results) => {
@@ -128,7 +128,7 @@ module.exports = {
   },
   login: (req, res) =>{
     const body = req.body;
-    getUserByUserName(body.username, (err, results)=>{
+    getUserByUserName(body.username, (err, results) => {
 
       if(err){
         console.log(err);
@@ -163,7 +163,7 @@ module.exports = {
           }
         });
 
-      console.log(results);
+      //console.log(results);
         const userData = {
           id: results.user_id,
           title: results.user_name,
