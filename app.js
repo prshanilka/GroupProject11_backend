@@ -3,12 +3,14 @@ const express = require("express");
 const app = express();
 const userRouter = require("./api/users/user.router");
 const elderRouter = require("./api/elders/elder.router");
+const officerRouter = require("./api/officers/officer.router");
 
 app.use(express.json());
 
  
 app.use("/api/users",userRouter);
 app.use("/api/elders",elderRouter);
+app.use("/api/officers",officerRouter);
  
 /*
 app.get("/api" , (req , res) => {
