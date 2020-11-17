@@ -4,7 +4,7 @@ const {
   create,
   updateOfficers,
   deleteOfficers
-} = require("./officer.service");
+} = require("./divisional_officer.service");
 
 const { sign } = require("jsonwebtoken");
 

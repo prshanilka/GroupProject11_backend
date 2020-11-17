@@ -6,7 +6,7 @@ const {
     getOfficers,
     updateOfficers,
     deleteOfficers
-} = require("./officer.controller");
+} = require("./divisional_officer.controller");
 
 const { checkToken } = require("../../auth/token_validation");
 

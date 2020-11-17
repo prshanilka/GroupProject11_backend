@@ -2,13 +2,14 @@ const pool = require("../../config/database");
 module.exports = {
   create: (data, callBack) => {
     pool.query(
-        `INSERT INTO officers(officer_id,nic_no,name,email,phone) VALUES (?,?,?,?,?)`,
+        `INSERT INTO divisional_secratory_officer(officer_id,divisional_secratary_id,designation,role,type,area) VALUES (?,?,?,?,?,?)`,
         [
             data.officer_id,
-            data.nic_no,
-            data.name,
-            data.email,
-            data.phone
+            data.divisional_secratary_id,
+            data.designation,
+            data.role,
+            data.type,
+            data.area
         ],
         (error, results, fields) => {
             if(error){
@@ -20,7 +21,7 @@ module.exports = {
   },
   getOfficerByOfficerID: (officer_id, callBack) => {
     pool.query(
-      `SELECT * FROM officers WHERE officer_id=?`,
+      `SELECT * FROM divisional_secratory_officer WHERE officer_id=?`,
       [officer_id],
       (error, results, fields) => {
           if (error){
@@ -32,7 +33,7 @@ module.exports = {
   },
   getOfficers: callBack => {
       pool.query(
-        `SELECT * FROM officers`,
+        `SELECT * FROM divisional_secratory_officer`,
         [],
         (error,results,fields) => {
             if(error){
@@ -44,13 +45,14 @@ module.exports = {
   },
   updateOfficers: (data, callBack) => {
     pool.query(
-      `UPDATE officers SET officer_id=? ,nic_no=? ,name=? ,email=? ,phone=?`,
+      `UPDATE divisional_secratory_officer SET officer_id=?,divisional_secratary_id=?,designation=?,role=?,type=?,area=?`,
       [
         data.officer_id,
-        data.nic_no,
-        data.name,
-        data.email,
-        data.phone
+        data.divisional_secratary_id,
+        data.designation,
+        data.role,
+        data.type,
+        data.area
       ],
       (error, results, fields) => {
         if (error) {
@@ -62,7 +64,7 @@ module.exports = {
   },
   deleteOfficers: (data, callBack) => {
     pool.query(
-      `DELETE FROM officers WHERE officer_id=?`,
+      `DELETE FROM divisional_secratory_officer WHERE officer_id=?`,
       [data.officer_id],
       (error, results, fields) => {
         if (error) {
