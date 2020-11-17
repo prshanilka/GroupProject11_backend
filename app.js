@@ -6,6 +6,7 @@ const elderRouter = require("./api/elders/elder.router");
 
 const agentRouter = require("./api/agent/agent.routers");
 const gramaDivisionRouters = require("./api/grama-division/grama-division.routers");
+const districtDivision = require("./api/district/district.router");
 
 app.use(express.json());
 
@@ -14,6 +15,7 @@ app.use("/api/elders", elderRouter);
 
 app.use("/api/agent", agentRouter);
 app.use("/api/gramadivision", gramaDivisionRouters);
+app.use("/api/district", districtDivision);
 
 /*
 app.get("/api" , (req , res) => {

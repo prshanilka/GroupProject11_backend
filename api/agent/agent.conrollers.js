@@ -1,4 +1,10 @@
-const { getAgentByAgentID, getAgent } = require("./agent.services");
+const {
+  getAgentByAgentID,
+  getAgent,
+  createAgent,
+  updateAgent,
+  deleteAgent,
+} = require("./agent.services");
 
 const { sign } = require("jsonwebtoken");
 
@@ -6,8 +12,6 @@ const { checkPermision } = require("../../auth/roleauth");
 
 module.exports = {
   getAgentByAgentID: (req, res) => {
-    console.log("sasa");
-
     const elder_id = req.params.elder_id;
     getAgentByAgentID(elder_id, (err, results) => {
       if (err) {
@@ -54,6 +58,71 @@ module.exports = {
           success: 1,
           data: results,
         });
+      });
+    });
+  },
+  createAgent: (req, res) => {
+    const body = req.body;
+    createAgent(body, (err, result) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).json({
+          success: 0,
+          message: "Database connection error",
+        });
+      }
+      return res.status(200).json({
+        success: 1,
+        data: result,
+      });
+    });
+  },
+  updateAgent: (req, res) => {
+    const body = req.body;
+    updateAgent(body, (err, results) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).json({
+          success: 0,
+          message: "Database Connection error",
+        });
+      }
+
+      if (!results) {
+        return res.json({
+          success: 0,
+          message: "Record Not Found",
+        });
+      }
+
+      return res.status(200).json({
+        success: 1,
+        message: "Updated Succecfully",
+        data: results,
+      });
+    });
+  },
+  deleteAgent: (req, res) => {
+    const body = req.body;
+    deleteAgent(body, (error, results) => {
+      if (error) {
+        console.log(error);
+        return res.status(500).json({
+          success: 0,
+          message: "database Connection error",
+        });
+      }
+      if (!results) {
+        return res.json({
+          success: 0,
+          message: "Record Not Found",
+        });
+      }
+
+      return res.status(200).json({
+        success: 1,
+        message: "Deleted Succecfully",
+        data: results,
       });
     });
   },
