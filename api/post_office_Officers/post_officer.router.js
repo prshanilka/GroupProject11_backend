@@ -1,14 +1,21 @@
 
 const router = require("express").Router(); 
 const { 
-    createOfficers
+    createOfficer,
+    getOfficers,
+    getOfficerByOfficerID,
+    updateOfficers,
+    deleteOfficers
 } = require("./post_officer.controller");
 
 const { checkToken } = require("../../auth/token_validation");
 
-router.post("/",checkToken,createOfficers);
 
-
+router.post("/",createOfficer);
+router.get("/",checkToken,getOfficers);
+router.get("/:user_id",checkToken,getOfficerByOfficerID);
+router.patch("/",checkToken,updateOfficers);
+router.delete("/",checkToken,deleteOfficers);
 
 
 
