@@ -22,8 +22,8 @@ app.use("/api/agent", agentRouter);
 app.use("/api/gramadivision", gramaDivisionRouters);
 app.use("/api/district", districtDivision);
 app.use("/api/postofficers",postOfficer);
-app.use("./api/divisionalofficers",divisionalofficer);
-app.use("./api/gramaniladariofficer",gramaOfficer);
+app.use("/api/divisionalofficers",divisionalofficer);
+app.use("/api/gramaniladariofficer",gramaOfficer);
 
 /*
 app.get("/api" , (req , res) => {

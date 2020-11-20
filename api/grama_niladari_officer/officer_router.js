@@ -13,7 +13,7 @@ const { checkToken } = require("../../auth/token_validation");
 
 router.post("/",createOfficer);
 router.get("/",checkToken,getOfficers);
-router.get("/:user_id",checkToken,getOfficerByOfficerID);
+router.get("/:grmaniladari_officer_id",checkToken,getOfficerByOfficerID);
 router.patch("/",checkToken,updateOfficer);
 router.delete("/",checkToken,deleteOfficer);
 
