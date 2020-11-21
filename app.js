@@ -13,6 +13,7 @@ const postOfficer = require("./api/post_office_Officers/post_officer.router");
 const divisionalofficer = require("./api/divisional_secratary_officer/divisional_officer.router");
 const benifisher = require("./api/benifisher/benifisher.router");
 const priorityList = require("./api/priority-list/priority-list.router");
+const gramaOfficer = require("./api/grama_niladari_officer/officer_router");
 
 app.use(express.json());
 
@@ -28,6 +29,9 @@ app.use("/api/postofficers", postOfficer);
 app.use("/api/divisionalofficers", divisionalofficer);
 app.use("/api/benifisher", benifisher);
 app.use("/api/prioritylist", priorityList);
+app.use("/api/postofficers", postOfficer);
+app.use("./api/divisionalofficers", divisionalofficer);
+app.use("./api/gramaniladariofficer", gramaOfficer);
 
 /*
 app.get("/api" , (req , res) => {

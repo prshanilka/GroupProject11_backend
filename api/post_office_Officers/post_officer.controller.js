@@ -11,9 +11,6 @@ const { sign } = require("jsonwebtoken");
 module.exports = {
   createOfficer: (req, res) => {
     const body = req.body;
-    console.log(body.user_name);
-    const salt = genSaltSync(10);
-    body.password = hashSync(body.password, salt);
     create(body, (err, results) => {
       if (err) {
         console.log(err);
@@ -58,8 +55,8 @@ module.exports = {
     });
   },
   getOfficerByOfficerID: (req, res) => {
-    const user_id = req.params.user_id;
-    getUserByUserId(user_id, (err, results) => {
+    const officer_id = req.params.officer_id;
+    getOfficerByOfficerID(officer_id, (err, results) => {
       if (err) {
         console.log(err);
         return;
@@ -78,9 +75,7 @@ module.exports = {
   },
   updateOfficers: (req, res) => {
     const body = req.body;
-    const salt = genSaltSync(10);
-    body.password = hashSync(body.password, salt);
-    updateUser(body, (err, results) => {
+    updateOfficers(body, (err, results) => {
       if (err) {
         console.log(err);
         return;
@@ -94,7 +89,7 @@ module.exports = {
   },
   deleteOfficers: (req, res) => {
     const data = req.body;
-    deleteUser(data, (err, results) => {
+    deleteOfficers(data, (err, results) => {
       if (err) {
         console.log(err);
         return;
