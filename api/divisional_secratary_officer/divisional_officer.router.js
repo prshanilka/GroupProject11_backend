@@ -11,7 +11,7 @@ const {
 const { checkToken } = require("../../auth/token_validation");
 
 router.post("/",checkToken,createOfficers);
-router.get("/:elder_id",checkToken,getOfficerByOfficerID);
+router.get("/:officer_id",checkToken,getOfficerByOfficerID);
 router.get("/",checkToken,getOfficers);
 router.patch("/",checkToken,updateOfficers);
 router.delete("/",checkToken,deleteOfficers);

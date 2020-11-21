@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const app = express();
+
 const userRouter = require("./api/users/user.router");
 const elderRouter = require("./api/elders/elder.router");
 const officerRouter = require("./api/officers/officer.router");
@@ -14,6 +15,7 @@ const divisionalofficer = require("./api/divisional_secratary_officer/divisional
 const benifisher = require("./api/benifisher/benifisher.router");
 const priorityList = require("./api/priority-list/priority-list.router");
 const gramaOfficer = require("./api/grama_niladari_officer/officer_router");
+const verifyElder = require("./api/verify_elder/verify_elder.router");
 
 app.use(express.json());
 
@@ -29,10 +31,8 @@ app.use("/api/postofficers", postOfficer);
 app.use("/api/divisionalofficers", divisionalofficer);
 app.use("/api/benifisher", benifisher);
 app.use("/api/prioritylist", priorityList);
-app.use("/api/postofficers", postOfficer);
-app.use("./api/divisionalofficers", divisionalofficer);
-app.use("./api/gramaniladariofficer", gramaOfficer);
-
+app.use("/api/gramaniladariofficer", gramaOfficer);
+app.use("/api/verifyelder", verifyElder);
 /*
 app.get("/api" , (req , res) => {
   res.json({

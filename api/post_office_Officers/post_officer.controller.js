@@ -8,6 +8,8 @@ const {
 
 const { sign } = require("jsonwebtoken");
 
+const { checkPermision } = require("../../auth/roleauth");
+
 module.exports = {
   createOfficer: (req, res) => {
     const body = req.body;
