@@ -10,7 +10,8 @@ const gramaDivisionRouters = require("./api/grama-division/grama-division.router
 const districtDivision = require("./api/district/district.router");
 const postOfficer = require("./api/post_office_Officers/post_officer.router");
 const divisionalofficer = require("./api/divisional_secratary_officer/divisional_officer.router");
-const gramaOfficer = require("./api/grama_niladari_officer/officer_router")
+const gramaOfficer = require("./api/grama_niladari_officer/officer_router");
+const verifyElder = require("./api/verify_elder/verify_elder.router");
 
 app.use(express.json());
 
@@ -24,7 +25,7 @@ app.use("/api/district", districtDivision);
 app.use("/api/postofficers",postOfficer);
 app.use("/api/divisionalofficers",divisionalofficer);
 app.use("/api/gramaniladariofficer",gramaOfficer);
-
+app.use("/api/verifyelder",verifyElder);
 /*
 app.get("/api" , (req , res) => {
   res.json({
