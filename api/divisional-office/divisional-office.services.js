@@ -27,7 +27,7 @@ module.exports = {
   },
   createDivisionalOffice: (data, callBack) => {
     pool.query(
-      "INSERT INTO `divisional_secratory_office` (`divisional_secratary_id`, `district_id`, `name`, `address`, `number`, `email`, `bank_account`, `no_of_officers`, `count_of_priority_listed_elders`, `count_of_benifishers_elders` ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",
+      "INSERT INTO `divisional_secratory_office` (`divisional_secratary_id`, `district_id`, `name`, `address`, `number`, `email`, `bank_account`, `no_of_officers` , `count_of_benifishers_elders` ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);",
       [
         data.divisional_secratary_id,
         data.district_id,
@@ -37,7 +37,6 @@ module.exports = {
         data.email,
         data.bank_account,
         data.no_of_officers,
-        data.count_of_priority_listed_elders,
         data.count_of_benifishers_elders,
       ],
       (error, results, fields) => {
@@ -50,7 +49,7 @@ module.exports = {
   },
   updateDivisionalOffice: (data, callBack) => {
     pool.query(
-      "UPDATE `divisional_secratory_office` SET `district_id`=?,`name`=?,`address`=?,`number`=?,`email`=?,`bank_account`=?,`no_of_officers`=?,`count_of_priority_listed_elders`=?,`count_of_benifishers_elders`=? WHERE `divisional_secratary_id`=?",
+      "UPDATE `divisional_secratory_office` SET `district_id`=?,`name`=?,`address`=?,`number`=?,`email`=?,`bank_account`=?,`no_of_officers`=?,`count_of_benifishers_elders`=? WHERE `divisional_secratary_id`=?",
       [
         data.district_id,
         data.name,
@@ -59,7 +58,6 @@ module.exports = {
         data.email,
         data.bank_account,
         data.no_of_officers,
-        data.count_of_priority_listed_elders,
         data.count_of_benifishers_elders,
         data.divisional_secratary_id,
       ],
