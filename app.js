@@ -22,7 +22,7 @@ app.use(express.json());
 
 app.use("/api/users", userRouter);
 app.use("/api/elders", elderRouter);
-app.use("/api/token",tokenRouter );
+app.use("/api/token", tokenRouter);
 app.use("/api/officers", officerRouter);
 app.use("/api/agent", agentRouter);
 app.use("/api/gramadivision", gramaDivisionRouters);
