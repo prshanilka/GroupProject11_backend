@@ -26,7 +26,7 @@ module.exports = {
   },
   createAgent: (data, callBack) => {
     pool.query(
-      "INSERT INTO `agent`( `elder_id`, `name`, `nic`, `address`, `phone`, `email`) VALUES (?, ?, ?, ?, ?, ?)",
+      "INSERT INTO `agent`( `elder_id`, `name`, `nic`, `address`, `phone`, `email`,`relation_with_elder`) VALUES (?, ?, ?, ?, ?, ? , ?)",
       [
         data.elder_id,
         data.name,
@@ -34,6 +34,7 @@ module.exports = {
         data.address,
         data.phone,
         data.email,
+        data.relation_with_elder,
       ],
       (error, results, fields) => {
         if (error) {
@@ -45,7 +46,7 @@ module.exports = {
   },
   updateAgent: (data, callBack) => {
     pool.query(
-      "UPDATE `agent` SET `elder_id`=?,`name`=?,`nic`=?,`address`=?,`phone`=?,`email`=? WHERE `agent_id`=?",
+      "UPDATE `agent` SET `elder_id`=?,`name`=?,`nic`=?,`address`=?,`phone`=?,`email`=? ,`relation_with_elder`=? WHERE `agent_id`=?",
       [
         data.elder_id,
         data.name,
@@ -53,6 +54,7 @@ module.exports = {
         data.address,
         data.phone,
         data.email,
+        data.relation_with_elder,
         data.agent_id,
       ],
       (error, results, fields) => {
