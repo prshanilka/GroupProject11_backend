@@ -5,15 +5,15 @@ const {
 
 } = require("./token.service");
 module.exports = {
-/*
-  tokenD: (req, res) => {
-    const data = req.body;
-    tokenD(data, (err, results) => {
+
+  tokenD: (req, res) => { 
+    console.log(req.auth.result.user_id)
+    tokenD(req.auth.result.user_id, (err, results) => {
       if (err) {
         console.log(err);
         return;
       }
-      if (!results) {
+      if (results.affectedRows == 0) {
         return res.json({
           success: 0,
           message: "Record Not Found"
@@ -25,8 +25,6 @@ module.exports = {
       });
     });
   },
-
-  */
   tokenRefresh: (req, callBack) => {
     tokenS(req, (err,results) =>{
       if (err){
