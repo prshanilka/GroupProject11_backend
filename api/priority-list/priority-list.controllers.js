@@ -1,17 +1,19 @@
 const {
-  createElders,
-  getElderByElderID,
-  getElders,
-  updateElders,
-  deleteElders,
-} = require("./elder.service");
-const { checkPermision } = require("../../auth/roleauth");
+  getpriorityListByElderId,
+  getpriorityList,
+  createpriorityList,
+  updatepriorityList,
+  deletepriorityList,
+} = require("./priority-list.services");
+
 const { sign } = require("jsonwebtoken");
 
+const { checkPermision } = require("../../auth/roleauth");
+
 module.exports = {
-  getElderByElderID: (req, res) => {
+  getpriorityListByElderId: (req, res) => {
     const elder_id = req.params.elder_id;
-    getElderByElderID(elder_id, (err, results) => {
+    getpriorityListByElderId(elder_id, (err, results) => {
       if (err) {
         console.log(err);
         return;
@@ -28,24 +30,9 @@ module.exports = {
       });
     });
   },
+  getpriorityList: (req, res) => {
+    // console.log(req.auth);
 
-  createElders: (req, res) => {
-    const body = req.body;
-    createElders(body, (error, results) => {
-      if (error) {
-        console.log(error);
-        return res.status(500).json({
-          success: 0,
-          message: "Database Connection error ",
-        });
-      }
-      return res.status(200).json({
-        success: 1,
-        data: results,
-      });
-    });
-  },
-  getElders: (req, res) => {
     const rcid = {
       role_id: req.auth.result.role_id,
       cap_id: 1,
@@ -62,7 +49,7 @@ module.exports = {
           error: "Unauthorized access",
         });
       }
-      getElders((err, results) => {
+      getpriorityList((err, results) => {
         if (err) {
           console.log(err);
           return;
@@ -85,18 +72,34 @@ module.exports = {
       });
     });
   },
-  updateElders: (req, res) => {
+  createpriorityList: (req, res) => {
     const body = req.body;
-    updateElders(body, (err, result) => {
+    createpriorityList(body, (err, result) => {
       if (err) {
         console.log(err);
         return res.status(500).json({
           success: 0,
-          message: "Database Connection Error",
+          message: "Database connection error",
+        });
+      }
+      return res.status(200).json({
+        success: 1,
+        data: result,
+      });
+    });
+  },
+  updatepriorityList: (req, res) => {
+    const body = req.body;
+    updatepriorityList(body, (err, results) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).json({
+          success: 0,
+          message: "Database Connection error",
         });
       }
 
-      if (!result) {
+      if (!results) {
         return res.json({
           success: 0,
           message: "Record Not Found",
@@ -105,31 +108,31 @@ module.exports = {
 
       return res.status(200).json({
         success: 1,
-        message: "Updated SuccesFully",
-        data: result,
+        message: "Updated Succecfully",
+        data: results,
       });
     });
   },
-  deleteElders: (req, res) => {
+  deletepriorityList: (req, res) => {
     const body = req.body;
-    deleteElders(body, (error, results) => {
+    deletepriorityList(body, (error, results) => {
       if (error) {
         console.log(error);
         return res.status(500).json({
           success: 0,
-          message: "Databse Connection Error",
+          message: "database Connection error",
         });
       }
       if (!results) {
         return res.json({
           success: 0,
-          message: "record Not Found",
+          message: "Record Not Found",
         });
       }
 
-      return res.status(500).json({
+      return res.status(200).json({
         success: 1,
-        message: "Deleted SuccesFully",
+        message: "Deleted Succecfully",
         data: results,
       });
     });

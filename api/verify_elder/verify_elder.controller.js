@@ -1,17 +1,32 @@
 const {
-  createElders,
-  getElderByElderID,
-  getElders,
-  updateElders,
-  deleteElders,
-} = require("./elder.service");
+  createverifyElder,
+  getverifyElderByElderID,
+  getverifyElder,
+  updateverifyElder,
+  deleteverifyElder,
+} = require("./verify_elder.service");
+
 const { checkPermision } = require("../../auth/roleauth");
-const { sign } = require("jsonwebtoken");
 
 module.exports = {
-  getElderByElderID: (req, res) => {
+  createverifyElder: (req, res) => {
+    const body = req.params.body;
+    createverifyElder(body, (err, results) => {
+      if (err) {
+        return res.status(500).json({
+          succsess: 0,
+          message: "Database Connection Error",
+        });
+      }
+      return res.status(200).json({
+        succsess: 1,
+        data: results,
+      });
+    });
+  },
+  getverifyElderByElderID: (req, res) => {
     const elder_id = req.params.elder_id;
-    getElderByElderID(elder_id, (err, results) => {
+    getverifyElderByElderID(elder_id, (err, results) => {
       if (err) {
         console.log(err);
         return;
@@ -28,24 +43,7 @@ module.exports = {
       });
     });
   },
-
-  createElders: (req, res) => {
-    const body = req.body;
-    createElders(body, (error, results) => {
-      if (error) {
-        console.log(error);
-        return res.status(500).json({
-          success: 0,
-          message: "Database Connection error ",
-        });
-      }
-      return res.status(200).json({
-        success: 1,
-        data: results,
-      });
-    });
-  },
-  getElders: (req, res) => {
+  getverifyElder: (req, res) => {
     const rcid = {
       role_id: req.auth.result.role_id,
       cap_id: 1,
@@ -62,7 +60,7 @@ module.exports = {
           error: "Unauthorized access",
         });
       }
-      getElders((err, results) => {
+      getverifyElder((err, results) => {
         if (err) {
           console.log(err);
           return;
@@ -85,52 +83,36 @@ module.exports = {
       });
     });
   },
-  updateElders: (req, res) => {
+  updateverifyElder: (req, res) => {
     const body = req.body;
-    updateElders(body, (err, result) => {
+    updateverifyElder(body, (err, results) => {
       if (err) {
         console.log(err);
-        return res.status(500).json({
-          success: 0,
-          message: "Database Connection Error",
-        });
+        return;
       }
 
-      if (!result) {
+      return res.json({
+        success: 1,
+        message: "updated successfully",
+      });
+    });
+  },
+  deleteverifyElder: (req, res) => {
+    const data = req.body;
+    deleteverifyElder(data, (err, results) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      if (!results) {
         return res.json({
           success: 0,
           message: "Record Not Found",
         });
       }
-
-      return res.status(200).json({
+      return res.json({
         success: 1,
-        message: "Updated SuccesFully",
-        data: result,
-      });
-    });
-  },
-  deleteElders: (req, res) => {
-    const body = req.body;
-    deleteElders(body, (error, results) => {
-      if (error) {
-        console.log(error);
-        return res.status(500).json({
-          success: 0,
-          message: "Databse Connection Error",
-        });
-      }
-      if (!results) {
-        return res.json({
-          success: 0,
-          message: "record Not Found",
-        });
-      }
-
-      return res.status(500).json({
-        success: 1,
-        message: "Deleted SuccesFully",
-        data: results,
+        message: "Elder deleted successfully",
       });
     });
   },
