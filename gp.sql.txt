@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.2
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 06, 2020 at 02:29 PM
--- Server version: 10.4.11-MariaDB
--- PHP Version: 7.3.13
+-- Generation Time: Nov 22, 2020 at 06:21 PM
+-- Server version: 10.4.13-MariaDB
+-- PHP Version: 7.4.7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -36,8 +35,30 @@ CREATE TABLE `agent` (
   `address` varchar(60) NOT NULL,
   `phone` varchar(10) NOT NULL,
   `email` varchar(30) NOT NULL,
-  `is_deleted` tinyint(1) NOT NULL
+  `relation_with_elder` varchar(20) NOT NULL,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `agent`
+--
+
+INSERT INTO `agent` (`agent_id`, `elder_id`, `name`, `nic`, `address`, `phone`, `email`, `relation_with_elder`, `is_deleted`) VALUES
+(1, 8, 'sahan', '970983325v', 'hansagiri road gampaha', '0112222288', 'sahan@gmail.com', 'sister', 0),
+(2, 22, 'sada Kumad', '121212121', 'sasasasaaa', '00000000', 'sa@gmail.com', '', 1),
+(3, 3, 'sada', '070983325v', '49 A/149 idigolla raod gampaha', '0992121212', 'sada@gmail.com', '', 1),
+(4, 4, 'hiiiiii', '070983325v', 'wewe wewewew  ewewew', '0992121212', 'hiiiiii@gmail.com', '', 0),
+(5, 5, 'sadattt', '070983325v', '49 A/149 hansagiri road gampaha', '1212121212', 'sahan@gmail.com', '', 0),
+(6, 6, 'udeash', '090996678v', 'siyana road gampaha', '0711621366', 'udesh@gmail.com', '', 0),
+(7, 8, 'sahan', '970983325v', 'hansagiri road gampaha', '0112222288', 'sahan@gmail.com', '', 0),
+(8, 11, 'sahan', '970983325v', 'hansagiri road gampaha', '0112222288', 'sahan@gmail.com', '', 0),
+(9, 11, 'probothda  sadam', '990993355v', 'asasa  sassasasa', '0112221234', 'sada@gmail.com', '', 0),
+(10, 11, 'praveen akalanka', '9412212121', '343 kjsndkansd askdmlkd', '0912323453', 'parav@gmail.com', '', 0),
+(11, 11, 'wereerwew', '9090909090', 'fcgcfcfcfcfcgfccgfcc', '1212121212', 'saha@gmail.com', '', 0),
+(12, 11, 'errtreeeeee', '1212211122', 'rtytrtyrtryrtrytrtry', '0909099999', 'sahan@gmail.com', '', 0),
+(13, 8, 'sahan', '970983325v', 'hansagiri road gampaha', '0112222288', 'sahan@gmail.com', 'sister', 0),
+(14, 11, 'sahan machannn', '970983325v', 'jsasjkasjkasjkajsajks', '1231231231', 'sasa@gmail.com', 'broooooo', 0),
+(15, 11, 'sahan lakshitha bbbb', '970983325v', '49A /149 hansgiri road gampaha', '0900393903', 'sahan@gmail.com', 'Sans', 0);
 
 -- --------------------------------------------------------
 
@@ -49,12 +70,24 @@ CREATE TABLE `benifesher` (
   `benifesher_id` int(11) NOT NULL,
   `elder_id` int(11) NOT NULL,
   `added_officer_id` varchar(20) NOT NULL,
-  `removed_officer_id` varchar(20) NOT NULL,
-  `added_date` date NOT NULL,
-  `removed_date` date NOT NULL,
-  `remove_reason` varchar(75) NOT NULL,
-  `is_deleted` tinyint(1) NOT NULL
+  `removed_officer_id` varchar(20) DEFAULT NULL,
+  `added_date` date NOT NULL DEFAULT current_timestamp(),
+  `removed_date` date DEFAULT NULL,
+  `remove_reason` varchar(75) DEFAULT NULL,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `benifesher`
+--
+
+INSERT INTO `benifesher` (`benifesher_id`, `elder_id`, `added_officer_id`, `removed_officer_id`, `added_date`, `removed_date`, `remove_reason`, `is_deleted`) VALUES
+(1, 2323, '222', '23', '2020-11-12', '0000-00-00', '', 1),
+(2, 4, '11', NULL, '2020-11-05', NULL, NULL, 1),
+(3, 23, '33', NULL, '0000-00-00', NULL, NULL, 0),
+(4, 23, '33', NULL, '0000-00-00', NULL, NULL, 0),
+(5, 45, '55', NULL, '2020-11-21', NULL, NULL, 0),
+(6, 22, '1233', NULL, '0000-00-00', NULL, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -77,6 +110,35 @@ INSERT INTO `capability` (`cap_id`, `cap_name`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `district`
+--
+
+CREATE TABLE `district` (
+  `district_id` varchar(10) NOT NULL,
+  `district_name` varchar(20) NOT NULL,
+  `office_address` varchar(256) NOT NULL,
+  `phone_no` varchar(10) NOT NULL,
+  `email` varchar(20) NOT NULL,
+  `bank_account` varchar(20) NOT NULL,
+  `count_of_benifishers_elders` int(11) NOT NULL,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `district`
+--
+
+INSERT INTO `district` (`district_id`, `district_name`, `office_address`, `phone_no`, `email`, `bank_account`, `count_of_benifishers_elders`, `is_deleted`) VALUES
+('1', 'colombo', '49a 149 hansagiri road gampaha', '0332221234', 'sahan@gmail.com', '123123443', 23, 0),
+('12', 'west', 'wewewe ewewew', '1212121212', 'sahan@gmail.com', '123123', 12, 0),
+('123', 'sasasa', 'sdsdsd  sdssds', '1231231231', 'weew@gmail.com', '123dede', 23, 0),
+('234', 'Rathnapura', 'rtyusa sapoksask slkalsams', '0712323455', 'sada@gmail.com', '123323453', 23, 0),
+('3', 'Gall Fort', 'rtyusa sapoksask slkalsams', '0712323455', 'sada@gmail.com', '123323453', 23, 1),
+('4', 'Rathnapura', 'rtyusa sapoksask slkalsams', '0712323455', 'sada@gmail.com', '123323453', 23, 0);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `divisional_secratory_office`
 --
 
@@ -89,10 +151,18 @@ CREATE TABLE `divisional_secratory_office` (
   `email` varchar(30) NOT NULL,
   `bank_account` varchar(30) NOT NULL,
   `no_of_officers` int(11) NOT NULL,
-  `count_of_priority_listed_elders` int(11) NOT NULL,
   `count_of_benifishers_elders` int(11) NOT NULL,
-  `is_deleted` tinyint(1) NOT NULL
+  `is_deleted` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `divisional_secratory_office`
+--
+
+INSERT INTO `divisional_secratory_office` (`divisional_secratary_id`, `district_id`, `name`, `address`, `number`, `email`, `bank_account`, `no_of_officers`, `count_of_benifishers_elders`, `is_deleted`) VALUES
+('12', '12', 'sadattt', '49 A/149 idigolla raod gampaha', '0111212221', 'sahan@gmail.com', '123123', 12, 12, 0),
+('32', '23', 'sassdsd', 'sdsdd sdds dsds', 'district_i', 'dss@gmail.com', '12121', 23, 34, 1),
+('49', '22', 'sas', 'sdsd dsds', 'district_i', 'ddd@gmail.com', '12121', 23, 34, 0);
 
 -- --------------------------------------------------------
 
@@ -123,32 +193,46 @@ CREATE TABLE `elder` (
   `gramaniladari_division_id` varchar(20) NOT NULL,
   `near_post_office_id` varchar(20) NOT NULL,
   `name` varchar(40) NOT NULL,
+  `sex` varchar(10) DEFAULT NULL,
+  `email` varchar(20) DEFAULT NULL,
   `address` varchar(70) NOT NULL,
   `birth_day` date NOT NULL,
   `number` varchar(10) NOT NULL,
   `nic_id` varchar(12) NOT NULL,
   `elders_reg_id` varchar(20) NOT NULL,
-  `local_commity_elder_name` varchar(40) NOT NULL,
-  `local_commity_elder_id` varchar(20) NOT NULL,
+  `local_commity_elder_name` varchar(40) DEFAULT NULL,
+  `local_commity_elder_id` varchar(20) DEFAULT NULL,
   `lives_with_whome` varchar(30) NOT NULL,
-  `other_elders_name` varchar(40) NOT NULL,
-  `other_elders_nic` varchar(12) NOT NULL,
-  `elders_member_no` varchar(20) NOT NULL,
-  `other_name_and_description` varchar(50) NOT NULL,
+  `other_elders_name` varchar(40) DEFAULT NULL,
+  `other_elders_nic` varchar(12) DEFAULT NULL,
+  `elders_member_no` varchar(20) DEFAULT NULL,
+  `other_name_and_description` varchar(50) DEFAULT NULL,
   `source_of_income` varchar(70) NOT NULL,
   `income` double NOT NULL,
-  `samurdi_no` varchar(20) NOT NULL,
-  `people_adi_no` varchar(20) NOT NULL,
-  `still_alive` tinyint(1) NOT NULL,
-  `is_deleted` tinyint(1) NOT NULL
+  `samurdi_no` varchar(20) DEFAULT NULL,
+  `people_adi_no` varchar(20) DEFAULT NULL,
+  `still_alive` tinyint(1) NOT NULL DEFAULT 1,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `elder`
 --
 
-INSERT INTO `elder` (`elder_id`, `district_id`, `divisional_secratory_id`, `gramaniladari_division_id`, `near_post_office_id`, `name`, `address`, `birth_day`, `number`, `nic_id`, `elders_reg_id`, `local_commity_elder_name`, `local_commity_elder_id`, `lives_with_whome`, `other_elders_name`, `other_elders_nic`, `elders_member_no`, `other_name_and_description`, `source_of_income`, `income`, `samurdi_no`, `people_adi_no`, `still_alive`, `is_deleted`) VALUES
-(1, '1', '1', '1', '1', 'kamla', 'dsdf', '2020-10-14', '076532552', '', '23', 'sd', '3', 'dsfsdf', 'sdfsdf', '32434', '323423', 'sdsf', 'sdfsdf', 23323, '32323', 'sdf', 1, 0);
+INSERT INTO `elder` (`elder_id`, `district_id`, `divisional_secratory_id`, `gramaniladari_division_id`, `near_post_office_id`, `name`, `sex`, `email`, `address`, `birth_day`, `number`, `nic_id`, `elders_reg_id`, `local_commity_elder_name`, `local_commity_elder_id`, `lives_with_whome`, `other_elders_name`, `other_elders_nic`, `elders_member_no`, `other_name_and_description`, `source_of_income`, `income`, `samurdi_no`, `people_adi_no`, `still_alive`, `is_deleted`) VALUES
+(1, '12', '21', '225e', '21', 'sahan lakshiha', NULL, NULL, '49 A 149 hansgiri road gamapah', '1997-04-07', '12', '970983325V', '12', 'swarna Wadihity', '2', 'wife', 'hhhh', '970439443V', '12', 'no we are finasialy stable', 'Software developping', 10000000000, '23', '11', 1, 1),
+(2, '12', '21', '225e', '21', 'sahan lakshiha', 'male', 'sahan@gmail.com', '49 A 149 hansgiri road gamapah', '1997-04-07', '12', '970983325V', '12', 'swarna Wadihity', '2', 'wife', 'hhhh', '970439443V', '12', 'no we are finasialy stable', 'Software developping', 10000000000, '23', '11', 1, 0),
+(3, '12', '21', '225b', '222', 'sada', NULL, NULL, 'wewe ewewewe', '2020-07-15', '0111234345', '970983325v', '12', '21', '22', 'singal', 'no', '970983325v', '1', 'xzsasasa', 'no income', 12000, '23', '12', 1, 0),
+(4, '12', '21', '225b', '222', 'gamage pathum', NULL, NULL, 'sdsdsdsdsdsd  sdsdsdsdsd', '2020-11-11', '0111212221', '970983325v', '12', '21', '22', 'singal', 'no', '970983325v', '1', 'xzsasasa', 'fgfgf fdgfg fdgdgdfgdggf  gfgdgdgd', 12000, '23', '12', 1, 0),
+(5, '12', '21', '225e', '21', 'sahan lakshiha', NULL, NULL, '49 A 149 hansgiri road gamapah', '1997-04-07', '12', '970983325V', '12', 'swarna Wadihity', '2', 'wife', 'hhhh', '970439443V', '12', 'no we are finasialy stable', 'Software developping', 10000000000, '23', '11', 1, 0),
+(6, '12', '21', '225e', '21', 'sahan lakshiha', NULL, NULL, '49 A 149 hansgiri road gamapah', '1997-04-07', '12', '970983325V', '12', 'swarna Wadihity', '2', 'wife', 'hhhh', '970439443V', '12', 'no we are finasialy stable', 'Software developping', 10000000000, '23', '11', 1, 0),
+(7, '132', '21', '225e', '21', 'sahan lakshiha', NULL, NULL, '49 A 149 hansgiri road gamapah', '1997-04-07', '12', '970983325V', '12', 'swarna Wadihity', '2', 'wife', 'hhhh', '970439443V', '12', 'no we are finasialy stable', 'Software developping', 10000000000, '23', '11', 1, 0),
+(8, '1', '21', '225e', '21', 'sahan lakshiha', NULL, NULL, '49 A 149 hansgiri road gamapah', '1997-04-07', '12', '970983325V', '12', 'swarna Wadihity', '2', 'wife', 'hhhh', '970439443V', '12', 'no we are finasialy stable', 'Software developping', 10000000000, '23', '11', 1, 0),
+(9, '12', '21', '225e', '21', 'sahan lakshiha', 'male', 'sahan@gmail.com', '49 A 149 hansgiri road gamapah', '1997-04-07', '12', '970983325V', '12', 'swarna Wadihity', '2', 'wife', 'hhhh', '970439443V', '12', 'no we are finasialy stable', 'Software developping', 10000000000, '23', '11', 1, 0),
+(10, '1', '2', '2', '21', 'wewew ewewew', 'male', 'sahan@gmail.com', 'sdsdssssssssssssssssss', '1997-11-07', '1212121212', 'ssdsdsdsds', '12', 'swarna Wadihity', '2', 'wife', 'hhhh', '970439443V', '12', 'no we are finasialy stable', 'Software developping', 10000000000, '23', '11', 1, 0),
+(11, '0', '1', '2', '21', 'probodtha sadamini', 'female', 'sada@gmail.com', '49 A/149 hansagiri road ,5 th lane , gampaha', '1997-11-14', '0332222277', '990909812V', '12', 'swarna Wadihity', '2', 'wife', 'hhhh', '970439443V', '12', 'no we are finasialy stable', 'Software developping', 10000000000, '23', '11', 1, 0),
+(12, '1', '2', '1', '225b', 'padmini wirakkody', 'female', 'pad@gmail.com', '49 A 149 hansagiri road gampaha', '1941-06-12', '0332222209', '647887778V', '1212', '', '', 'cildrens', 'sdsdsas  sasas', '', '1212', 'sdsdsas  sasas', 'panssion', 100000, '', '', 1, 0),
+(13, '1', '2', '0', '223B', 'kanakkahewage jinasena', 'male', 'jinasena@gmail.com', '49A /149 hansgiri road gampaha', '1954-02-04', '0332222989', '098987672V', '', '', '', 'childern', '', '', '', '', 'Panssiona', 10000000, '', '', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -178,10 +262,24 @@ CREATE TABLE `gramaniladari_division` (
   `address` varchar(60) NOT NULL,
   `number` varchar(10) NOT NULL,
   `email` varchar(40) NOT NULL,
-  `count_of_prority_elders` int(11) NOT NULL,
   `count_of_benifishers` int(11) NOT NULL,
-  `is_deleted` tinyint(1) NOT NULL
+  `is_deleted` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `gramaniladari_division`
+--
+
+INSERT INTO `gramaniladari_division` (`gramaniladari_division_id`, `district_id`, `divisional_secratory_id`, `name`, `address`, `number`, `email`, `count_of_benifishers`, `is_deleted`) VALUES
+('121b', '1', '121b', 'qwqwqw', 'wqwq wqqw', '1212121211', 'sahan@gmail.com', 12, 0),
+('225b', '12', '22', 'aluthgama Uthura', 'asasasa', '0112121222', 'sada@gmail.com', 12, 0),
+('226b', '12', '22', 'sds', 'divisional_secratory_id', '0112323432', 'sasa@gmail.com', 232, 1),
+('227b', '12', '21', 'sada', 'wewe wewewew  ewewew', '0111234345', 'sahan@gmail.com', 8, 0),
+('228b', '12', '23', 'wewee ', 'wwwwwwww eeeee', '071332222', 'wq@gmail.com', 8, 0),
+('22Bc', '1', '22Bc', 'sawarana hansa place', 'wwueiueiqwueiqwue', '1221212212', 'sasa@gmail.com', 231, 0),
+('230b', '12', '23', 'wewee ', 'wwwwwwww eeeee', '071332222', 'wq@gmail.com', 8, 0),
+('235b', '12', '23', 'wewee ', 'wwwwwwww eeeee', '071332222', 'wq@gmail.com', 8, 0),
+('23b', '12', '23', 'wewee ', 'wwwwwwww eeeee', '071332222', 'sada@gmail.com', 8, 0);
 
 -- --------------------------------------------------------
 
@@ -263,7 +361,8 @@ CREATE TABLE `post_office_officers` (
   `division` varchar(20) NOT NULL,
   `type` varchar(30) NOT NULL,
   `designation` varchar(30) NOT NULL,
-  `is_deleted` tinyint(1) NOT NULL
+  `is_deleted` tinyint(1) NOT NULL,
+  `officer_id` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -282,8 +381,17 @@ CREATE TABLE `post_office_table` (
   `bank_account_no` varchar(25) NOT NULL,
   `email` varchar(30) NOT NULL,
   `num_of_offices` int(11) NOT NULL,
-  `is_delated` tinyint(1) NOT NULL
+  `is_deleted` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `post_office_table`
+--
+
+INSERT INTO `post_office_table` (`post_office_id`, `district_id`, `divisional_id`, `name`, `address`, `phone_no`, `bank_account_no`, `email`, `num_of_offices`, `is_deleted`) VALUES
+('232', '12', '2', 'hiiiiii', '49 A/149 hansagiri road gampaha', '1212121212', '123212', 'sada@gmail.com', 2, 0),
+('2322', '2', '2', 'sdsdasasawwweewes', 'wew ewewew eee', '0223243345', 'sdsds', 'sa@ha.com', 12, 0),
+('500', '500', '23', 'saess', 'sdsdsdsdsds', '0112323432', '12321212', 'sahan@gmail.com', 12, 1);
 
 -- --------------------------------------------------------
 
@@ -296,14 +404,24 @@ CREATE TABLE `priority_list` (
   `grmaniladari_officer_id` varchar(20) NOT NULL,
   `gramaniladari_division_id` varchar(20) NOT NULL,
   `divisional_secratary_officer_id` varchar(20) NOT NULL,
-  `divisional_head_id` varchar(20) NOT NULL,
+  `divisional_head_id` varchar(20) DEFAULT NULL,
   `added_officer_id` varchar(20) NOT NULL,
-  `marks` int(11) NOT NULL,
-  `still_dead_or_alive` tinyint(1) NOT NULL,
-  `reason_for_remove` varchar(150) NOT NULL,
-  `eligibility` tinyint(1) NOT NULL,
-  `is_deleted` tinyint(1) NOT NULL
+  `marks` int(11) DEFAULT NULL,
+  `still_dead_or_alive` tinyint(1) NOT NULL DEFAULT 1,
+  `reason_for_remove` varchar(150) DEFAULT NULL,
+  `eligibility` tinyint(1) NOT NULL DEFAULT 1,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `priority_list`
+--
+
+INSERT INTO `priority_list` (`elder_id`, `grmaniladari_officer_id`, `gramaniladari_division_id`, `divisional_secratary_officer_id`, `divisional_head_id`, `added_officer_id`, `marks`, `still_dead_or_alive`, `reason_for_remove`, `eligibility`, `is_deleted`) VALUES
+(2, '23', '23', '22', NULL, '323', 90, 1, '', 1, 0),
+(3, '12', '23b', '223', NULL, '55f', 60, 1, NULL, 1, 1),
+(4, '23', '226b', '22', NULL, '55', NULL, 1, NULL, 1, 0),
+(123, '23', '2', '21', NULL, '23', 70, 1, NULL, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -359,7 +477,9 @@ CREATE TABLE `tokenbl` (
 --
 
 INSERT INTO `tokenbl` (`u_id`, `token`, `timestamp`) VALUES
-(13, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEzLCJpYXQiOjE2MDQ2Njg2MDIsImV4cCI6MTYwNDg0MTQwMn0.kc_074SkAIAh-sTLMvnvtlSd7T8sAhVtKyPpyQ5Nz9k', '2020-11-06 13:16:45');
+(13, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEzLCJpYXQiOjE2MDQ2Njg2MDIsImV4cCI6MTYwNDg0MTQwMn0.kc_074SkAIAh-sTLMvnvtlSd7T8sAhVtKyPpyQ5Nz9k', '2020-11-06 13:16:45'),
+(14, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjE0LCJpYXQiOjE2MDYwNjQzODcsImV4cCI6MTYwNjIzNzE4N30.-rh8NxkEb10XDayyWb6BT7vdehyywxWF4OxP8BMldG4', '2020-11-22 16:59:47'),
+(16, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjE2LCJpYXQiOjE2MDU4NzU1MTMsImV4cCI6MTYwNjA0ODMxM30.Vh4jhpvrJLImDVXp6QY4fthpRZ9uQOPblxTdayFrKHc', '2020-11-20 12:31:53');
 
 -- --------------------------------------------------------
 
@@ -375,6 +495,7 @@ CREATE TABLE `user` (
   `email` varchar(30) NOT NULL,
   `table_id` int(3) NOT NULL,
   `role_id` int(11) NOT NULL,
+  `profile` varchar(100) DEFAULT NULL,
   `is_deleted` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -382,14 +503,17 @@ CREATE TABLE `user` (
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`user_id`, `id`, `user_name`, `password`, `email`, `table_id`, `role_id`, `is_deleted`) VALUES
-(2, '', 'ddd', '$2b$10$I1yXO5QJ4NFCakYc43ktXOto7DLyXgCBvZyuXyerYTd4yo35wtXLC', 'sss@dd.com', 0, 1, 1),
-(7, '1', 'aaaaaaaj', '$2b$10$QlgSRhs1fON4iGmkypiNRu0bkS2beA7qNL6E.Z2iZVTtqLouwde16', 'sss@dd.com', 0, 1, 0),
-(8, NULL, 'aaad', '$2b$10$jtfIYtbiq5o1AOCgl4hEgeLi1MbtnIxqkx2iYpG83NxR97EwG611C', 'sss@dd.com', 0, 1, 1),
-(9, NULL, 'aaadr', '$2b$10$CBcJhXMzwUHrCaT974NNE.LXXlcktY0NzQ9c.OyygN7Tynpyjk2dq', 'sss@dd.com', 0, 1, 1),
-(10, NULL, 'ramesh', '$2b$10$2dqXJ6FC.J14f99H9mDJi.DU8tikI/kU.AqqgSwssyjdgJEu.3J.W', 'ddd@dd.com', 0, 1, 1),
-(12, NULL, 'ramesht', '$2b$10$KZ6j/ordbODyPliTgYd0feV3AiMYiU31pS8o8SDYo1OeW.oXmAAfe', 'ddd@dd.com', 0, 1, 0),
-(13, NULL, 'yuih', '$2b$10$S16eENHFpEEJTYsqIAPASukIOM3tDHVVGX6w.lM7/5n7mym7eFUrG', 'sss@dd.com', 0, 1, 0);
+INSERT INTO `user` (`user_id`, `id`, `user_name`, `password`, `email`, `table_id`, `role_id`, `profile`, `is_deleted`) VALUES
+(2, '', 'ddd', '$2b$10$I1yXO5QJ4NFCakYc43ktXOto7DLyXgCBvZyuXyerYTd4yo35wtXLC', 'sss@dd.com', 0, 1, '', 1),
+(7, '1', 'aaaaaaaj', '$2b$10$QlgSRhs1fON4iGmkypiNRu0bkS2beA7qNL6E.Z2iZVTtqLouwde16', 'sss@dd.com', 0, 1, '', 0),
+(8, NULL, 'aaad', '$2b$10$jtfIYtbiq5o1AOCgl4hEgeLi1MbtnIxqkx2iYpG83NxR97EwG611C', 'sss@dd.com', 0, 1, '', 1),
+(9, NULL, 'aaadr', '$2b$10$CBcJhXMzwUHrCaT974NNE.LXXlcktY0NzQ9c.OyygN7Tynpyjk2dq', 'sss@dd.com', 0, 1, '', 1),
+(10, NULL, 'ramesh', '$2b$10$2dqXJ6FC.J14f99H9mDJi.DU8tikI/kU.AqqgSwssyjdgJEu.3J.W', 'ddd@dd.com', 0, 1, '', 1),
+(12, NULL, 'ramesht', '$2b$10$KZ6j/ordbODyPliTgYd0feV3AiMYiU31pS8o8SDYo1OeW.oXmAAfe', 'ddd@dd.com', 0, 1, '', 0),
+(13, NULL, 'yuih', '$2b$10$S16eENHFpEEJTYsqIAPASukIOM3tDHVVGX6w.lM7/5n7mym7eFUrG', 'sss@dd.com', 0, 1, '', 0),
+(14, NULL, 'sahan', '$2b$10$ayjW//SAlx80rSmNpgNCA.bUo6iJHHfY0dW9uqJ2C7v78dJZ96pom', 'sahan@gmail.com', 0, 1, '', 0),
+(15, NULL, 'pathum', '$2b$10$lHj.mitwxIZPI7tF6XAPvepX8vP8nv3QY6h9njg.AI5yp7.ECo23a', 'pathum@gmail.com', 0, 1, '', 0),
+(16, NULL, 'sada', '$2b$10$iOhByhUomKLSR8..NdD.SOsldo2oYZ9tPu.ysThZQY/9S1ctTWFYS', 'pppu@gmail.com', 0, 1, '', 0);
 
 -- --------------------------------------------------------
 
@@ -402,15 +526,24 @@ CREATE TABLE `verification_of_elders` (
   `elder_id` int(11) NOT NULL,
   `gramaniladari_id` varchar(20) NOT NULL,
   `divisional_officer_id` varchar(20) NOT NULL,
-  `divisional_head_id` varchar(20) NOT NULL,
-  `gramaniladari_comment` varchar(100) NOT NULL,
-  `divisional_officers_comment` varchar(100) NOT NULL,
-  `divisional_head_comment` varchar(100) NOT NULL,
-  `validity_by_gramaniladari` tinyint(1) NOT NULL,
-  `validity_by_divisional_officer` tinyint(1) NOT NULL,
-  `validity_by_divisional_head` tinyint(1) NOT NULL,
-  `is_deleted` tinyint(1) NOT NULL
+  `divisional_head_id` varchar(20) DEFAULT NULL,
+  `gramaniladari_comment` varchar(100) DEFAULT NULL,
+  `divisional_officers_comment` varchar(100) DEFAULT NULL,
+  `divisional_head_comment` varchar(100) DEFAULT NULL,
+  `validity_by_gramaniladari` tinyint(1) DEFAULT NULL,
+  `validity_by_divisional_officer` tinyint(1) DEFAULT NULL,
+  `validity_by_divisional_head` tinyint(1) DEFAULT NULL,
+  `correction` varchar(256) DEFAULT NULL,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `verification_of_elders`
+--
+
+INSERT INTO `verification_of_elders` (`vid`, `elder_id`, `gramaniladari_id`, `divisional_officer_id`, `divisional_head_id`, `gramaniladari_comment`, `divisional_officers_comment`, `divisional_head_comment`, `validity_by_gramaniladari`, `validity_by_divisional_officer`, `validity_by_divisional_head`, `correction`, `is_deleted`) VALUES
+(1, 2, '22', '12', '', '', '', '', 0, 0, 0, NULL, 0),
+(2, 3, '22', '12', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0);
 
 --
 -- Indexes for dumped tables
@@ -426,7 +559,13 @@ ALTER TABLE `agent`
 -- Indexes for table `benifesher`
 --
 ALTER TABLE `benifesher`
-  ADD PRIMARY KEY (`benifesher_id`);
+  ADD PRIMARY KEY (`benifesher_id`,`elder_id`);
+
+--
+-- Indexes for table `district`
+--
+ALTER TABLE `district`
+  ADD PRIMARY KEY (`district_id`);
 
 --
 -- Indexes for table `divisional_secratory_office`
@@ -480,7 +619,7 @@ ALTER TABLE `payments_post_office_to_benifishers`
 -- Indexes for table `post_office_officers`
 --
 ALTER TABLE `post_office_officers`
-  ADD PRIMARY KEY (`post_office_id`);
+  ADD PRIMARY KEY (`post_office_id`,`officer_id`);
 
 --
 -- Indexes for table `post_office_table`
@@ -535,19 +674,19 @@ ALTER TABLE `verification_of_elders`
 -- AUTO_INCREMENT for table `agent`
 --
 ALTER TABLE `agent`
-  MODIFY `agent_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `agent_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `benifesher`
 --
 ALTER TABLE `benifesher`
-  MODIFY `benifesher_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `benifesher_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `elder`
 --
 ALTER TABLE `elder`
-  MODIFY `elder_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `elder_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `payments_devisional_to_post_office`
@@ -562,22 +701,16 @@ ALTER TABLE `payments_post_office_to_benifishers`
   MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `priority_list`
---
-ALTER TABLE `priority_list`
-  MODIFY `elder_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `verification_of_elders`
 --
 ALTER TABLE `verification_of_elders`
-  MODIFY `vid` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `vid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
