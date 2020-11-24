@@ -113,4 +113,17 @@ module.exports = {
       }
     );
   },
+
+  //select Elders to verify list where in
+  selectElderMultipleId: (data, callBack) => {
+    pool.query(
+      "SELECT * FROM `elder` WHERE `is_deleted`='0' and `elder_id` in " + data,
+      (error, results, fields) => {
+        if (error) {
+          return callBack(error);
+        }
+        return callBack(null, results);
+      }
+    );
+  },
 };
