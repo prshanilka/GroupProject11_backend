@@ -2,6 +2,7 @@ const router = require("express").Router();
  
  const {
     createOfficer,
+    createGramaOfficer,
     getOfficers,
     getOfficerByOfficerID,
     updateOfficer,
@@ -12,6 +13,7 @@ const { checkToken } = require("../../auth/token_validation");
 
 
 router.post("/",createOfficer);
+router.post("/gramaofficer",createGramaOfficer);
 router.get("/",checkToken,getOfficers);
 router.get("/:grmaniladari_officer_id",checkToken,getOfficerByOfficerID);
 router.patch("/",checkToken,updateOfficer);
