@@ -1,6 +1,6 @@
 const pool = require("../../config/database");
 module.exports = {
-  create: (data, callBack) => {
+  createOfficers: (data, callBack) => {
     pool.query(
         `INSERT INTO divisional_secratory_officer(officer_id,divisional_secratary_id,designation,role,type,area) VALUES (?,?,?,?,?,?)`,
         [
