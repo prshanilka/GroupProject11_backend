@@ -9,7 +9,10 @@ const {
 const { sign } = require("jsonwebtoken");
 
 const { checkPermision } = require("../../auth/roleauth");
-
+const {
+  getverifyElderGramaID,
+} = require("../verify_elder/verify_elder.service");
+const { selectElderMultipleId } = require("../elders/elder.service");
 module.exports = {
   getDivisionalOfficeByID: (req, res) => {
     const div_off_id = req.params.div_off_id;
@@ -123,6 +126,46 @@ module.exports = {
         success: 1,
         message: "Deleted Succecfully",
         data: results,
+      });
+    });
+  },
+
+  getToBeVerifyList: (req, res) => {
+    const body = req.body;
+
+    getverifyElderGramaID(body, (err, results) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).json({
+          success: 0,
+          message: "database Connection error",
+        });
+      }
+      console.log(results);
+      whereIn = "(";
+      for (var i in results) {
+        if (i != results.length - 1) {
+          whereIn += "'" + results[i].elder_id + "',";
+        } else {
+          whereIn += "'" + results[i].elder_id + "'";
+        }
+      }
+      whereIn += ")";
+
+      console.log(whereIn);
+      selectElderMultipleId(whereIn, (err, results) => {
+        if (err) {
+          console.log(err);
+          return res.status(500).json({
+            success: 0,
+            message: "database Connection error",
+          });
+        }
+
+        return res.json({
+          success: 1,
+          data: results,
+        });
       });
     });
   },
