@@ -101,7 +101,7 @@ module.exports = {
   getverifyElderGramaID: (body, callBack) => {
     pool.query(
       "SELECT `elder_id` FROM `verification_of_elders` WHERE `gramaniladari_id`= ?  and `is_deleted` ='0' and `validity_by_gramaniladari` IS NULL",
-      [body.gramaniladari_id],
+      [body],
       (error, results, fields) => {
         if (error) {
           return callBack(error);
