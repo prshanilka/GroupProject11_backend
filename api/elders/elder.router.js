@@ -4,12 +4,14 @@ const {
   getElderByElderID,
   getElders,
   updateElders,
-  deleteElders
+  deleteElders,
+  elderRegistration,
 } = require("./elder.controller");
 
 const { checkToken } = require("../../auth/token_validation");
 
 router.post("/", checkToken, createElders);
+router.post("/elder-registration", checkToken, elderRegistration);
 router.get("/:elder_id", checkToken, getElderByElderID);
 router.get("/", checkToken, getElders);
 

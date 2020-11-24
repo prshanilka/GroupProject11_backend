@@ -1,15 +1,15 @@
-const { 
+const {
   create,
   getOfficerByOfficerID,
   getOfficers,
   updateOfficers,
-  deleteOfficers
+  deleteOfficers,
 } = require("./post_officer.service");
 
 const { sign } = require("jsonwebtoken");
 
 const { checkPermision } = require("../../auth/roleauth");
-
+const { createOffOfficer } = require("../officers/officer.service");
 module.exports = {
   createOfficer: (req, res) => {
     const body = req.body;
@@ -107,5 +107,31 @@ module.exports = {
         message: "officer deleted successfully",
       });
     });
-  } 
-}
+  },
+  addPostOfficer: (req, res) => {
+    const dataO = req.body.officer;
+    createOffOfficer(dataO, (errO, resultO) => {
+      if (errO) {
+        console.log(errO);
+        return res.status(500).json({
+          success: 0,
+          message: "Database connection errror",
+        });
+      }
+      const dataP = req.body.postofficer;
+      create(dataP, (errP, resultsP) => {
+        if (errP) {
+          console.log(errP);
+          return res.status(500).json({
+            success: 0,
+            message: "Database connection errror",
+          });
+        }
+        return res.status(200).json({
+          success: 1,
+          data: resultsP,
+        });
+      });
+    });
+  },
+};
