@@ -22,64 +22,57 @@ module.exports = {
           success: 0,
           message: "Database connection errror",
         });
- 
-    },
-    createGramaOfficer: (req, res) => {
-      const bodyo = req.body.Officer;
+      }
+      console.log("pathu");
+      return res.json({
+        success: 1,
+        data: resultsg,
+      });
+    });
+  },
+  createGramaOfficer: (req, res) => {
+    const bodyo = req.body.Officer;
 
-      create(bodyo, (erro,resultso) => {
-        if(erro){
-          console.log(erro);
+    create(bodyo, (erro, resultso) => {
+      if (erro) {
+        console.log(erro);
+        return res.status(500).json({
+          success: 0,
+          message: "Database connection errror",
+        });
+      }
+      const bodyg = req.body.GramaOfficer;
+      createOfficer(bodyg, (errg, resultsg) => {
+        if (errg) {
+          console.log(errg);
           return res.status(500).json({
             success: 0,
             message: "Database connection errror",
           });
         }
-        const bodyg = req.body.GramaOfficer;
-        createOfficer(bodyg, (errg, resultsg) => {
-          if(errg){
-            console.log(errg);
-            return res.status(500).json({
-            success: 0,
-            message: "Database connection errror",
-          });
-          }
-          console.log("pathu");
-          return res.json({
-            success: 1,
-            data: resultsg,
-          }); 
+        console.log("pathu");
+        return res.json({
+          success: 1,
+          data: resultsg,
         });
       });
-    },
-    getOfficers: (req, res) => {
-        const rcid = {
-            role_id: req.auth.result.role_id,
-            cap_id: 1,
-        };
-      
-        checkPermision(rcid, (err, results) => {
-            if (err) {
-              console.log(err);
-            }
-      
-            if (!results) {
-              return res.json({
-                success: 0,
-                error: "Unauthorized access",
-              });
-            }
-            getOfficers((err, results) => {
-              if (err) {
-                console.log(err);
-                return;
-              }
-              return res.json({
-                success: 1,
-                data: results,
-              });
-            });
- 
+    });
+  },
+  getOfficers: (req, res) => {
+    const rcid = {
+      role_id: req.auth.result.role_id,
+      cap_id: 1,
+    };
+
+    checkPermision(rcid, (err, results) => {
+      if (err) {
+        console.log(err);
+      }
+
+      if (!results) {
+        return res.json({
+          success: 0,
+          error: "Unauthorized access",
         });
       }
       getOfficers((err, results) => {
