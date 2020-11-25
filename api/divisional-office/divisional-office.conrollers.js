@@ -4,6 +4,7 @@ const {
   createDivisionalOffice,
   updateDivisionalOffice,
   deleteDivisionalOffice,
+  getApplicationToVerifyByDivision,
 } = require("./divisional-office.services");
 
 const { sign } = require("jsonwebtoken");
@@ -122,6 +123,27 @@ module.exports = {
       return res.status(200).json({
         success: 1,
         message: "Deleted Succecfully",
+        data: results,
+      });
+    });
+  },
+
+  getApplicationToVerifyByDivision: (req, res) => {
+    const div_off_id = req.params.div_off_id;
+    getApplicationToVerifyByDivision(div_off_id, (err, results) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      if (!results) {
+        return res.json({
+          success: 0,
+          message: "Record not found",
+        });
+      }
+      return res.json({
+        success: 1,
+        message: "nonno",
         data: results,
       });
     });
