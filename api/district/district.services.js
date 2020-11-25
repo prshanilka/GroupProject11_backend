@@ -77,4 +77,17 @@ module.exports = {
       }
     );
   },
+
+  getDistrictsToSelectBox: (callBack) => {
+    pool.query(
+      "SELECT `district_id` as value, `district_name` AS text FROM `district` where `is_deleted`='0'",
+      [],
+      (error, results, fields) => {
+        if (error) {
+          return callBack(error);
+        }
+        return callBack(null, results);
+      }
+    );
+  },
 };
