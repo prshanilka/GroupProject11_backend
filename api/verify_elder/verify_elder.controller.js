@@ -4,6 +4,8 @@ const {
   getverifyElder,
   updateverifyElder,
   deleteverifyElder,
+  updateVerifyElderAfterGramAccept,
+  updateVerifyElderAfterGramDisQualified,
 } = require("./verify_elder.service");
 
 const { checkPermision } = require("../../auth/roleauth");
@@ -113,6 +115,34 @@ module.exports = {
       return res.json({
         success: 1,
         message: "Elder deleted successfully",
+      });
+    });
+  },
+  updateVerifyElderAfterGramAccept: (req, res) => {
+    const body = req.body;
+    updateVerifyElderAfterGramAccept(body, (err, results) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+
+      return res.json({
+        success: 1,
+        message: "updated successfully  verify accept",
+      });
+    });
+  },
+  updateVerifyElderAfterGramDisQualified: (req, res) => {
+    const body = req.body;
+    updateVerifyElderAfterGramDisQualified(body, (err, results) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+
+      return res.json({
+        success: 1,
+        message: "updated successfully verify disqualify ",
       });
     });
   },
