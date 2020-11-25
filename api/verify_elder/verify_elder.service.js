@@ -110,4 +110,35 @@ module.exports = {
       }
     );
   },
+
+  updateVerifyElderAfterGramAccept: (data, callBack) => {
+    pool.query(
+      "UPDATE `verification_of_elders` SET `gramaniladari_id`=? ,`gramaniladari_comment`=? ,`validity_by_gramaniladari`='1',  `correction`='NULL'  WHERE `elder_id`=?",
+      [data.gramaniladari_id, data.gramaniladari_comment, data.elder_id],
+      (error, results, fields) => {
+        if (error) {
+          return callBack(error);
+        }
+        return callBack(null, results);
+      }
+    );
+  },
+
+  updateVerifyElderAfterGramDisQualified: (data, callBack) => {
+    pool.query(
+      "UPDATE `verification_of_elders` SET `gramaniladari_id`=? ,`gramaniladari_comment`=? ,`validity_by_gramaniladari`='0',`correction`=? WHERE `elder_id`=?",
+      [
+        data.gramaniladari_id,
+        data.gramaniladari_comment,
+        data.correction,
+        data.elder_id,
+      ],
+      (error, results, fields) => {
+        if (error) {
+          return callBack(error);
+        }
+        return callBack(null, results);
+      }
+    );
+  },
 };
