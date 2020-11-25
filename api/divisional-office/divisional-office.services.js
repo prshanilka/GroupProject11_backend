@@ -81,4 +81,16 @@ module.exports = {
       }
     );
   },
+  getApplicationToVerifyByDivision: (data, callBack) => {
+    pool.query(
+      "SELECT * FROM `elder` WHERE `elder_id` IN (SELECT `elder_id` FROM `verification_of_elders` WHERE `is_deleted` = '0' and `validity_by_gramaniladari`='1') and `divisional_secratory_id` = ?",
+      [data.divisional_secratary_id],
+      (error, results, fields) => {
+        if (error) {
+          return callBack(error);
+        }
+        return callBack(null, results);
+      }
+    );
+  },
 };
