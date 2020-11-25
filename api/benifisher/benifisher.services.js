@@ -1,9 +1,10 @@
 const pool = require("../../config/database");
+
 module.exports = {
-  getAgentByAgentID: (elder_id, callBack) => {
+  getBenifisherByBenifisherID: (benifisher_id, callBack) => {
     pool.query(
-      "SELECT * FROM `agent` WHERE `agent_id` =?",
-      [elder_id],
+      "SELECT * FROM `benifesher` WHERE `benifesher_id` = ?",
+      [benifisher_id],
       (error, results, fields) => {
         if (error) {
           return callBack(error);
@@ -12,9 +13,9 @@ module.exports = {
       }
     );
   },
-  getAgent: (callBack) => {
+  getBenifisher: (callBack) => {
     pool.query(
-      "SELECT * FROM `agent` WHERE `is_deleted` = 0",
+      "SELECT * FROM `benifesher` WHERE `is_deleted` = 0",
       [],
       (error, results, fields) => {
         if (error) {
@@ -24,9 +25,9 @@ module.exports = {
       }
     );
   },
-  createAgent: (data, callBack) => {
+  createBenifisher: (data, callBack) => {
     pool.query(
-      "INSERT INTO `agent`( `elder_id`, `name`, `nic`, `address`, `phone`, `email`,`relation_with_elder`) VALUES (?, ?, ?, ?, ?, ? , ?)",
+      "INSERT INTO `agent`( `elder_id`, `name`, `nic`, `address`, `phone`, `email`) VALUES (?, ?, ?, ?, ?, ?)",
       [
         data.elder_id,
         data.name,
@@ -34,7 +35,6 @@ module.exports = {
         data.address,
         data.phone,
         data.email,
-        data.relation_with_elder,
       ],
       (error, results, fields) => {
         if (error) {
@@ -44,18 +44,14 @@ module.exports = {
       }
     );
   },
-  updateAgent: (data, callBack) => {
+  updateBenifisher: (data, callBack) => {
     pool.query(
-      "UPDATE `agent` SET `elder_id`=?,`name`=?,`nic`=?,`address`=?,`phone`=?,`email`=? ,`relation_with_elder`=? WHERE `agent_id`=?",
+      "UPDATE `benifesher` SET  `elder_id`= ?,`added_officer_id`=?, `removed_officer_id`=?   WHERE `benifesher_id`=?",
       [
         data.elder_id,
-        data.name,
-        data.nic,
-        data.address,
-        data.phone,
-        data.email,
-        data.relation_with_elder,
-        data.agent_id,
+        data.added_officer_id,
+        data.removed_officer_id,
+        data.benifesher_id,
       ],
       (error, results, fields) => {
         if (error) {
@@ -65,10 +61,10 @@ module.exports = {
       }
     );
   },
-  deleteAgent: (data, callBack) => {
+  deleteBenifisher: (data, callBack) => {
     pool.query(
-      "UPDATE `agent` SET  `is_deleted`='1' WHERE `agent_id`=?",
-      [data.agent_id],
+      "UPDATE `benifesher` SET  `is_deleted`='1' WHERE `benifesher_id`=?",
+      [data.benifesher_id],
       (error, results, fields) => {
         if (error) {
           return callBack(error);

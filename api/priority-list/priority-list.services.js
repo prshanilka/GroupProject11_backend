@@ -1,8 +1,9 @@
 const pool = require("../../config/database");
+
 module.exports = {
-  getAgentByAgentID: (elder_id, callBack) => {
+  getpriorityListByElderId: (elder_id, callBack) => {
     pool.query(
-      "SELECT * FROM `agent` WHERE `agent_id` =?",
+      "SELECT * FROM `priority_list` WHERE `elder_id` =  ?",
       [elder_id],
       (error, results, fields) => {
         if (error) {
@@ -12,9 +13,9 @@ module.exports = {
       }
     );
   },
-  getAgent: (callBack) => {
+  getpriorityList: (callBack) => {
     pool.query(
-      "SELECT * FROM `agent` WHERE `is_deleted` = 0",
+      "SELECT * FROM `priority_list` WHERE `is_deleted` = 0",
       [],
       (error, results, fields) => {
         if (error) {
@@ -24,17 +25,16 @@ module.exports = {
       }
     );
   },
-  createAgent: (data, callBack) => {
+  createpriorityList: (data, callBack) => {
     pool.query(
-      "INSERT INTO `agent`( `elder_id`, `name`, `nic`, `address`, `phone`, `email`,`relation_with_elder`) VALUES (?, ?, ?, ?, ?, ? , ?)",
+      "INSERT INTO `priority_list` (`elder_id`, `grmaniladari_officer_id`, `gramaniladari_division_id`, `divisional_secratary_officer_id`, `added_officer_id`, `marks` ) VALUES (?, ?, ?, ?,?,? );",
       [
         data.elder_id,
-        data.name,
-        data.nic,
-        data.address,
-        data.phone,
-        data.email,
-        data.relation_with_elder,
+        data.grmaniladari_officer_id,
+        data.gramaniladari_division_id,
+        data.divisional_secratary_officer_id,
+        data.added_officer_id,
+        data.marks,
       ],
       (error, results, fields) => {
         if (error) {
@@ -44,19 +44,10 @@ module.exports = {
       }
     );
   },
-  updateAgent: (data, callBack) => {
+  updatepriorityList: (data, callBack) => {
     pool.query(
-      "UPDATE `agent` SET `elder_id`=?,`name`=?,`nic`=?,`address`=?,`phone`=?,`email`=? ,`relation_with_elder`=? WHERE `agent_id`=?",
-      [
-        data.elder_id,
-        data.name,
-        data.nic,
-        data.address,
-        data.phone,
-        data.email,
-        data.relation_with_elder,
-        data.agent_id,
-      ],
+      "UPDATE `priority_list` SET  `marks`=?  WHERE `elder_id`=?",
+      [data.marks, data.elder_id],
       (error, results, fields) => {
         if (error) {
           return callBack(error);
@@ -65,10 +56,10 @@ module.exports = {
       }
     );
   },
-  deleteAgent: (data, callBack) => {
+  deletepriorityList: (data, callBack) => {
     pool.query(
-      "UPDATE `agent` SET  `is_deleted`='1' WHERE `agent_id`=?",
-      [data.agent_id],
+      "UPDATE `priority_list` SET   `is_deleted`='1'  WHERE `elder_id`=?",
+      [data.elder_id],
       (error, results, fields) => {
         if (error) {
           return callBack(error);
