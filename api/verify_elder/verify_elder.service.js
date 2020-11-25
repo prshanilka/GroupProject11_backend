@@ -141,4 +141,39 @@ module.exports = {
       }
     );
   },
+
+  updateVerifyElderAfterDiv_Off_Accept: (data, callBack) => {
+    pool.query(
+      `UPDATE verification_of_elders SET divisional_officer_id=?,divisional_officers_comment=?,validity_by_divisional_officer="1",correction="NULL" WHERE elder_id=?`,
+      [
+        data.divisional_officer_id, 
+        data.divisional_officers_comment, 
+        data.elder_id
+      ],
+      (error, results, fields) => {
+        if (error) {
+          return callBack(error);
+        }
+        return callBack(null, results);
+      }
+    );
+  },
+
+  updateVerifyElderAfterDiv_Off_DisQualified: (data, callBack) => {
+    pool.query(
+      "UPDATE `verification_of_elders` SET `divisional_officer_id`=?,`divisional_officers_comment`=?,`validity_by_divisional_officer`='0',`correction`=? WHERE `elder_id`=?",
+      [
+        data.divisional_officer_id,
+        data.divisional_officers_comment,
+        data.correction,
+        data.elder_id,
+      ],
+      (error, results, fields) => {
+        if (error) {
+          return callBack(error);
+        }
+        return callBack(null, results);
+      }
+    );
+  }
 };
