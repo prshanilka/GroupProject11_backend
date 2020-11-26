@@ -133,7 +133,6 @@ module.exports = {
       });
     });
   },
-
   getToBeVerifyList: (req, res) => {
     const gram_div_id = req.params.gram_div_id;
     getverifyElderGramaID(gram_div_id, (err, results) => {
