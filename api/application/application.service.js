@@ -2,7 +2,7 @@ const pool = require("../../config/database");
 
 module.exports = {
   getApplicationStatus: (elder_id, callBack) => {
-    console.log( );
+    console.log(elder_id );
     pool.query(
       `SELECT * FROM verification_of_elders WHERE elder_id =?`,
       [elder_id],
