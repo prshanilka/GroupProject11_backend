@@ -4,6 +4,7 @@ const {
   createPostOffice,
   updatePostOffice,
   deletePostOffice,
+  getPostOfficesToSelectBox
 } = require("./post-office.sevices");
 
 const { sign } = require("jsonwebtoken");
@@ -126,4 +127,23 @@ module.exports = {
       });
     });
   },
+  getPostOfficesToSelectBox: (req, res) => {
+    
+    getPostOfficesToSelectBox( (err, results) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      if (!results) {
+        return res.json({
+          success: 0,
+          message: "Record not found",
+        });
+      }
+      return res.json({
+        success: 1,
+        data: results,
+      });
+    });
+  }
 };
