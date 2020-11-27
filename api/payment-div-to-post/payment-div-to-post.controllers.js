@@ -1,4 +1,7 @@
-const { InsertPaymetDivToPost } = require("./payment-div-to-post.services");
+const {
+  InsertPaymetDivToPost,
+  GetPyamentToPostOff,
+} = require("./payment-div-to-post.services");
 const { checkPermision } = require("../../auth/roleauth");
 const {
   InsertPaymetPostToBenifisher,
@@ -29,6 +32,34 @@ module.exports = {
           success: 1,
           data: resultp,
         });
+      });
+    });
+  },
+  GetPyamentToPostOff: (req, res) => {
+    const data = {};
+    GetPyamentToPostOff(data, (err, result) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).json({
+          succcess: 0,
+          message: "Database Connection error",
+        });
+      }
+
+      return res.status(200).json({
+        success: 1,
+        status: true,
+        total: 5,
+        last_page: 1,
+        per_page: 8,
+        current_page: 1,
+        next_page_url:
+          "https://api.coloredstrategies.com/cakes/fordatatable?sort=&page=2&per_page=8",
+        prev_page_url:
+          "https://api.coloredstrategies.com/cakes/fordatatable?sort=&page=2&per_page=8",
+        from: 1,
+        to: 8,
+        data: result,
       });
     });
   },

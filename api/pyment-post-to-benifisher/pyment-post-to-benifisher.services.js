@@ -37,8 +37,8 @@ module.exports = {
   },
   getBenifisherPayemtListByDivision: (data, callBack) => {
     pool.query(
-      "SELECT * FROM `payments_post_office_to_benifishers` ,`elder` WHERE elder.elder_id = payments_post_office_to_benifishers.elder_id and elder.divisional_secratory_id=?",
-      [data],
+      "SELECT * FROM `payments_post_office_to_benifishers` ,`elder` WHERE elder.elder_id = payments_post_office_to_benifishers.elder_id and elder.divisional_secratory_id=? and payments_post_office_to_benifishers.month = ?  ",
+      [data.div_id, data.month],
       (error, results, fields) => {
         if (error) {
           console.log(results);
