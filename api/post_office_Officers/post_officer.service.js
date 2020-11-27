@@ -2,8 +2,9 @@ const pool = require("../../config/database");
 module.exports = {
   create: (data, callBack) => {
     pool.query(
-        `INSERT INTO post_office_officers(post_office_id,district_id,division,type,designation) VALUES (?,?,?,?,?)`,
+        `INSERT INTO post_office_officers(officer_id,post_office_id,district_id,division,type,designation) VALUES (?,?,?,?,?,?)`,
         [
+            data.officer_id,
             data.post_office_id,
             data.district_id,
             data.division,

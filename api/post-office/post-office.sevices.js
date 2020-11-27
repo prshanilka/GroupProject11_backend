@@ -81,4 +81,16 @@ module.exports = {
       }
     );
   },
+  getPostOfficesToSelectBox: (callBack) => {
+    pool.query(
+      "SELECT `post_office_id` as value, `name` as text FROM `post_office_table` WHERE `is_deleted`='0'",
+      [],
+      (error, results, fields) => {
+        if (error) {
+          return callBack(error);
+        }
+        return callBack(null, results);
+      }
+    );
+  },
 };

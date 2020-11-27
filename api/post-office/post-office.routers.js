@@ -5,9 +5,11 @@ const {
   createPostOffice,
   updatePostOffice,
   deletePostOffice,
+  getPostOfficesToSelectBox
 } = require("./post-office.controllers");
 const { checkToken } = require("../../auth/token_validation");
 
+router.get("/selectbox",checkToken,getPostOfficesToSelectBox);
 router.post("/", checkToken, createPostOffice);
 
 router.get("/", checkToken, getPostOffices);
