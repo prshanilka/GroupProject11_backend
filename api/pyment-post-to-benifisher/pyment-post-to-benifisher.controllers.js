@@ -41,7 +41,12 @@ module.exports = {
   },
   getBenifisherPayemtListByPostOffice: (req, res) => {
     const post = req.params.post;
-    getBenifisherPayemtListByPostOffice(post, (err, result) => {
+    const month = req.params.month;
+    const data = {
+      post: post,
+      month: month,
+    };
+    getBenifisherPayemtListByPostOffice(data, (err, result) => {
       if (err) {
         console.log(err);
         return res.status(500).json({

@@ -7,6 +7,6 @@ const {
 const { checkToken } = require("../../auth/token_validation");
 
 router.get("/div/:div", checkToken, getBenifisherPayemtListByDivision);
-router.get("/post/:post", checkToken, getBenifisherPayemtListByPostOffice);
+router.get("/post/:post/:month", checkToken, getBenifisherPayemtListByPostOffice);
 router.get("/", checkToken, getBenifisherPayemtList);
 module.exports = router;
