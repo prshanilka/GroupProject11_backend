@@ -4,6 +4,7 @@ const {
   getGramaDivisions,
   updateGramaDivision,
   deleteGramaDivision,
+  getGramaDivisionsToSelectBox
 } = require("./grama-division.services");
 
 const { checkPermision } = require("../../auth/roleauth");
@@ -171,4 +172,23 @@ module.exports = {
       });
     });
   },
+  getGramaDivisionsToSelectBox: (req, res) => {
+    
+    getGramaDivisionsToSelectBox( (err, results) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      if (!results) {
+        return res.json({
+          success: 0,
+          message: "Record not found",
+        });
+      }
+      return res.json({
+        success: 1,
+        data: results,
+      });
+    });
+  }
 };

@@ -80,4 +80,16 @@ module.exports = {
       }
     );
   },
+  getGramaDivisionsToSelectBox: (callBack) => {
+    pool.query(
+      "SELECT `gramaniladari_division_id` as value, `name` as text FROM `gramaniladari_division` WHERE `is_deleted`='0'",
+      [],
+      (error, results, fields) => {
+        if (error) {
+          return callBack(error);
+        }
+        return callBack(null, results);
+      }
+    );
+  },
 };

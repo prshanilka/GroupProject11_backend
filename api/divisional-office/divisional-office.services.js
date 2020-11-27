@@ -93,4 +93,16 @@ module.exports = {
       }
     );
   },
+  getDivisionsToSelectBox: (callBack) => {
+    pool.query(
+      "SELECT `divisional_secratary_id` as value, `name` as text FROM `divisional_secratory_office` WHERE `is_deleted`='0'",
+      [],
+      (error, results, fields) => {
+        if (error) {
+          return callBack(error);
+        }
+        return callBack(null, results);
+      }
+    );
+  },
 };
