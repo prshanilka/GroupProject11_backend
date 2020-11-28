@@ -1,8 +1,7 @@
 const {
         getApplicationStatus,
         getApplicationsForFofficer
-      } = require("./application.service");
-const { getOfficerByOfficerID } = require("../divisional_secratary_officer/divisional_officer.service");      
+      } = require("./application.service");      
 const { checkPermision } = require("../../auth/roleauth");
 
 module.exports = {
@@ -91,7 +90,7 @@ module.exports = {
       }
     });
     let divitionalid =new Promise((resolove, reject) => {
-      getApplicationsForFofficer(req.auth.result.id, (err,results) =>{
+      getApplicationsForFofficer(req.auth.result.id, (err,results,count) =>{
         if (err){
           console.log(err);
           reject(err)
@@ -99,6 +98,7 @@ module.exports = {
         if(!results){
          reject("ERROR NO USER DATA")
         }
+        results.count=count;
         resolove(results);
       });
     });
