@@ -4,6 +4,7 @@ const {
   getOfficerByOfficerID,
   updateOfficer,
   deleteOfficer,
+  GetGramaOfficerByOfficers
 } = require("./officer_service");
 
 const { create } = require("../officers/officer.service");
@@ -136,6 +137,24 @@ module.exports = {
       return res.json({
         success: 1,
         message: "officer deleted successfully",
+      });
+    });
+  },
+
+  GetGramaOfficerByOfficers: (req, res) => {
+    const data = {};
+    GetGramaOfficerByOfficers(data, (err, result) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).json({
+          succcess: 0,
+          message: "Database Connection error",
+        });
+      }
+
+      return res.status(200).json({
+        success: 1,
+        data: result,
       });
     });
   },
