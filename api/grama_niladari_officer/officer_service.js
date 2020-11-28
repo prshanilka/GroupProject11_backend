@@ -70,5 +70,20 @@ module.exports = {
             return callBack(null, results[0]);
           }
         );
-    }
+    },
+
+    GetGramaOfficerByOfficers: (data, callBack) => {
+      pool.query(
+        "SELECT * FROM gramaniladari,officers WHERE gramaniladari.grmaniladari_officer_id = officers.officer_id",
+        [],
+        (error, results, fields) => {
+          if (error) {
+            console.log(results);
+            return callBack(error);
+          }
+          return callBack(null, results);
+        }
+      );
+    },
+
 };
