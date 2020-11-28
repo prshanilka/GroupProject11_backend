@@ -1,12 +1,14 @@
 const {
-  getApplicationStatus
-} = require("./application.service");
+        getApplicationStatus,
+        getApplicationsForFofficer
+      } = require("./application.service");
+const { getOfficerByOfficerID } = require("../divisional_secratary_officer/divisional_officer.service");      
 const { checkPermision } = require("../../auth/roleauth");
 
 module.exports = {
   getApplicationStatus: (req, res) => {
     const elder_id = req.auth.result.user_id;
-    getApplicationStatus(elder_id, (err, results) => {
+  getApplicationStatus(elder_id, (err, results) => {
       if (err) {
         console.log(err);
         return;
@@ -76,5 +78,41 @@ module.exports = {
       });
     });
   },
+  getAppliationDofficer: (req, res) => {
+    checkPermision( {role_id: req.auth.result.role_id,cap_id: 21,}, (err, results) => {
+      if (err) {
+        console.log(err);
+      }
+      if (!results) {
+        return res.json({
+          success: 0,
+          error: "Unauthorized access",
+        });
+      }
+    });
+    let divitionalid =new Promise((resolove, reject) => {
+      getApplicationsForFofficer(req.auth.result.id, (err,results) =>{
+        if (err){
+          console.log(err);
+          reject(err)
+        }
+        if(!results){
+         reject("ERROR NO USER DATA")
+        }
+        resolove(results);
+      });
+    });
 
+  divitionalid.then((me) =>{
+      return res.json({
+        success: 1,
+        error: me,
+    });
+  }).catch((error) =>{console.log(error)});
+
+
+  
+
+  },
+  
 };
