@@ -4,7 +4,8 @@ const {
   getOfficerByOfficerID,
   updateOfficer,
   deleteOfficer,
-  GetGramaOfficerByOfficers
+  GetGramaOfficerByOfficers,
+  GetGramaDetails
 } = require("./officer_service");
 
 const { create } = require("../officers/officer.service");
@@ -155,6 +156,26 @@ module.exports = {
       return res.status(200).json({
         success: 1,
         data: result,
+      });
+    });
+  },
+
+  GetGramaDetails: (req, res) => {
+    const division_id = req.params.gramaniladari_division_id;
+    GetGramaDetails(division_id, (err, results) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      if (!results) {
+        return res.json({
+          success: 0,
+          message: "Record not found",
+        });
+      }
+      return res.json({
+        success: 1,
+        data: results
       });
     });
   },
