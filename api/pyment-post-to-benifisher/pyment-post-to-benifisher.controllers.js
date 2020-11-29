@@ -26,6 +26,7 @@ module.exports = {
     const data = {
       div_id: req.params.div,
       month: req.params.month,
+      year: req.params.year,
     };
     getBenifisherPayemtListByDivision(data, (err, result) => {
       if (err) {
@@ -59,6 +60,7 @@ module.exports = {
     const data = {
       post: post,
       month: month,
+      year: req.params.year,
     };
     getBenifisherPayemtListByPostOffice(data, (err, result) => {
       if (err) {

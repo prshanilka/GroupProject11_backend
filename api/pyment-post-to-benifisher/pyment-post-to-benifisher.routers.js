@@ -6,9 +6,13 @@ const {
 } = require("./pyment-post-to-benifisher.controllers");
 const { checkToken } = require("../../auth/token_validation");
 
-router.get("/div/:div/:month", checkToken, getBenifisherPayemtListByDivision);
 router.get(
-  "/post/:post/:month",
+  "/div/:div/:year/:month",
+  checkToken,
+  getBenifisherPayemtListByDivision
+);
+router.get(
+  "/post/:post/:year/:month",
   checkToken,
   getBenifisherPayemtListByPostOffice
 );

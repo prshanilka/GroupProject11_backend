@@ -35,7 +35,7 @@ module.exports = {
   },
   GetPyamentToPostOff: (data, callBack) => {
     pool.query(
-      "SELECT post_office_table.name ,post_office_table.address,post_office_table.bank_account_no, payments_devisional_to_post_office.year,payments_devisional_to_post_office.month ,payments_devisional_to_post_office.total_money_amount FROM `payments_devisional_to_post_office`,`post_office_table` WHERE payments_devisional_to_post_office.post_office_id = post_office_table.post_office_id",
+      "SELECT 	post_office_table.post_office_id, post_office_table.name ,post_office_table.address,post_office_table.bank_account_no, payments_devisional_to_post_office.year,payments_devisional_to_post_office.month ,payments_devisional_to_post_office.total_money_amount FROM `payments_devisional_to_post_office`,`post_office_table` WHERE payments_devisional_to_post_office.post_office_id = post_office_table.post_office_id",
       [],
       (error, results, fields) => {
         if (error) {
