@@ -6,9 +6,21 @@ const {
   updateGramaDivision,
   deleteGramaDivision,
   getToBeVerifyList,
+
   getGramaDivisionsToSelectBox,
+
+  getGramaDivisionsIDonly,
+
 } = require("./grama-division.controllers");
 const { checkToken } = require("../../auth/token_validation");
+
+
+
+router.get("/gramandionly", checkToken, getGramaDivisionsIDonly);
+
+
+
+
 
 router.post("/", checkToken, createGramaDivision);
 router.get("/selectbox", checkToken, getGramaDivisionsToSelectBox);

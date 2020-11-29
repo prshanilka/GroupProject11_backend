@@ -138,7 +138,7 @@ module.exports = {
         const rsalt = process.env.JSONRSALTA + getIP(req).clientIp;
         //getIP(req).clientIp
         const jsontoken = sign({ result: results }, salt, {
-          expiresIn: "10m",
+          expiresIn: "50m",
         });
 
         const refreshtoken = sign({ uid: results.user_id }, rsalt, {
