@@ -1,9 +1,9 @@
-const { 
-  getOfficerByOfficerID, 
+const {
+  getOfficerByOfficerID,
   getOfficers,
   createOfficers,
   updateOfficers,
-  deleteOfficers
+  deleteOfficers,
 } = require("./divisional_officer.service");
 
 const { create } = require("../officers/officer.service");
@@ -15,8 +15,8 @@ const { checkPermision } = require("../../auth/roleauth");
 module.exports = {
   createOfficers: (req, res) => {
     const bodyDiv = req.body.DivOfficer;
-    createOfficers(bodyDiv , (errDiv ,resultsDiv) => {
-      if(errDiv){
+    createOfficers(bodyDiv, (errDiv, resultsDiv) => {
+      if (errDiv) {
         console.log(errDiv);
         return res.status(500).json({
           success: 0,
@@ -25,7 +25,7 @@ module.exports = {
       }
       const bodyO = req.body.Officer;
       create(bodyO, (errO, resultsO) => {
-        if(errO){
+        if (errO) {
           console.log(errO);
           return res.status(500).json({
             success: 0,
@@ -34,33 +34,32 @@ module.exports = {
         }
         return res.status(200).json({
           success: 1,
-          data: resultsO
+          data: resultsO,
         });
       });
     });
   },
   getOfficerByOfficerID: (req, res) => {
     const officer_id = req.params.officer_id;
-    getOfficerByOfficerID(officer_id, (err,results) =>{
-      if (err){
+    getOfficerByOfficerID(officer_id, (err, results) => {
+      if (err) {
         console.log(err);
-        return ;
+        return;
       }
-      if(!results){
-          return res.json({
-            success:0,
-            message:"Record not found"
-          });
+      if (!results) {
+        return res.json({
+          success: 0,
+          message: "Record not found",
+        });
       }
       return res.json({
-        success:1,
-        data:results
-
+        success: 1,
+        data: results,
       });
     });
   },
-  getOfficers: (req, res) => {
 
+  getOfficers: (req, res) => {
     const rcid = {
       role_id: req.auth.result.role_id,
       cap_id: 1,
@@ -90,7 +89,7 @@ module.exports = {
     });
   },
   updateOfficers: (req, res) => {
-    const body=req.body;
+    const body = req.body;
     updateOfficers(body, (err, results) => {
       if (err) {
         console.log(err);
@@ -121,5 +120,5 @@ module.exports = {
         message: "Officer deleted successfully",
       });
     });
-  }
-}
+  },
+};

@@ -13,6 +13,18 @@ module.exports = {
       }
     );
   },
+  getBenifisherListTodiv: (officer_id, callBack) => {
+    pool.query(
+      "SELECT * FROM `elder`,`benifesher` WHERE elder.elder_id = benifesher.elder_id AND benifesher.is_deleted =0 and elder.divisional_secratory_id =?",
+      [officer_id],
+      (error, results, fields) => {
+        if (error) {
+          return callBack(error);
+        }
+        return callBack(null, results);
+      }
+    );
+  },
   getDivisionalOffices: (callBack) => {
     pool.query(
       "SELECT * FROM `divisional_secratory_office` WHERE `is_deleted` = 0",
