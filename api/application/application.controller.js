@@ -1,13 +1,22 @@
+
+
 const {
         getApplicationStatus,
         getApplicationsForFofficer
       } = require("./application.service");      
+
 const { checkPermision } = require("../../auth/roleauth");
 
 module.exports = {
   getApplicationStatus: (req, res) => {
     const elder_id = req.auth.result.user_id;
+
+    // console.log(elder_id);
+
+
+
   getApplicationStatus(elder_id, (err, results) => {
+
       if (err) {
         console.log(err);
         return;
@@ -77,6 +86,7 @@ module.exports = {
       });
     });
   },
+
   getAppliationDofficer: (req, res) => {
     const page = req.query.page
     const per_page =req.query.per_page
@@ -148,4 +158,5 @@ module.exports = {
 
   },
   
+
 };

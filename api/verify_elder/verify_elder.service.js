@@ -4,7 +4,7 @@ module.exports = {
   createverifyFirstElder: (data, callBack) => {
     pool.query(
       `INSERT INTO verification_of_elders(elder_id,gramaniladari_id ) VALUES (?,?)`,
-      [data.elder_id, data.gramaniladari_id],
+      [data.elder_id, "null"],
       (error, results, fields) => {
         if (error) {
           return callBack(error);
@@ -100,7 +100,7 @@ module.exports = {
 
   getverifyElderGramaID: (body, callBack) => {
     pool.query(
-      "SELECT `elder_id` FROM `verification_of_elders` WHERE `gramaniladari_id`= ?  and `is_deleted` ='0' and `validity_by_gramaniladari` IS NULL",
+      "SELECT * FROM `elder`,`gramaniladari` WHERE `elder_id` IN (SELECT `elder_id` FROM `verification_of_elders` WHERE `is_deleted` = '0' and `validity_by_gramaniladari` IS NULL) and elder.gramaniladari_division_id =gramaniladari.gramaniladari_division_id and gramaniladari.grmaniladari_officer_id =?",
       [body],
       (error, results, fields) => {
         if (error) {
@@ -130,6 +130,41 @@ module.exports = {
       [
         data.gramaniladari_id,
         data.gramaniladari_comment,
+        data.correction,
+        data.elder_id,
+      ],
+      (error, results, fields) => {
+        if (error) {
+          return callBack(error);
+        }
+        return callBack(null, results);
+      }
+    );
+  },
+
+  updateVerifyElderAfterDiv_Off_Accept: (data, callBack) => {
+    pool.query(
+      `UPDATE verification_of_elders SET divisional_officer_id=?,divisional_officers_comment=?,validity_by_divisional_officer="1",correction="NULL" WHERE elder_id=?`,
+      [
+        data.divisional_officer_id,
+        data.divisional_officers_comment,
+        data.elder_id,
+      ],
+      (error, results, fields) => {
+        if (error) {
+          return callBack(error);
+        }
+        return callBack(null, results);
+      }
+    );
+  },
+
+  updateVerifyElderAfterDiv_Off_DisQualified: (data, callBack) => {
+    pool.query(
+      "UPDATE `verification_of_elders` SET `divisional_officer_id`=?,`divisional_officers_comment`=?,`validity_by_divisional_officer`='0',`correction`=? WHERE `elder_id`=?",
+      [
+        data.divisional_officer_id,
+        data.divisional_officers_comment,
         data.correction,
         data.elder_id,
       ],

@@ -17,7 +17,9 @@ const benifisher = require("./api/benifisher/benifisher.router");
 const priorityList = require("./api/priority-list/priority-list.router");
 const gramaOfficer = require("./api/grama_niladari_officer/officer_router");
 const verifyElder = require("./api/verify_elder/verify_elder.router");
-const  application = require("./api/application/application.router")
+const application = require("./api/application/application.router");
+const paymentdivtopost = require("./api/payment-div-to-post/payment-div-to-post.routers");
+const paymentposttoben = require("./api/pyment-post-to-benifisher/pyment-post-to-benifisher.routers");
 app.use(express.json());
 
 app.use("/api/users", userRouter);
@@ -35,7 +37,13 @@ app.use("/api/benifisher", benifisher);
 app.use("/api/prioritylist", priorityList);
 app.use("/api/gramaniladariofficer", gramaOfficer);
 app.use("/api/verifyelder", verifyElder);
+
+app.use("/api/application", application);
+app.use("/api/paymentdivoff", paymentdivtopost);
+app.use("/api/paymentposttoben", paymentposttoben);
+
 app.use("/api/application",application)
+
 
 /*
 app.get("/api" , (req , res) => {

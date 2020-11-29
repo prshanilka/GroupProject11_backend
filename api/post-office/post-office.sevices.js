@@ -13,6 +13,18 @@ module.exports = {
       }
     );
   },
+  getPostOfficeBenifisherList: (post_office_id, callBack) => {
+    pool.query(
+      "SELECT * FROM `elder`,`benifesher` WHERE elder.elder_id = benifesher.elder_id AND benifesher.is_deleted =0 and elder.near_post_office_id = ?",
+      [post_office_id],
+      (error, results, fields) => {
+        if (error) {
+          return callBack(error);
+        }
+        return callBack(null, results);
+      }
+    );
+  },
   getPostOffices: (callBack) => {
     pool.query(
       "SELECT * FROM `post_office_table` WHERE `is_deleted`=0",
@@ -73,6 +85,18 @@ module.exports = {
     pool.query(
       "UPDATE  `post_office_table` SET  `is_deleted`='1' WHERE `post_office_id`=?",
       [data.post_office_id],
+      (error, results, fields) => {
+        if (error) {
+          return callBack(error);
+        }
+        return callBack(null, results);
+      }
+    );
+  },
+  getPostOfficesToSelectBox: (callBack) => {
+    pool.query(
+      "SELECT `post_office_id` as value, `name` as text FROM `post_office_table` WHERE `is_deleted`='0'",
+      [],
       (error, results, fields) => {
         if (error) {
           return callBack(error);

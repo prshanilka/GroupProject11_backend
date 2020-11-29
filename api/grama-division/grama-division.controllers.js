@@ -4,7 +4,11 @@ const {
   getGramaDivisions,
   updateGramaDivision,
   deleteGramaDivision,
+
+  getGramaDivisionsToSelectBox,
+
   getGramaDivisionsIDonly,
+
 } = require("./grama-division.services");
 
 const { checkPermision } = require("../../auth/roleauth");
@@ -144,31 +148,28 @@ module.exports = {
           message: "database Connection error",
         });
       }
-      console.log(results);
-      whereIn = "(";
-      for (var i in results) {
-        if (i != results.length - 1) {
-          whereIn += "'" + results[i].elder_id + "',";
-        } else {
-          whereIn += "'" + results[i].elder_id + "'";
-        }
+
+      return res.json({
+        success: 1,
+        data: results,
+      });
+    });
+  },
+  getGramaDivisionsToSelectBox: (req, res) => {
+    getGramaDivisionsToSelectBox((err, results) => {
+      if (err) {
+        console.log(err);
+        return;
       }
-      whereIn += ")";
-
-      console.log(whereIn);
-      selectElderMultipleId(whereIn, (err, results) => {
-        if (err) {
-          console.log(err);
-          return res.status(500).json({
-            success: 0,
-            message: "database Connection error",
-          });
-        }
-
+      if (!results) {
         return res.json({
-          success: 1,
-          data: results,
+          success: 0,
+          message: "Record not found",
         });
+      }
+      return res.json({
+        success: 1,
+        data: results,
       });
     });
   },

@@ -4,6 +4,9 @@ const {
   createDivisionalOffice,
   updateDivisionalOffice,
   deleteDivisionalOffice,
+  getApplicationToVerifyByDivision,
+  getDivisionsToSelectBox,
+  getBenifisherListTodiv,
 } = require("./divisional-office.services");
 
 const { sign } = require("jsonwebtoken");
@@ -26,6 +29,38 @@ module.exports = {
       }
       return res.json({
         success: 1,
+        data: results,
+      });
+    });
+  },
+  getBenifisherListTodiv: (req, res) => {
+    const off_id = req.params.off_id;
+    // console.log(off_id);
+
+    getBenifisherListTodiv(off_id, (err, results) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      if (!results) {
+        return res.json({
+          success: 0,
+          message: "Record not found",
+        });
+      }
+      return res.json({
+        success: 1,
+        status: true,
+        total: 5,
+        last_page: 1,
+        per_page: 8,
+        current_page: 1,
+        next_page_url:
+          "https://api.coloredstrategies.com/cakes/fordatatable?sort=&page=2&per_page=8",
+        prev_page_url:
+          "https://api.coloredstrategies.com/cakes/fordatatable?sort=&page=2&per_page=8",
+        from: 1,
+        to: 8,
         data: results,
       });
     });
@@ -122,6 +157,45 @@ module.exports = {
       return res.status(200).json({
         success: 1,
         message: "Deleted Succecfully",
+        data: results,
+      });
+    });
+  },
+
+  getApplicationToVerifyByDivision: (req, res) => {
+    const div_off_id = req.params.div_off_id;
+    getApplicationToVerifyByDivision(div_off_id, (err, results) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      if (!results) {
+        return res.json({
+          success: 0,
+          message: "Record not found",
+        });
+      }
+      return res.json({
+        success: 1,
+        message: "nonno",
+        data: results,
+      });
+    });
+  },
+  getDivisionsToSelectBox: (req, res) => {
+    getDivisionsToSelectBox((err, results) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      if (!results) {
+        return res.json({
+          success: 0,
+          message: "Record not found",
+        });
+      }
+      return res.json({
+        success: 1,
         data: results,
       });
     });
