@@ -137,7 +137,7 @@ module.exports = {
         if (error) {
           return callBack(error);
         }
-        console.log(vid)
+        console.log(results)
         return callBack(null, results[0]);
       }
     );
