@@ -6,9 +6,9 @@ const {
   deleteGramaDivision,
 
   getGramaDivisionsToSelectBox,
+  getBenifisherListToGram,
 
   getGramaDivisionsIDonly,
-
 } = require("./grama-division.services");
 
 const { checkPermision } = require("../../auth/roleauth");
@@ -138,6 +138,23 @@ module.exports = {
       });
     });
   },
+  getBenifisherListToGram: (req, res) => {
+    const gram_div_id = req.params.gram_div_id;
+    getBenifisherListToGram(gram_div_id, (err, results) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).json({
+          success: 0,
+          message: "database Connection error",
+        });
+      }
+
+      return res.json({
+        success: 1,
+        data: results,
+      });
+    });
+  },
   getToBeVerifyList: (req, res) => {
     const gram_div_id = req.params.gram_div_id;
     getverifyElderGramaID(gram_div_id, (err, results) => {
@@ -182,13 +199,11 @@ module.exports = {
           message: "Database Connection Errorr",
         });
       }
-      
+
       return res.status(200).json({
         success: 1,
         data: results,
       });
     });
-
-
   },
 };

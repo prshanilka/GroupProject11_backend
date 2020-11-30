@@ -2,6 +2,8 @@ const {
   getBenifisherPayemtList,
   getBenifisherPayemtListByDivision,
   getBenifisherPayemtListByPostOffice,
+  payToElder,
+  payToAgent,
 } = require("./pyment-post-to-benifisher.services");
 const { checkPermision } = require("../../auth/roleauth");
 
@@ -26,6 +28,7 @@ module.exports = {
     const data = {
       div_id: req.params.div,
       month: req.params.month,
+      year: req.params.year,
     };
     getBenifisherPayemtListByDivision(data, (err, result) => {
       if (err) {
@@ -59,6 +62,7 @@ module.exports = {
     const data = {
       post: post,
       month: month,
+      year: req.params.year,
     };
     getBenifisherPayemtListByPostOffice(data, (err, result) => {
       if (err) {
@@ -82,6 +86,60 @@ module.exports = {
           "https://api.coloredstrategies.com/cakes/fordatatable?sort=&page=2&per_page=8",
         from: 1,
         to: 8,
+        data: result,
+      });
+    });
+  },
+  payToElder: (req, res) => {
+    const body = req.body;
+    console.log(body);
+
+    payToElder(body, (err, result) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).json({
+          success: 0,
+          message: "Database Connection Error",
+        });
+      }
+
+      if (!result) {
+        return res.json({
+          success: 0,
+          message: "Record Not Found",
+        });
+      }
+
+      return res.status(200).json({
+        success: 1,
+        message: "Updated Elder Payment SuccesFully",
+        data: result,
+      });
+    });
+  },
+  payToAgent: (req, res) => {
+    const body = req.body;
+    console.log(body);
+
+    payToAgent(body, (err, result) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).json({
+          success: 0,
+          message: "Database Connection Error",
+        });
+      }
+
+      if (!result) {
+        return res.json({
+          success: 0,
+          message: "Record Not Found",
+        });
+      }
+
+      return res.status(200).json({
+        success: 1,
+        message: "Updated Elder-agent Payment SuccesFully",
         data: result,
       });
     });

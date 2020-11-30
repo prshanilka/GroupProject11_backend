@@ -13,6 +13,18 @@ module.exports = {
       }
     );
   },
+  getpostOfficePayHistory: (post_office_id, callBack) => {
+    pool.query(
+      "SELECT `payment_id` ,`post_office_id`, `check_no`, `date`, `total_money_amount`, `no_qualified_elders`, `amount_of_money_debited_to_centrel_bank`, `sent_amount_to_post_office` , `year`, `month`, `no_of_elders_got_money`, `elders_dose_not_resive_total_money`, `send_date`,`is_completed`, `completed_date` FROM `payments_devisional_to_post_office` WHERE `post_office_id` =? AND is_deleted='0' ORDER BY `payments_devisional_to_post_office`.`payment_id` DESC",
+      [post_office_id],
+      (error, results, fields) => {
+        if (error) {
+          return callBack(error);
+        }
+        return callBack(null, results);
+      }
+    );
+  },
   getPostOfficeBenifisherList: (post_office_id, callBack) => {
     pool.query(
       "SELECT * FROM `elder`,`benifesher` WHERE elder.elder_id = benifesher.elder_id AND benifesher.is_deleted =0 and elder.near_post_office_id = ?",
@@ -50,6 +62,22 @@ module.exports = {
         data.bank_account_no,
         data.email,
         data.num_of_offices,
+      ],
+      (error, results, fields) => {
+        if (error) {
+          return callBack(error);
+        }
+        return callBack(null, results);
+      }
+    );
+  },
+  endPostPaymentToDivPayId: (data, callBack) => {
+    pool.query(
+      "UPDATE `payments_devisional_to_post_office` SET `no_of_elders_got_money`= (SELECT COUNT(*) FROM `payments_post_office_to_benifishers` WHERE `divisional_payment_id`=? and `is_taken_money`='1'),`elders_dose_not_resive_total_money`= (SELECT COUNT(*)*1900 FROM `payments_post_office_to_benifishers` WHERE`divisional_payment_id`=? and `is_taken_money`='0'),`is_completed`= '1' ,`send_date`=CURRENT_DATE(),`completed_date`=CURRENT_DATE() WHERE `payment_id`=?",
+      [
+        data.divisional_payment_id,
+        data.divisional_payment_id,
+        data.divisional_payment_id,
       ],
       (error, results, fields) => {
         if (error) {

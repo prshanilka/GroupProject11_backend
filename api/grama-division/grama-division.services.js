@@ -12,6 +12,18 @@ module.exports = {
       }
     );
   },
+  getBenifisherListToGram: (grama_div, callBack) => {
+    pool.query(
+      "SELECT * FROM `elder`,`benifesher` WHERE elder.elder_id = benifesher.elder_id AND benifesher.is_deleted =0 and elder.gramaniladari_division_id =?",
+      [grama_div],
+      (error, results, fields) => {
+        if (error) {
+          return callBack(error);
+        }
+        return callBack(null, results);
+      }
+    );
+  },
 
   createGramaDivision: (data, callBack) => {
     pool.query(

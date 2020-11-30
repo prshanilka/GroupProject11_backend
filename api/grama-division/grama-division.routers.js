@@ -8,6 +8,7 @@ const {
   getToBeVerifyList,
 
   getGramaDivisionsToSelectBox,
+  getBenifisherListToGram,
 
   getGramaDivisionsIDonly,
 
@@ -27,6 +28,7 @@ router.get("/selectbox", checkToken, getGramaDivisionsToSelectBox);
 router.get("/", checkToken, getGramaDivisions);
 
 router.get("/verifylist/:gram_div_id", checkToken, getToBeVerifyList);
+router.get("/benifisherlist/:gram_div_id", checkToken, getBenifisherListToGram);
 router.get("/:gram_div_id", checkToken, getGramaDivisionByGramaDivisionID);
 router.patch("/", checkToken, updateGramaDivision);
 router.delete("/", checkToken, deleteGramaDivision);
