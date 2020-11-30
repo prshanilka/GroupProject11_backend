@@ -174,7 +174,7 @@ z
     });
     let divitionalid = new Promise((resolove, reject) => {
 
-    getSelectedApplicationsForFofficer(req.auth.result.id,limitf,limitl,req.query.grama_division, (err,results,count) =>{
+      getSelectedApplicationsForFofficer(req.auth.result.id,limitf,limitl,req.query.grama_division, (err,results,count) =>{
         if (err){
           console.log(err);
           reject(err)
@@ -208,8 +208,8 @@ z
 
 
   divitionalid.then((dat) =>{
-      console.log(dat)
-      console.log(req.auth);
+      //console.log(dat)
+     // console.log(req.auth);
       return res.json({
         status: true,
         next_page_url:dat.next_page_url,
