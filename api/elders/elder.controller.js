@@ -5,6 +5,7 @@ const {
   updateElders,
   deleteElders,
   elderRegistration,
+  elderDetailstoPayId,
 } = require("./elder.service");
 const { checkPermision } = require("../../auth/roleauth");
 const { createAgent } = require("../agent/agent.services");
@@ -33,6 +34,25 @@ module.exports = {
     });
   },
 
+  elderDetailstoPayId: (req, res) => {
+    const pay_id = req.params.pay_id;
+    elderDetailstoPayId(pay_id, (err, results) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      if (!results) {
+        return res.json({
+          success: 0,
+          message: "Record not found",
+        });
+      }
+      return res.json({
+        success: 1,
+        data: results,
+      });
+    });
+  },
   createElders: (req, res) => {
     const body = req.body;
 

@@ -13,6 +13,18 @@ module.exports = {
       }
     );
   },
+  elderDetailstoPayId: (pay_id, callBack) => {
+    pool.query(
+      "SELECT elder.name , elder.nic_id ,payments_post_office_to_benifishers.year,payments_post_office_to_benifishers.month  FROM `payments_post_office_to_benifishers` ,`elder` WHERE elder.elder_id = payments_post_office_to_benifishers.elder_id and  payments_post_office_to_benifishers.payment_id = ?",
+      [pay_id],
+      (error, results, fields) => {
+        if (error) {
+          return callBack(error);
+        }
+        return callBack(null, results[0]);
+      }
+    );
+  },
 
   createElders: (data, callBack) => {
     pool.query(
