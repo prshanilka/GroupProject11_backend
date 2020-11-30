@@ -13,6 +13,18 @@ module.exports = {
       }
     );
   },
+  getBenifisherListTodiv: (officer_id, callBack) => {
+    pool.query(
+      "SELECT * FROM `elder`,`benifesher` WHERE elder.elder_id = benifesher.elder_id AND benifesher.is_deleted =0 and elder.divisional_secratory_id =?",
+      [officer_id],
+      (error, results, fields) => {
+        if (error) {
+          return callBack(error);
+        }
+        return callBack(null, results);
+      }
+    );
+  },
   getDivisionalOffices: (callBack) => {
     pool.query(
       "SELECT * FROM `divisional_secratory_office` WHERE `is_deleted` = 0",
@@ -83,8 +95,20 @@ module.exports = {
   },
   getApplicationToVerifyByDivision: (data, callBack) => {
     pool.query(
-      "SELECT * FROM `elder` WHERE `elder_id` IN (SELECT `elder_id` FROM `verification_of_elders` WHERE `is_deleted` = '0' and `validity_by_gramaniladari`='1') and `divisional_secratory_id` = ?",
-      [data.divisional_secratary_id],
+      "SELECT * FROM `elder` WHERE `elder_id` IN (SELECT `elder_id` FROM `verification_of_elders` WHERE `is_deleted` = '0' and `validity_by_gramaniladari`='1' and `validity_by_divisional_officer`  IS NULL) and `divisional_secratory_id` = ?",
+      [data],
+      (error, results, fields) => {
+        if (error) {
+          return callBack(error);
+        }
+        return callBack(null, results);
+      }
+    );
+  },
+  getDivisionsToSelectBox: (callBack) => {
+    pool.query(
+      "SELECT `divisional_secratary_id` as value, `name` as text FROM `divisional_secratory_office` WHERE `is_deleted`='0'",
+      [],
       (error, results, fields) => {
         if (error) {
           return callBack(error);
