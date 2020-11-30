@@ -5,6 +5,7 @@ const {
   updateGramaDivision,
   deleteGramaDivision,
   getGramaDivisionsToSelectBox,
+  getBenifisherListToGram,
 } = require("./grama-division.services");
 
 const { checkPermision } = require("../../auth/roleauth");
@@ -130,6 +131,23 @@ module.exports = {
       return res.status(500).json({
         success: 1,
         message: "Deleted SuccesFully",
+        data: results,
+      });
+    });
+  },
+  getBenifisherListToGram: (req, res) => {
+    const gram_div_id = req.params.gram_div_id;
+    getBenifisherListToGram(gram_div_id, (err, results) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).json({
+          success: 0,
+          message: "database Connection error",
+        });
+      }
+
+      return res.json({
+        success: 1,
         data: results,
       });
     });

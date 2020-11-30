@@ -7,6 +7,8 @@ const {
   deletePostOffice,
   getPostOfficesToSelectBox,
   getPostOfficeBenifisherList,
+  getpostOfficePayHistory,
+  endPostPaymentToDivPayId,
 } = require("./post-office.controllers");
 const { checkToken } = require("../../auth/token_validation");
 
@@ -20,8 +22,10 @@ router.get(
   checkToken,
   getPostOfficeBenifisherList
 );
-
+router.get("/paymenthistory/:post_office_id", getpostOfficePayHistory);
 router.get("/:post_office_id", checkToken, getPostOfficeByPostOfficeID);
+
+router.patch("/endpostpayment", checkToken, endPostPaymentToDivPayId);
 router.patch("/", checkToken, updatePostOffice);
 router.delete("/", checkToken, deletePostOffice);
 
