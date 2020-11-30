@@ -30,7 +30,7 @@ module.exports = {
   },
   tokenS: (data, callBack) => {
     pool.query(
-      `SELECT COUNT(*) as num FROM tokenbl WHERE  u_id=? and token=? `,
+      `SELECT COUNT(*) as num FROM tokenbl WHERE  u_id=? and token=?  `,
       [data.user_id,data.token],
       (error, results, fields) => {
           if (error){

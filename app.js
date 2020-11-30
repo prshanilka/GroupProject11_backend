@@ -37,9 +37,14 @@ app.use("/api/benifisher", benifisher);
 app.use("/api/prioritylist", priorityList);
 app.use("/api/gramaniladariofficer", gramaOfficer);
 app.use("/api/verifyelder", verifyElder);
+
 app.use("/api/application", application);
 app.use("/api/paymentdivoff", paymentdivtopost);
 app.use("/api/paymentposttoben", paymentposttoben);
+
+app.use("/api/application",application)
+
+
 /*
 app.get("/api" , (req , res) => {
   res.json({
