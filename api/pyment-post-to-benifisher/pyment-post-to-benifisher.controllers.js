@@ -4,6 +4,8 @@ const {
   getBenifisherPayemtListByPostOffice,
   payToElder,
   payToAgent,
+  getElderHistory,
+  updateElderReason,
 } = require("./pyment-post-to-benifisher.services");
 const { checkPermision } = require("../../auth/roleauth");
 
@@ -117,6 +119,7 @@ module.exports = {
       });
     });
   },
+
   payToAgent: (req, res) => {
     const body = req.body;
     console.log(body);
@@ -140,6 +143,50 @@ module.exports = {
       return res.status(200).json({
         success: 1,
         message: "Updated Elder-agent Payment SuccesFully",
+        data: result,
+      });
+    });
+  },
+  getElderHistory: (req, res) => {
+    const eld_id = req.params.eld_id;
+    // console.log(eld_id);
+
+    getElderHistory(eld_id, (err, result) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).json({
+          succcess: 0,
+          message: "Database Connection error",
+        });
+      }
+
+      return res.status(200).json({
+        succcess: 1,
+        data: result,
+      });
+    });
+  },
+  updateElderReason: (req, res) => {
+    const body = req.body;
+    updateElderReason(body, (err, result) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).json({
+          success: 0,
+          message: "Database Connection Error",
+        });
+      }
+
+      if (!result) {
+        return res.json({
+          success: 0,
+          message: "Record Not Found",
+        });
+      }
+
+      return res.status(200).json({
+        success: 1,
+        message: "Updated Elder reason SuccesFully",
         data: result,
       });
     });

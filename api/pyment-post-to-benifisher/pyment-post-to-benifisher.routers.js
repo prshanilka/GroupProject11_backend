@@ -5,6 +5,8 @@ const {
   getBenifisherPayemtListByPostOffice,
   payToElder,
   payToAgent,
+  getElderHistory,
+  updateElderReason,
 } = require("./pyment-post-to-benifisher.controllers");
 const { checkToken } = require("../../auth/token_validation");
 
@@ -18,8 +20,10 @@ router.get(
   checkToken,
   getBenifisherPayemtListByPostOffice
 );
+router.get("/elderhistory/:eld_id", checkToken, getElderHistory);
 router.get("/", checkToken, getBenifisherPayemtList);
 
+router.patch("/elderreason", checkToken, updateElderReason);
 router.post("/paytoelder", checkToken, payToElder);
 
 router.post("/paytoagent", checkToken, payToAgent);
