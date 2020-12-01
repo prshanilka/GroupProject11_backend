@@ -6,7 +6,8 @@ const {
   payToAgent,
   getElderHistory,
   updateElderReason,
-  getCountGotMoney
+  getAllPayReport,
+  getCountGotMoney,
 } = require("./pyment-post-to-benifisher.services");
 const { checkPermision } = require("../../auth/roleauth");
 
@@ -68,6 +69,35 @@ module.exports = {
       year: req.params.year,
     };
     getBenifisherPayemtListByPostOffice(data, (err, result) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).json({
+          succcess: 0,
+          message: "Database Connection error",
+        });
+      }
+
+      return res.status(200).json({
+        success: 1,
+        status: true,
+        total: 5,
+        last_page: 1,
+        per_page: 8,
+        current_page: 1,
+        next_page_url:
+          "https://api.coloredstrategies.com/cakes/fordatatable?sort=&page=2&per_page=8",
+        prev_page_url:
+          "https://api.coloredstrategies.com/cakes/fordatatable?sort=&page=2&per_page=8",
+        from: 1,
+        to: 8,
+        data: result,
+      });
+    });
+  },
+  getAllPayReport: (req, res) => {
+    const div_id = req.params.div_id;
+
+    getAllPayReport(div_id, (err, result) => {
       if (err) {
         console.log(err);
         return res.status(500).json({
@@ -192,7 +222,7 @@ module.exports = {
       });
     });
   },
-  getCountGotMoney: (req, res) => {  
+  getCountGotMoney: (req, res) => {
     const d_id = req.params.id;
     getCountGotMoney(d_id, (err, result) => {
       if (err) {
