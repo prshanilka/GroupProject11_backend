@@ -108,4 +108,16 @@ module.exports = {
       }
     );
   },
+  getCountGotMoney: (data, callBack) => {
+    pool.query(
+      "SELECT COUNT(*) AS count FROM payments_post_office_to_benifishers WHERE is_taken_money='1' AND divisional_payment_id=?",
+      [ data ],
+      (error, results, fields) => {
+        if(error){
+          return callBack(error);
+        }
+        return callBack(null, results);
+      }
+    );
+  }
 };
