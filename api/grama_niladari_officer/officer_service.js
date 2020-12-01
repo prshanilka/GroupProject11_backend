@@ -74,20 +74,6 @@ module.exports = {
 
     GetGramaOfficerByOfficers: (data, callBack) => {
       pool.query(
-        "SELECT officers.name AS oname,gramaniladari_division.name AS dname,officers.email,officers.phone,gramaniladari.grmaniladari_officer_id FROM officers,gramaniladari,gramaniladari_division WHERE officers.officer_id = gramaniladari.grmaniladari_officer_id AND gramaniladari.gramaniladari_division_id = gramaniladari_division.gramaniladari_division_id",
-        [],
-        (error, results, fields) => {
-          if (error) {
-            console.log(results);
-            return callBack(error);
-          }
-          return callBack(null, results);
-        }
-      );
-    },
-    
-    GetGramaOfficerByOfficers: (data, callBack) => {
-      pool.query(
         "SELECT officers.name AS oname,gramaniladari_division.name AS dname,officers.email,officers.phone,gramaniladari.grmaniladari_officer_id,gramaniladari.gramaniladari_division_id FROM officers,gramaniladari,gramaniladari_division WHERE officers.officer_id = gramaniladari.grmaniladari_officer_id AND gramaniladari.gramaniladari_division_id = gramaniladari_division.gramaniladari_division_id",
         [],
         (error, results, fields) => {
