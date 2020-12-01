@@ -52,11 +52,24 @@ module.exports = {
       [],
       (error, results, fields) => {
         if (error) {
-          console.log(results);
+          console.log(error);
           return callBack(error);
         }
         return callBack(null, results);
       }
     );
   },
+  getDetailsByMaxPaymentId: (callBack) => {
+    pool.query(
+      "SELECT * FROM payments_devisional_to_post_office WHERE payment_id=(SELECT MAX(payment_id)FROM payments_devisional_to_post_office)",
+      [],
+      (error, results, fields) => {
+        if(error){
+          console.log(error);
+          return callBack(error);
+        }
+        return callBack(null, results);
+      }
+    );
+  }
 };

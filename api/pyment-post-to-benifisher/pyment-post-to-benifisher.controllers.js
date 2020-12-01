@@ -6,6 +6,7 @@ const {
   payToAgent,
   getElderHistory,
   updateElderReason,
+  getCountGotMoney
 } = require("./pyment-post-to-benifisher.services");
 const { checkPermision } = require("../../auth/roleauth");
 
@@ -187,6 +188,22 @@ module.exports = {
       return res.status(200).json({
         success: 1,
         message: "Updated Elder reason SuccesFully",
+        data: result,
+      });
+    });
+  },
+  getCountGotMoney: (req, res) => {  
+    const d_id = req.params.id;
+    getCountGotMoney(d_id, (err, result) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).json({
+          success: 0,
+          message: "Database Connection Error",
+        });
+      }
+      return res.status(200).json({
+        success: 1,
         data: result,
       });
     });
