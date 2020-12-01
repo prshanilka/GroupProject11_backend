@@ -108,6 +108,7 @@ module.exports = {
       }
     );
   },
+
   getAllPayReport: (data, callBack) => {
     pool.query(
       "SELECT post_office_table.name, elder.near_post_office_id ,COUNT(*) as benifsher, (select CONVERT(`value`, UNSIGNED INTEGER)  from `constants` WHERE `name`='amount_to_per_elder_recives') as per_one_person, COUNT(*)*(select CONVERT(`value`, UNSIGNED INTEGER) from `constants` WHERE`name`='amount_to_per_elder_recives') as all_per_one , COUNT(*)*(select CONVERT(`value`, UNSIGNED INTEGER) from `constants` WHERE `name`='amount_to_fund_per_elder') as to_nationa_fund , COUNT(*)*(select CONVERT(`value`, UNSIGNED INTEGER) from `constants` WHERE `name`='total_amount_for_elder') as total_amount FROM `benifesher`,`elder`,`post_office_table` WHERE post_office_table.post_office_id=elder.near_post_office_id AND benifesher.elder_id = elder.elder_id AND benifesher.is_deleted=0 AND elder.divisional_secratory_id=? GROUP BY elder.near_post_office_id UNION ALL SELECT 'Total',Null,COUNT(*) , NULL,((select count(*) from benifesher WHERE is_deleted='0' )*(select CONVERT(`value`, UNSIGNED INTEGER) from `constants` WHERE `name`='amount_to_per_elder_recives')),sum(((select CONVERT(`value`, UNSIGNED INTEGER) from `constants` WHERE `name`='amount_to_fund_per_elder'))),sum(((select CONVERT(`value`, UNSIGNED INTEGER) from `constants` WHERE `name`='total_amount_for_elder'))) FROM `benifesher`,`elder`,`post_office_table` WHERE post_office_table.post_office_id=elder.near_post_office_id AND benifesher.elder_id = elder.elder_id AND benifesher.is_deleted=0 AND elder.divisional_secratory_id=?",
@@ -115,6 +116,18 @@ module.exports = {
       (error, results, fields) => {
         if (error) {
           console.log(results);
+          return callBack(error);
+        }
+        return callBack(null, results);
+      }
+    );
+  },
+  getCountGotMoney: (data, callBack) => {
+    pool.query(
+      "SELECT COUNT(*) AS count FROM payments_post_office_to_benifishers WHERE is_taken_money='1' AND divisional_payment_id=?",
+      [data],
+      (error, results, fields) => {
+        if (error) {
           return callBack(error);
         }
         return callBack(null, results);
