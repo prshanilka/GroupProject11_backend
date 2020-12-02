@@ -43,7 +43,7 @@ module.exports = {
   },
   getBenifisherPayemtListByPostOffice: (data, callBack) => {
     pool.query(
-      "SELECT payments_post_office_to_benifishers.payment_id ,elder.elder_id, elder.name , payments_post_office_to_benifishers.money_amount , IF(ajent_available = 1, 'Available', 'No') AS ajent_available , IF(is_taken_money = 1, 'Yes', 'No') AS is_taken_money ,elder.nic_id ,elder.number FROM `payments_post_office_to_benifishers` ,`elder` WHERE elder.elder_id = payments_post_office_to_benifishers.elder_id and elder.near_post_office_id=? and payments_post_office_to_benifishers.month = ? AND payments_post_office_to_benifishers.year=?",
+      "SELECT payments_post_office_to_benifishers.payment_id as id ,elder.elder_id, elder.name , payments_post_office_to_benifishers.money_amount , IF(ajent_available = 1, 'Available', 'No') AS ajent_available , IF(is_taken_money = 1, 'Yes', 'No') AS is_taken_money ,elder.nic_id ,elder.number FROM `payments_post_office_to_benifishers` ,`elder` WHERE elder.elder_id = payments_post_office_to_benifishers.elder_id and elder.near_post_office_id=? and payments_post_office_to_benifishers.month = ? AND payments_post_office_to_benifishers.year=?",
       [data.post, data.month, data.year],
       (error, results, fields) => {
         if (error) {
