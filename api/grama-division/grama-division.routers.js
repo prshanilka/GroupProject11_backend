@@ -12,6 +12,9 @@ const {
 
   getGramaDivisionsIDonly,
 
+  informDeath,
+  sendComplain
+
 } = require("./grama-division.controllers");
 const { checkToken } = require("../../auth/token_validation");
 
@@ -20,8 +23,8 @@ const { checkToken } = require("../../auth/token_validation");
 router.get("/gramandionly", checkToken, getGramaDivisionsIDonly);
 
 
-
-
+router.post("/informdeath", checkToken, informDeath);
+router.post("/sendcomplain", checkToken, sendComplain);
 
 router.post("/", checkToken, createGramaDivision);
 router.get("/selectbox", checkToken, getGramaDivisionsToSelectBox);

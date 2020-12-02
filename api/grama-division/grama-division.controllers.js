@@ -9,6 +9,10 @@ const {
   getBenifisherListToGram,
 
   getGramaDivisionsIDonly,
+
+  informDeath,
+  sendComplain
+
 } = require("./grama-division.services");
 
 const { checkPermision } = require("../../auth/roleauth");
@@ -200,6 +204,38 @@ module.exports = {
         });
       }
 
+      return res.status(200).json({
+        success: 1,
+        data: results,
+      });
+    });
+  },
+  informDeath: (req, res) => {
+    const body = req.body;
+    informDeath(body, (error, results) => {
+      if (error) {
+        console.log(error);
+        return res.status(500).json({
+          success: 0,
+          message: "Database Connection error ",
+        });
+      }
+      return res.status(200).json({
+        success: 1,
+        data: results,
+      });
+    });
+  },
+  sendComplain: (req, res) => {
+    const body = req.body;
+    sendComplain(body, (error, results) => {
+      if (error) {
+        console.log(error);
+        return res.status(500).json({
+          success: 0,
+          message: "Database Connection error ",
+        });
+      }
       return res.status(200).json({
         success: 1,
         data: results,
