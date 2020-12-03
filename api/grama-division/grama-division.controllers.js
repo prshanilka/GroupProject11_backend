@@ -8,10 +8,7 @@ const {
   getGramaDivisionsToSelectBox,
   getBenifisherListToGram,
 
-  getGramaDivisionsIDonly,
-
-  informDeath,
-  sendComplain
+  getGramaDivisionsIDonly
 
 } = require("./grama-division.services");
 
@@ -155,6 +152,17 @@ module.exports = {
 
       return res.json({
         success: 1,
+        status: true,
+        total: 5,
+        last_page: 1,
+        per_page: 8,
+        current_page: 1,
+        next_page_url:
+          "https://api.coloredstrategies.com/cakes/fordatatable?sort=&page=2&per_page=8",
+        prev_page_url:
+          "https://api.coloredstrategies.com/cakes/fordatatable?sort=&page=2&per_page=8",
+        from: 1,
+        to: 8,
         data: results,
       });
     });
@@ -209,37 +217,5 @@ module.exports = {
         data: results,
       });
     });
-  },
-  informDeath: (req, res) => {
-    const body = req.body;
-    informDeath(body, (error, results) => {
-      if (error) {
-        console.log(error);
-        return res.status(500).json({
-          success: 0,
-          message: "Database Connection error ",
-        });
-      }
-      return res.status(200).json({
-        success: 1,
-        data: results,
-      });
-    });
-  },
-  sendComplain: (req, res) => {
-    const body = req.body;
-    sendComplain(body, (error, results) => {
-      if (error) {
-        console.log(error);
-        return res.status(500).json({
-          success: 0,
-          message: "Database Connection error ",
-        });
-      }
-      return res.status(200).json({
-        success: 1,
-        data: results,
-      });
-    });
-  },
+  }
 };
