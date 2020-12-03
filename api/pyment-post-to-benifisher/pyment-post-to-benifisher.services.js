@@ -81,8 +81,6 @@ module.exports = {
     );
   },
   getElderHistory: (data, callBack) => {
-    console.log(data);
-
     pool.query(
       "SELECT payments_devisional_to_post_office.year ,payments_devisional_to_post_office.month ,`reson_for_not_take_money`,(`reson_for_not_take_money` IS NOT NULL) as reason,payments_post_office_to_benifishers.payment_id,payments_post_office_to_benifishers.money_amount,payments_post_office_to_benifishers.person_got_money, payments_post_office_to_benifishers.date_and_time_got_money ,payments_post_office_to_benifishers.is_taken_money,payments_devisional_to_post_office.is_completed FROM `payments_post_office_to_benifishers`,`payments_devisional_to_post_office` WHERE payments_post_office_to_benifishers.divisional_payment_id = payments_devisional_to_post_office.payment_id AND `elder_id` = ? ORDER BY `payments_post_office_to_benifishers`.`payment_id` DESC",
       [data],
