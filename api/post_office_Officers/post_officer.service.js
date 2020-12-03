@@ -2,41 +2,53 @@ const pool = require("../../config/database");
 module.exports = {
   create: (data, callBack) => {
     pool.query(
-        `INSERT INTO post_office_officers(officer_id,post_office_id,district_id,division,type,designation) VALUES (?,?,?,?,?,?)`,
-        [
-            data.officer_id,
-            data.post_office_id,
-            data.district_id,
-            data.division,
-            data.type,
-            data.designation
-        ],
-        (error, results, fields) => {
-            if(error){
-                return callBack(error);
-            }
-            return callBack(null,results);
+      `INSERT INTO post_office_officers(officer_id,post_office_id,district_id,division,type,designation) VALUES (?,?,?,?,?,?)`,
+      [
+        data.officer_id,
+        data.post_office_id,
+        data.district_id,
+        data.division,
+        data.type,
+        data.designation,
+      ],
+      (error, results, fields) => {
+        if (error) {
+          return callBack(error);
         }
-    );
-  },
-  getOfficers: callBack => {
-    pool.query(
-      `SELECT * FROM post_office_officers`,
-      [],
-      (error,results,fields) => {
-          if(error){
-              return callBack(error);
-          }
-          return callBack(null,results);
+        return callBack(null, results);
       }
     );
   },
-  getOfficerByOfficerID:(officer_id, callBack) => {
+  getOfficers: (callBack) => {
+    pool.query(
+      `SELECT * FROM post_office_officers`,
+      [],
+      (error, results, fields) => {
+        if (error) {
+          return callBack(error);
+        }
+        return callBack(null, results);
+      }
+    );
+  },
+  getOfficerByOfficerID: (officer_id, callBack) => {
     pool.query(
       `SELECT * FROM post_office_officers WHERE officer_id=?`,
-      [ officer_id ],
+      [officer_id],
       (error, results, fields) => {
-        if(error){
+        if (error) {
+          return callBack(error);
+        }
+        return callBack(null, results[0]);
+      }
+    );
+  },
+  getOfficerPostOfficeByOfficerID: (officer_id, callBack) => {
+    pool.query(
+      `SELECT post_office_id FROM post_office_officers WHERE officer_id=?`,
+      [officer_id],
+      (error, results, fields) => {
+        if (error) {
           return callBack(error);
         }
         return callBack(null, results[0]);
@@ -52,7 +64,7 @@ module.exports = {
         data.division,
         data.type,
         data.designation,
-        data.officer_id
+        data.officer_id,
       ],
       (error, results, fields) => {
         if (error) {
@@ -73,5 +85,5 @@ module.exports = {
         return callBack(null, results[0]);
       }
     );
-  }
+  },
 };

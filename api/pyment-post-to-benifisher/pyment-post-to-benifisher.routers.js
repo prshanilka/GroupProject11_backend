@@ -23,7 +23,7 @@ router.get(
   getBenifisherPayemtListByPostOffice
 );
 router.get("/allpayreport/:div_id", checkToken, getAllPayReport);
-router.get("/elderhistory/:eld_id", checkToken, getElderHistory);
+router.get("/elderhistory", checkToken, getElderHistory);
 router.get("/count/:id", checkToken, getCountGotMoney);
 router.get("/", checkToken, getBenifisherPayemtList);
 

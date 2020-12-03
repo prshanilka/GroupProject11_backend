@@ -24,7 +24,7 @@ router.get(
   getPostOfficeBenifisherList
 );
 router.get("/patmentinfo/:post_office_id", checkToken, getPaymentInfo);
-router.get("/paymenthistory/:post_office_id", getpostOfficePayHistory);
+router.get("/paymenthistory", checkToken, getpostOfficePayHistory);
 router.get("/:post_office_id", checkToken, getPostOfficeByPostOfficeID);
 
 router.patch("/endpostpayment", checkToken, endPostPaymentToDivPayId);
