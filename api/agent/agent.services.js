@@ -12,6 +12,18 @@ module.exports = {
       }
     );
   },
+  getAgentByElderID: (elder_id, callBack) => {
+    pool.query(
+      "SELECT * FROM `agent` WHERE `elder_id` =? AND `is_deleted` = 0",
+      [elder_id],
+      (error, results, fields) => {
+        if (error) {
+          return callBack(error);
+        }
+        return callBack(null, results[0]);
+      }
+    );
+  },
   getAgent: (callBack) => {
     pool.query(
       "SELECT * FROM `agent` WHERE `is_deleted` = 0",

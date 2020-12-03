@@ -1,5 +1,6 @@
 const {
   getAgentByAgentID,
+  getAgentByElderID,
   getAgent,
   createAgent,
   updateAgent,
@@ -14,6 +15,25 @@ module.exports = {
   getAgentByAgentID: (req, res) => {
     const elder_id = req.params.elder_id;
     getAgentByAgentID(elder_id, (err, results) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      if (!results) {
+        return res.json({
+          success: 0,
+          message: "Record not found",
+        });
+      }
+      return res.json({
+        success: 1,
+        data: results,
+      });
+    });
+  },
+  getAgentByElderID: (req, res) => {
+    const elder_id = req.params.elder_id;
+    getAgentByElderID(elder_id, (err, results) => {
       if (err) {
         console.log(err);
         return;
