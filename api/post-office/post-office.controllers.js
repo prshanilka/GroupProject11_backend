@@ -11,6 +11,9 @@ const {
   getPaymentInfo,
 } = require("./post-office.sevices");
 
+const {
+  getOfficerPostOfficeByOfficerID,
+} = require("../post_office_Officers/post_officer.service");
 const { sign } = require("jsonwebtoken");
 
 const { checkPermision } = require("../../auth/roleauth");
@@ -55,32 +58,46 @@ module.exports = {
     });
   },
   getpostOfficePayHistory: (req, res) => {
-    const post_office_id = req.params.post_office_id;
-    getpostOfficePayHistory(post_office_id, (err, results) => {
-      if (err) {
-        console.log(err);
+    console.log(req.auth.result.id);
+    const off_id = req.auth.result.id;
+    getOfficerPostOfficeByOfficerID(off_id, (errO, resultsO) => {
+      if (errO) {
+        console.log(errO);
         return;
       }
-      if (!results) {
+      if (!resultsO) {
         return res.json({
           success: 0,
           message: "Record not found",
         });
       }
-      return res.json({
-        success: 1,
-        status: true,
-        total: 5,
-        last_page: 1,
-        per_page: 8,
-        current_page: 1,
-        next_page_url:
-          "https://api.coloredstrategies.com/cakes/fordatatable?sort=&page=2&per_page=8",
-        prev_page_url:
-          "https://api.coloredstrategies.com/cakes/fordatatable?sort=&page=2&per_page=8",
-        from: 1,
-        to: 8,
-        data: results,
+      const post_office_id = resultsO.post_office_id;
+      getpostOfficePayHistory(post_office_id, (err, results) => {
+        if (err) {
+          console.log(err);
+          return;
+        }
+        if (!results) {
+          return res.json({
+            success: 0,
+            message: "Record not found",
+          });
+        }
+        return res.json({
+          success: 1,
+          status: true,
+          total: 5,
+          last_page: 1,
+          per_page: 8,
+          current_page: 1,
+          next_page_url:
+            "https://api.coloredstrategies.com/cakes/fordatatable?sort=&page=2&per_page=8",
+          prev_page_url:
+            "https://api.coloredstrategies.com/cakes/fordatatable?sort=&page=2&per_page=8",
+          from: 1,
+          to: 8,
+          data: results,
+        });
       });
     });
   },

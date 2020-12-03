@@ -179,9 +179,9 @@ module.exports = {
     });
   },
   getElderHistory: (req, res) => {
-    const eld_id = req.params.eld_id;
     // console.log(eld_id);
-
+    const eld_id = req.auth.result.id;
+    console.log(req.auth.result.id);
     getElderHistory(eld_id, (err, result) => {
       if (err) {
         console.log(err);
