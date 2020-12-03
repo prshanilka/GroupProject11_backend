@@ -8,7 +8,7 @@ module.exports = {
     let token = req.get("authorization");
     if(token){
       token = token.slice(7);
-      verify(token, process.env.JSONSALTA+getIP(req).clientIp , (err, decoded) =>{
+      verify(token, process.env.JSONSALTA , (err, decoded) =>{
         if(err){
 
           res.status(401).json({

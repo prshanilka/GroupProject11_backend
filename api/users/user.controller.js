@@ -134,8 +134,8 @@ module.exports = {
         // console.log(results);
 
         results.password = undefined;
-        const salt = process.env.JSONSALTA + getIP(req).clientIp;
-        const rsalt = process.env.JSONRSALTA + getIP(req).clientIp;
+        const salt = process.env.JSONSALTA
+        const rsalt = process.env.JSONRSALTA
         //getIP(req).clientIp
         const jsontoken = sign({ result: results }, salt, {
           expiresIn: "12h",
