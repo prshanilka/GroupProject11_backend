@@ -8,6 +8,7 @@ const {
   getPostOfficeBenifisherList,
   getpostOfficePayHistory,
   endPostPaymentToDivPayId,
+  getPaymentInfo,
 } = require("./post-office.sevices");
 
 const { sign } = require("jsonwebtoken");
@@ -18,6 +19,25 @@ module.exports = {
   getPostOfficeByPostOfficeID: (req, res) => {
     const post_office_id = req.params.post_office_id;
     getPostOfficeByPostOfficeID(post_office_id, (err, results) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      if (!results) {
+        return res.json({
+          success: 0,
+          message: "Record not found",
+        });
+      }
+      return res.json({
+        success: 1,
+        data: results,
+      });
+    });
+  },
+  getPaymentInfo: (req, res) => {
+    const post_office_id = req.params.post_office_id;
+    getPaymentInfo(post_office_id, (err, results) => {
       if (err) {
         console.log(err);
         return;
