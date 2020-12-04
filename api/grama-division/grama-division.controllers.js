@@ -12,6 +12,9 @@ const {
 
 } = require("./grama-division.services");
 
+const {
+  getOfficerGramaIdByOfficerID,
+} = require("../grama_niladari_officer/officer_service");
 const { checkPermision } = require("../../auth/roleauth");
 const {
   getverifyElderGramaID,
@@ -140,35 +143,53 @@ module.exports = {
     });
   },
   getBenifisherListToGram: (req, res) => {
-    const gram_div_id = req.params.gram_div_id;
-    getBenifisherListToGram(gram_div_id, (err, results) => {
-      if (err) {
-        console.log(err);
+    const grmaniladari_officer_id = req.auth.result.id;
+    getOfficerGramaIdByOfficerID(grmaniladari_officer_id, (errO, resultsO) => {
+      if (errO) {
+        console.log(errO);
         return res.status(500).json({
           success: 0,
           message: "database Connection error",
         });
       }
 
-      return res.json({
-        success: 1,
-        status: true,
-        total: 5,
-        last_page: 1,
-        per_page: 8,
-        current_page: 1,
-        next_page_url:
-          "https://api.coloredstrategies.com/cakes/fordatatable?sort=&page=2&per_page=8",
-        prev_page_url:
-          "https://api.coloredstrategies.com/cakes/fordatatable?sort=&page=2&per_page=8",
-        from: 1,
-        to: 8,
-        data: results,
+      if (!resultsO) {
+        return res.json({
+          success: 0,
+          message: "record Not Found",
+        });
+      }
+
+      const gram_div_id = resultsO.gramaniladari_division_id;
+      getBenifisherListToGram(gram_div_id, (err, results) => {
+        if (err) {
+          console.log(err);
+          return res.status(500).json({
+            success: 0,
+            message: "database Connection error",
+          });
+        }
+
+        return res.json({
+          success: 1,
+          status: true,
+          total: 5,
+          last_page: 1,
+          per_page: 8,
+          current_page: 1,
+          next_page_url:
+            "https://api.coloredstrategies.com/cakes/fordatatable?sort=&page=2&per_page=8",
+          prev_page_url:
+            "https://api.coloredstrategies.com/cakes/fordatatable?sort=&page=2&per_page=8",
+          from: 1,
+          to: 8,
+          data: results,
+        });
       });
     });
   },
   getToBeVerifyList: (req, res) => {
-    const gram_div_id = req.params.gram_div_id;
+    const gram_div_id = req.auth.result.id;
     getverifyElderGramaID(gram_div_id, (err, results) => {
       if (err) {
         console.log(err);

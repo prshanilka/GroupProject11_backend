@@ -59,9 +59,22 @@ module.exports = {
       }
     );
   },
-  getDetailsByMaxPaymentId: (callBack) => {
+  getDetailsByMaxPaymentId: (off_id, callBack) => {
     pool.query(
-      "SELECT * FROM payments_devisional_to_post_office WHERE payment_id=(SELECT MAX(payment_id)FROM payments_devisional_to_post_office)",
+      "SELECT * FROM payments_devisional_to_post_office WHERE payment_id=(SELECT MAX(payment_id)FROM payments_devisional_to_post_office , post_office_table ,post_office_officers where payments_devisional_to_post_office.post_office_id= post_office_table.post_office_id and post_office_table.post_office_id = post_office_officers.post_office_id AND post_office_officers.officer_id = ? )",
+      [off_id],
+      (error, results, fields) => {
+        if (error) {
+          console.log(error);
+          return callBack(error);
+        }
+        return callBack(null, results);
+      }
+    );
+  },
+  getpaymentByYears: (callBack) => {
+    pool.query(
+      "SELECT year , count(*) , SUM(`total_money_amount`) as year_tot , SUM(`amount_of_money_debited_to_centrel_bank`) as year_to_fund , SUM(`sent_amount_to_post_office`) as year_to_post  FROM `payments_devisional_to_post_office` GROUP BY year  ORDER BY`payments_devisional_to_post_office`.`payment_id`  DESC",
       [],
       (error, results, fields) => {
         if (error) {

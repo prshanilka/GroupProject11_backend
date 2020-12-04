@@ -15,8 +15,6 @@ const {
 } = require("./grama-division.controllers");
 const { checkToken } = require("../../auth/token_validation");
 
-
-
 router.get("/gramandionly", checkToken, getGramaDivisionsIDonly);
 
 
@@ -24,8 +22,8 @@ router.post("/", checkToken, createGramaDivision);
 router.get("/selectbox", checkToken, getGramaDivisionsToSelectBox);
 router.get("/", checkToken, getGramaDivisions);
 
-router.get("/verifylist/:gram_div_id", checkToken, getToBeVerifyList);
-router.get("/benifisherlist/:gram_div_id", checkToken, getBenifisherListToGram);
+router.get("/verifylist", checkToken, getToBeVerifyList);
+router.get("/benifisherlist", checkToken, getBenifisherListToGram);
 router.get("/:gram_div_id", checkToken, getGramaDivisionByGramaDivisionID);
 router.patch("/", checkToken, updateGramaDivision);
 router.delete("/", checkToken, deleteGramaDivision);

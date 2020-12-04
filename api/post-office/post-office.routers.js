@@ -18,11 +18,7 @@ router.post("/", checkToken, createPostOffice);
 
 router.get("/", checkToken, getPostOffices);
 
-router.get(
-  "/benfisherslist/:post_office_id",
-  checkToken,
-  getPostOfficeBenifisherList
-);
+router.get("/benfisherslist", checkToken, getPostOfficeBenifisherList);
 router.get("/patmentinfo/:post_office_id", checkToken, getPaymentInfo);
 router.get("/paymenthistory", checkToken, getpostOfficePayHistory);
 router.get("/:post_office_id", checkToken, getPostOfficeByPostOfficeID);
