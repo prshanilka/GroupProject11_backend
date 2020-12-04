@@ -2,7 +2,8 @@ const {
   InsertPaymetDivToPost,
   GetPyamentToPostOff,
   GetPyamentHistory,
-  getDetailsByMaxPaymentId
+  getDetailsByMaxPaymentId,
+  getpaymentByYears,
 } = require("./payment-div-to-post.services");
 const { checkPermision } = require("../../auth/roleauth");
 const {
@@ -66,8 +67,7 @@ module.exports = {
     });
   },
   GetPyamentHistory: (req, res) => {
-    
-    GetPyamentHistory( (err, result) => {
+    GetPyamentHistory((err, result) => {
       if (err) {
         console.log(err);
         return res.status(500).json({
@@ -82,9 +82,25 @@ module.exports = {
       });
     });
   },
-  getDetailsByMaxPaymentId: (req,res) => {
-    getDetailsByMaxPaymentId( (err, result) => {
-      if(err){
+  getDetailsByMaxPaymentId: (req, res) => {
+    const off_id = req.auth.result.id;
+    getDetailsByMaxPaymentId(off_id, (err, result) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).json({
+          success: 0,
+          message: "Database Connection Error",
+        });
+      }
+      return res.status(200).json({
+        success: 1,
+        data: result,
+      });
+    });
+  },
+  getpaymentByYears: (req, res) => {
+    getpaymentByYears((err, result) => {
+      if (err) {
         console.log(err);
         return res.status(500).json({
           success: 0,
