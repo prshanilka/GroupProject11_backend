@@ -121,40 +121,5 @@ module.exports = {
         return callBack(null, results);
       }
     );
-  },
-  informDeath: (data,callBack) => {
-    pool.query(
-      "INSERT INTO inform_death(elder_id,gramaniladari_division_id,divisional_secratory_id,death_certificate_no,death_reason, death_date) VALUES (?,?,?,?,?,?)",
-      [
-        data.elder_id,
-        data.gramaniladari_division_id,
-        data.divisional_secratory_id,
-        data.death_certificate_no,
-        data.death_reason,
-        data.death_date
-      ],
-      (error, results, fields) => {
-        if (error) {
-          return callBack(error);
-        }
-        return callBack(null, results);
-      }
-    );
-  },
-  sendComplain: (data,callBack) => {
-    pool.query(
-      "INSERT INTO complains(elder_id,gramaniladari_division_id,post_office_id,viewed_officer_id,complain) VALUES (?,?,'null','null',?)",
-      [
-        data.elder_id,
-        data.gramaniladari_division_id,
-        data.complain,
-      ],
-      (error, results, fields) => {
-        if (error) {
-          return callBack(error);
-        }
-        return callBack(null, results);
-      }
-    );
-  },
+  }
 };
