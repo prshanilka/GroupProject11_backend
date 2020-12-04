@@ -54,6 +54,19 @@ module.exports = {
       }
     );
   },
+  getBenifisherPayemtListByPayId: (data, callBack) => {
+    pool.query(
+      "SELECT payments_post_office_to_benifishers.payment_id as id ,elder.elder_id, elder.name , payments_post_office_to_benifishers.money_amount , IF(ajent_available = 1, 'Available', 'No') AS ajent_available , IF(is_taken_money = 1, 'Yes', 'No') AS is_taken_money ,elder.nic_id ,elder.number FROM `payments_post_office_to_benifishers` ,`elder` WHERE elder.elder_id = payments_post_office_to_benifishers.elder_id and payments_post_office_to_benifishers.divisional_payment_id=?",
+      [data.pay_id],
+      (error, results, fields) => {
+        if (error) {
+          console.log(results);
+          return callBack(error);
+        }
+        return callBack(null, results);
+      }
+    );
+  },
   payToElder: (data, callBack) => {
     pool.query(
       "UPDATE `payments_post_office_to_benifishers` SET`person_got_money`='elder', `is_taken_money` = '1',`date_and_time_got_money`=CURRENT_TIMESTAMP() WHERE `payments_post_office_to_benifishers`.`payment_id` = ?",
