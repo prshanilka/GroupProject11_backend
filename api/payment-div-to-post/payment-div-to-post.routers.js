@@ -7,6 +7,7 @@ const {
   getpaymentByYears,
   getpaymentByYearMoths,
   GetPyamentToPostOffByYearMonth,
+  getPostDetailByPayId,
 } = require("./payment-div-to-post.controllers");
 
 const { checkToken } = require("../../auth/token_validation");
@@ -17,6 +18,7 @@ router.get(
   checkToken,
   GetPyamentToPostOffByYearMonth
 );
+router.get("/postdetailbyid/:pay_id", checkToken, getPostDetailByPayId);
 router.get("/topost", checkToken, GetPyamentToPostOff);
 router.get("/max", checkToken, getDetailsByMaxPaymentId);
 router.get("/month-by-years/:year", checkToken, getpaymentByYearMoths);

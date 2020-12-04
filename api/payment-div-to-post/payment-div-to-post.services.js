@@ -47,6 +47,20 @@ module.exports = {
     );
   },
 
+  getPostDetailByPayId: (data, callBack) => {
+    pool.query(
+      "SELECT post_office_table.post_office_id ,payments_devisional_to_post_office.check_no,payments_devisional_to_post_office.year ,months.month_id ,months.m_name ,post_office_table.name FROM `payments_devisional_to_post_office` ,`months` ,`post_office_table` WHERE months.month_id = payments_devisional_to_post_office.month and post_office_table.post_office_id = payments_devisional_to_post_office.post_office_id and payments_devisional_to_post_office.payment_id = ?",
+      [data.pay_id],
+      (error, results, fields) => {
+        if (error) {
+          console.log(results);
+          return callBack(error);
+        }
+        return callBack(null, results);
+      }
+    );
+  },
+
   GetPyamentToPostOffByYearMonth: (data, callBack) => {
     pool.query(
       "SELECT   payments_devisional_to_post_office.payment_id , post_office_table.post_office_id, post_office_table.name ,post_office_table.address,post_office_table.bank_account_no, payments_devisional_to_post_office.year,payments_devisional_to_post_office.month , months.m_name ,payments_devisional_to_post_office.total_money_amount FROM `months` , `payments_devisional_to_post_office`,`post_office_table` WHERE  months.month_id=payments_devisional_to_post_office.month  and payments_devisional_to_post_office.post_office_id = post_office_table.post_office_id AND payments_devisional_to_post_office.year = ? and payments_devisional_to_post_office.month=?",
