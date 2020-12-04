@@ -145,9 +145,24 @@ module.exports = {
       }
     );
   },
+  completeApplication: (vid, callBack) => {
+    pool.query(
+      `UPDATE verification_of_elders SET validity_by_divisional_officer=? WHERE vid=?`,
+      [1,
+        vid
+      ],
+      (error, results, fields) => {
+        if (error) {
+          return callBack(error);
+        }
+        console.log(vid)
+        return callBack(null, results[0]);
+      }
+    );
+  },
 
 
-
+  
 
 
 

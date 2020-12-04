@@ -134,11 +134,11 @@ module.exports = {
         // console.log(results);
 
         results.password = undefined;
-        const salt = process.env.JSONSALTA + getIP(req).clientIp;
-        const rsalt = process.env.JSONRSALTA + getIP(req).clientIp;
+        const salt = process.env.JSONSALTA
+        const rsalt = process.env.JSONRSALTA
         //getIP(req).clientIp
         const jsontoken = sign({ result: results }, salt, {
-          expiresIn: "50m",
+          expiresIn: "12h",
         });
 
         const refreshtoken = sign({ uid: results.user_id }, rsalt, {
@@ -204,7 +204,7 @@ module.exports = {
       results.password = undefined;
       const salt = process.env.JSONSALTA + getIP(req).clientIp;
       const jsontoken = sign({ result: results }, salt, {
-        expiresIn: "10m",
+        expiresIn: "12h",
       });
       console.log(results);
 
