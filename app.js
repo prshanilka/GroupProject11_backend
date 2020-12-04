@@ -20,6 +20,7 @@ const verifyElder = require("./api/verify_elder/verify_elder.router");
 const application = require("./api/application/application.router");
 const paymentdivtopost = require("./api/payment-div-to-post/payment-div-to-post.routers");
 const paymentposttoben = require("./api/pyment-post-to-benifisher/pyment-post-to-benifisher.routers");
+const deadcomplainRouter = require("./api/deaths_complains/deaths_complains.routers")
 const marksRouter = require("./api/marks/marks.router");
 app.use(express.json());
 
@@ -41,8 +42,10 @@ app.use("/api/verifyelder", verifyElder);
 app.use("/api/application", application);
 app.use("/api/paymentdivoff", paymentdivtopost);
 app.use("/api/paymentposttoben", paymentposttoben);
+app.use("/api/deadcomplain", deadcomplainRouter);
 app.use("/api/application",application)
 app.use("/api/marks", marksRouter);
+
 
 /*
 app.get("/api" , (req , res) => {

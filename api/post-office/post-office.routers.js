@@ -9,6 +9,7 @@ const {
   getPostOfficeBenifisherList,
   getpostOfficePayHistory,
   endPostPaymentToDivPayId,
+  getPaymentInfo,
 } = require("./post-office.controllers");
 const { checkToken } = require("../../auth/token_validation");
 
@@ -17,12 +18,9 @@ router.post("/", checkToken, createPostOffice);
 
 router.get("/", checkToken, getPostOffices);
 
-router.get(
-  "/benfisherslist/:post_office_id",
-  checkToken,
-  getPostOfficeBenifisherList
-);
-router.get("/paymenthistory/:post_office_id", getpostOfficePayHistory);
+router.get("/benfisherslist", checkToken, getPostOfficeBenifisherList);
+router.get("/patmentinfo/:post_office_id", checkToken, getPaymentInfo);
+router.get("/paymenthistory", checkToken, getpostOfficePayHistory);
 router.get("/:post_office_id", checkToken, getPostOfficeByPostOfficeID);
 
 router.patch("/endpostpayment", checkToken, endPostPaymentToDivPayId);
