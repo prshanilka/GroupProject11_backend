@@ -5,21 +5,16 @@ const {
         getApplicationsForFofficer,
         selectApplicaton,
         getSelectedApplicationsForFofficer,
-        removeApplicaton
+        removeApplicaton,
+        completeApplication
       } = require("./application.service");      
-
-const { checkPermision } = require("../../auth/roleauth");
+      const {insertMarks,insertFinalMarks} = require("../marks/marks.service");   
+      const { checkPermision } = require("../../auth/roleauth");
 
 module.exports = {
   getApplicationStatus: (req, res) => {
     const elder_id = req.auth.result.user_id;
-
-    // console.log(elder_id);
-
-
-
   getApplicationStatus(elder_id, (err, results) => {
-
       if (err) {
         console.log(err);
         return;
@@ -85,7 +80,6 @@ z
       });
     });
   },
-
   getAppliationDofficer: (req, res) => {
     const page = req.query.page
     const per_page =req.query.per_page
@@ -131,7 +125,7 @@ z
         data.from=limitf
         data.to=limitl
         data.results=results
-        console.log(data)
+        //console.log(data)
         resolove(data);
       });
     });
@@ -201,7 +195,7 @@ z
         data.from=limitf
         data.to=limitl
         data.results=results
-        console.log(data)
+        //console.log(data)
         resolove(data);
       });
     });
@@ -279,5 +273,82 @@ z
     });
 
   },
+  submitApplicationReview:(req,res) =>{
+    checkPermision( {role_id: req.auth.result.role_id,cap_id: 22,}, (err, results) => {
+      if (err) {
+        console.log(err);
+      }
+      if (!results) {
+        return res.json({
+          success: 0,
+          error: "Unauthorized access",
+        });
+      }
+    });
+    const app=req.body;
+    const dataarr=app.data
+    let total=null
+    dataarr.forEach(element => {
+      if(!element.marks){
+        return res.json({
+          success: 0,
+          error: element,
+        });
+      }
+      total=total+element.marks;
+    });
+    let insMarks = new Promise((resolove, reject) => {
 
+        insertMarks(app.vid,dataarr, (err,results) =>{
+          if(err){
+            reject(err);
+          }
+          resolove(results)
+          
+        });
+
+    });
+    let insFinalMarks = new Promise((resolove, reject) => {
+      avg=(total/dataarr.length)
+      
+      insertFinalMarks(app.vid,avg*10,(err,results) =>{
+        if(err){
+          reject(err);
+        }
+        resolove(results)
+        
+      });
+
+ 
+    });
+    let compApplication = new Promise((resolove, reject) => {
+      completeApplication(app.vid, (err, results) => {
+        if (err) {
+          reject(err);
+        }
+        resolove(results)
+      });
+ 
+    });
+
+    insMarks.then((dat) =>{
+      insFinalMarks.then((dat1) =>{
+        compApplication.then((dat2) =>{
+
+        
+          return res.json({
+            success: 1,
+            message: "updated successfully",
+          });
+
+
+
+
+        }).catch((error) =>{console.log("errmk"+error)});
+      }).catch((error) =>{console.log("errmk"+error)});
+    
+    }).catch((error) =>{console.log("errmk"+error)});
+    
+    
+  },
 };
