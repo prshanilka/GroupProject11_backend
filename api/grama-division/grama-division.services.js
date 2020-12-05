@@ -121,5 +121,17 @@ module.exports = {
         return callBack(null, results);
       }
     );
+  },
+  getAgentVerifyList: (officer_id, callBack) => {
+    pool.query(
+      "SELECT elder.elder_id,elder.name AS ename,agent.agent_id,agent.name AS aname,agent.address AS aaddress,agent.nic AS anic FROM elder,gramaniladari,agent WHERE  elder.gramaniladari_division_id =gramaniladari.gramaniladari_division_id AND elder.elder_id = agent.elder_id AND agent.agent_is_avilable='0' AND agent.gramaniladari_verify_comment IS NULL AND gramaniladari.grmaniladari_officer_id =?",
+      [ officer_id ],
+      (error, results, fields) => {
+        if (error) {
+          return callBack(error);
+        }
+        return callBack(null, results);
+      }
+    );
   }
 };
