@@ -63,7 +63,7 @@ module.exports = {
 
   GetPyamentToPostOffByYearMonth: (data, callBack) => {
     pool.query(
-      "SELECT   payments_devisional_to_post_office.payment_id , post_office_table.post_office_id, post_office_table.name ,post_office_table.address,post_office_table.bank_account_no, payments_devisional_to_post_office.year,payments_devisional_to_post_office.month , months.m_name ,payments_devisional_to_post_office.total_money_amount FROM `months` , `payments_devisional_to_post_office`,`post_office_table` WHERE  months.month_id=payments_devisional_to_post_office.month  and payments_devisional_to_post_office.post_office_id = post_office_table.post_office_id AND payments_devisional_to_post_office.year = ? and payments_devisional_to_post_office.month=?",
+      "SELECT   payments_devisional_to_post_office.payment_id , post_office_table.post_office_id, post_office_table.name ,post_office_table.address,post_office_table.bank_account_no, payments_devisional_to_post_office.year,payments_devisional_to_post_office.month , months.m_name ,payments_devisional_to_post_office.total_money_amount , (SUM(`sent_amount_to_post_office`) - SUM(`elders_dose_not_resive_total_money`) ) as elder_got ,SUM(`elders_dose_not_resive_total_money`) as not_recive ,sum(`no_of_elders_got_money`) as pay_count ,SUM(`amount_of_money_debited_to_centrel_bank`) as year_to_fund  FROM `months` , `payments_devisional_to_post_office`,`post_office_table` WHERE  months.month_id=payments_devisional_to_post_office.month  and payments_devisional_to_post_office.post_office_id = post_office_table.post_office_id AND payments_devisional_to_post_office.year = ? and payments_devisional_to_post_office.month=?",
       [data.year, data.month],
       (error, results, fields) => {
         if (error) {
@@ -105,7 +105,7 @@ module.exports = {
     console.log("now");
 
     pool.query(
-      "SELECT year , count(*) , SUM(`total_money_amount`) as year_tot , SUM(`amount_of_money_debited_to_centrel_bank`) as year_to_fund , SUM(`sent_amount_to_post_office`) as year_to_post  FROM `payments_devisional_to_post_office` GROUP BY year  ORDER BY`payments_devisional_to_post_office`.`payment_id`  DESC",
+      "SELECT year , count(*) , SUM(`total_money_amount`) as year_tot , SUM(`amount_of_money_debited_to_centrel_bank`) as year_to_fund , SUM(`sent_amount_to_post_office`) as year_to_post ,(SUM(`sent_amount_to_post_office`) - SUM(`elders_dose_not_resive_total_money`) ) as elder_got ,SUM(`elders_dose_not_resive_total_money`) as not_recive ,sum(`no_of_elders_got_money`) as pay_count FROM `payments_devisional_to_post_office` GROUP BY year ORDER BY`payments_devisional_to_post_office`.`payment_id` DESC",
       [],
       (error, results, fields) => {
         if (error) {
@@ -118,7 +118,7 @@ module.exports = {
   },
   getpaymentByYearMoths: (year, callBack) => {
     pool.query(
-      "SELECT  payments_devisional_to_post_office.year ,months.month_id, months.m_name , COUNT(*)  as count,  SUM(payments_devisional_to_post_office.total_money_amount) as total , SUM(payments_devisional_to_post_office.amount_of_money_debited_to_centrel_bank) as fund  , SUM(payments_devisional_to_post_office.sent_amount_to_post_office) as tot_post FROM `payments_devisional_to_post_office`,`months` WHERE  payments_devisional_to_post_office.month = months.month_id   AND payments_devisional_to_post_office.year =? GROUP by month ORDER BY payments_devisional_to_post_office.payment_id DESC",
+      "SELECT    payments_devisional_to_post_office.year ,months.month_id, months.m_name , COUNT(*)  as count,  SUM(payments_devisional_to_post_office.total_money_amount) as total , SUM(payments_devisional_to_post_office.amount_of_money_debited_to_centrel_bank) as fund  , SUM(payments_devisional_to_post_office.sent_amount_to_post_office) as tot_post ,  (SUM(`sent_amount_to_post_office`) - SUM(`elders_dose_not_resive_total_money`) ) as elder_got ,SUM(`elders_dose_not_resive_total_money`) as not_recive ,sum(`no_of_elders_got_money`) as pay_count  FROM `payments_devisional_to_post_office`,`months` WHERE  payments_devisional_to_post_office.month = months.month_id   AND payments_devisional_to_post_office.year =? GROUP by month ORDER BY payments_devisional_to_post_office.payment_id DESC",
       [year],
       (error, results, fields) => {
         if (error) {
