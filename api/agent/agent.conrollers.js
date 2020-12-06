@@ -178,6 +178,7 @@ module.exports = {
           });
         });
       } else {
+ 
         const body = {
           added_gramanildari_id: req.auth.result.id,
           gramaniladari_verify_comment: req.body.gramaniladari_verify_comment,
@@ -205,7 +206,6 @@ module.exports = {
             data: results,
           });
         });
-      }
     });
   },
   updateDisqulifyAgent: (req, res) => {
