@@ -6,6 +6,7 @@ const {
   deleteOfficer,
   GetGramaOfficerByOfficers,
   GetGramaDetails,
+  getOfficerGramaIdByOfficerID
 } = require("./officer_service");
 
 const { create, updateOfficers } = require("../officers/officer.service");
@@ -208,4 +209,41 @@ module.exports = {
       });
     });
   },
+  getDiviSionByOfficerID: (req, res) => {
+    const o_id = req.auth.result.id;
+    getOfficerGramaIdByOfficerID(o_id, (err, resultD) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).json({
+          succcess: 0,
+          message: "Database Connection error",
+        });
+      }
+      if (!resultD) {
+        return res.json({
+          success: 0,
+          message: "Record not found",
+        });
+      }
+      if(resultD){
+        const d_id = resultD.gramaniladari_division_id;
+        GetGramaDetails(d_id, (err, results) => {
+          if (err) {
+            console.log(err);
+            return;
+          }
+          if (!results) {
+            return res.json({
+              success: 0,
+              message: "Record not found",
+            });
+          }
+          return res.json({
+            success: 1,
+            data: results,
+          });
+        });
+      }
+    });
+  }
 };
