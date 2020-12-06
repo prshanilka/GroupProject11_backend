@@ -5,12 +5,12 @@ const {
   updateGramaDivision,
   deleteGramaDivision,
 
+  getGramaDivisionsToSelectOfficers,
   getGramaDivisionsToSelectBox,
   getBenifisherListToGram,
 
   getGramaDivisionsIDonly,
-  getAgentVerifyList
-
+  getAgentVerifyList,
 } = require("./grama-division.services");
 
 const {
@@ -19,10 +19,10 @@ const {
 const { checkPermision } = require("../../auth/roleauth");
 const {
   getverifyElderGramaID,
-  getverifiedElderGramaID
+  getverifiedElderGramaID,
 } = require("../verify_elder/verify_elder.service");
 
-const { getNotAvilableAgentByElderID } = require("../agent/agent.services")
+const { getNotAvilableAgentByElderID } = require("../agent/agent.services");
 const { selectElderMultipleId } = require("../elders/elder.service");
 
 module.exports = {
@@ -210,6 +210,25 @@ module.exports = {
       });
     });
   },
+  getGramaDivisionsToSelectOfficers: (req, res) => {
+    getGramaDivisionsToSelectOfficers((err, results) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      if (!results) {
+        return res.json({
+          success: 0,
+          message: "Record not found",
+        });
+      }
+      return res.json({
+        success: 1,
+        data: results,
+      });
+    });
+  },
+
   getGramaDivisionsToSelectBox: (req, res) => {
     getGramaDivisionsToSelectBox((err, results) => {
       if (err) {
@@ -248,29 +267,29 @@ module.exports = {
     const officer_id = req.auth.result.id;
     console.log(req.auth);
     getAgentVerifyList(officer_id, (err, results) => {
-    if (err) {
-      console.log(err);
-      return res.status(500).json({
-        success: 0,
-        message: "database Connection error",
-      });
-    }
+      if (err) {
+        console.log(err);
+        return res.status(500).json({
+          success: 0,
+          message: "database Connection error",
+        });
+      }
 
-    return res.json({
-      success: 1,
-      status: true,
-      total: 5,
-      last_page: 1,
-      per_page: 8,
-      current_page: 1,
-      next_page_url:
-        "https://api.coloredstrategies.com/cakes/fordatatable?sort=&page=2&per_page=8",
-      prev_page_url:
-        "https://api.coloredstrategies.com/cakes/fordatatable?sort=&page=2&per_page=8",
-      from: 1,
-      to: 8,
-      data: results,
+      return res.json({
+        success: 1,
+        status: true,
+        total: 5,
+        last_page: 1,
+        per_page: 8,
+        current_page: 1,
+        next_page_url:
+          "https://api.coloredstrategies.com/cakes/fordatatable?sort=&page=2&per_page=8",
+        prev_page_url:
+          "https://api.coloredstrategies.com/cakes/fordatatable?sort=&page=2&per_page=8",
+        from: 1,
+        to: 8,
+        data: results,
+      });
     });
-  });
   },
 };
