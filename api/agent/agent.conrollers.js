@@ -53,7 +53,7 @@ module.exports = {
     });
   },
   getQulifyAgentByElderID: (req, res) => {
-    const elder_id = req.auth.id;
+    const elder_id = req.auth.result.id;
     getQulifyAgentByElderID(elder_id, (err, results) => {
       if (err) {
         console.log(err);
@@ -156,7 +156,6 @@ module.exports = {
           });
         });
       }
-      else {
         const body = {
           added_gramanildari_id : req.auth.result.id,
           gramaniladari_verify_comment : req.body.gramaniladari_verify_comment,
@@ -184,7 +183,6 @@ module.exports = {
             data: results,
           });
         });
-      }
     });
   },
   updateDisqulifyAgent: (req, res) => {
