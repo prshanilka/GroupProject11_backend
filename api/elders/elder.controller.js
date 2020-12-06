@@ -13,6 +13,7 @@ const {
   createverifyFirstElder,
 } = require("../verify_elder/verify_elder.service");
 
+const { updateIdByUserId } = require("../users/user.service");
 module.exports = {
   getElderByElderID: (req, res) => {
     const elder_id = req.params.elder_id;
@@ -192,11 +193,24 @@ module.exports = {
                 message: "Databse Connection Error",
               });
             }
-
-            return res.status(200).json({
-              success: 1,
-              message: " SuccesFully Inserted Elder Agent Verified Elder ",
-              data: resultV,
+            const dataU = {
+              id: resultE.insertId,
+              user_id: req.auth.result.user_id,
+            };
+            updateIdByUserId(dataU, (errU, resultU) => {
+              if (errU) {
+                console.log(error);
+                return res.status(500).json({
+                  success: 0,
+                  message: "Databse Connection Error",
+                });
+              }
+              return res.status(200).json({
+                success: 1,
+                message:
+                  " SuccesFully Inserted Elder Agent Verified Elder And User Table",
+                data: resultU,
+              });
             });
           });
         });
@@ -212,10 +226,25 @@ module.exports = {
             });
           }
 
-          return res.status(200).json({
-            success: 1,
-            message: " SuccesFully Inserted Elder an Verified Elder ",
-            data: resultV,
+          const dataU = {
+            id: resultE.insertId,
+            user_id: req.auth.result.user_id,
+          };
+
+          updateIdByUserId(dataU, (errU, resultU) => {
+            if (errU) {
+              console.log(error);
+              return res.status(500).json({
+                success: 0,
+                message: "Databse Connection Error",
+              });
+            }
+            return res.status(200).json({
+              success: 1,
+              message:
+                " SuccesFully Inserted Elder an Verified Elder and  User Updated ",
+              data: resultU,
+            });
           });
         });
       }
