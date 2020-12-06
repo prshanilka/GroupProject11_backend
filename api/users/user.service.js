@@ -69,4 +69,16 @@ module.exports = {
       }
     );
   },
+  updateIdByUserId: (data, callBack) => {
+    pool.query(
+      "UPDATE `user` SET `id`=? WHERE `user_id`=?",
+      [data.id, data.user_id],
+      (error, results, fields) => {
+        if (error) {
+          callBack(error);
+        }
+        return callBack(null, results[0]);
+      }
+    );
+  },
 };

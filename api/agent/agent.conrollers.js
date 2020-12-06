@@ -6,7 +6,7 @@ const {
   createAgent,
   updateAgent,
   deleteAgent,
-  updateDisqulifyAgent
+  updateDisqulifyAgent,
 } = require("./agent.services");
 
 const { sign } = require("jsonwebtoken");
@@ -34,7 +34,7 @@ module.exports = {
     });
   },
   getAgentByElderID: (req, res) => {
-    const elder_id = '8';
+    const elder_id = "8";
     getAgentByElderID(elder_id, (err, results) => {
       if (err) {
         console.log(err);
@@ -104,6 +104,7 @@ module.exports = {
   },
   createAgent: (req, res) => {
     const body = req.body;
+    //req.body.elder_id = req.auth.result.id;
     createAgent(body, (err, result) => {
       if (err) {
         console.log(err);
@@ -120,8 +121,7 @@ module.exports = {
   },
 
   updateCorrectAgent: (req, res) => {
-    console.log(req.body);
-    const eid=req.body.elder_id;
+    const eid = req.body.elder_id;
     getAgentByElderID(eid, (err, resultsA) => {
       if (err) {
         console.log(err);
@@ -130,10 +130,10 @@ module.exports = {
       if (!resultsA) {
         return res.json({
           success: 0,
-          message: "Record not found",
+          message: "Record Not Found",
         });
       }
-      if (resultsA.agent_id != req.body.agent_id){
+      if (resultsA.agent_id != req.body.agent_id) {
         deleteAgent(resultsA, (error, results) => {
           if (error) {
             console.log(error);
@@ -148,18 +148,41 @@ module.exports = {
               message: "Record Not Found",
             });
           }
-    
-          return res.status(200).json({
-            success: 1,
-            message: "Deleted Succecfully",
-            data: results,
+
+          const body = {
+            added_gramanildari_id: req.auth.result.id,
+            gramaniladari_verify_comment: req.body.gramaniladari_verify_comment,
+            agent_id: req.body.agent_id,
+          };
+          updateAgent(body, (err, results) => {
+            if (err) {
+              console.log(err);
+              return res.status(500).json({
+                success: 0,
+                message: "Database Connection error",
+              });
+            }
+
+            if (!results) {
+              return res.json({
+                success: 0,
+                message: "Record Not Found",
+              });
+            }
+
+            return res.status(200).json({
+              success: 1,
+              message: "Delete and  Updated Succecfully",
+              data: results,
+            });
           });
         });
-      }
+      } else {
+ 
         const body = {
-          added_gramanildari_id : req.auth.result.id,
-          gramaniladari_verify_comment : req.body.gramaniladari_verify_comment,
-          agent_id: req.body.agent_id
+          added_gramanildari_id: req.auth.result.id,
+          gramaniladari_verify_comment: req.body.gramaniladari_verify_comment,
+          agent_id: req.body.agent_id,
         };
         updateAgent(body, (err, results) => {
           if (err) {
@@ -169,14 +192,14 @@ module.exports = {
               message: "Database Connection error",
             });
           }
-    
+
           if (!results) {
             return res.json({
               success: 0,
               message: "Record Not Found",
             });
           }
-    
+
           return res.status(200).json({
             success: 1,
             message: "Updated Succecfully",
@@ -195,14 +218,14 @@ module.exports = {
           message: "Database Connection error",
         });
       }
-  
+
       if (!results) {
         return res.json({
           success: 0,
           message: "Record Not Found",
         });
       }
-  
+
       return res.status(200).json({
         success: 1,
         message: "Updated Succecfully",

@@ -5,10 +5,10 @@ const {
   updateOfficer,
   deleteOfficer,
   GetGramaOfficerByOfficers,
-  GetGramaDetails
+  GetGramaDetails,
 } = require("./officer_service");
 
-const { create } = require("../officers/officer.service");
+const { create, updateOfficers } = require("../officers/officer.service");
 
 const { sign } = require("jsonwebtoken");
 
@@ -55,6 +55,35 @@ module.exports = {
         console.log("pathu");
         return res.json({
           success: 1,
+          data: resultsg,
+        });
+      });
+    });
+  },
+  updateGramaOfficer: (req, res) => {
+    const bodyo = req.body.Officer;
+
+    updateOfficers(bodyo, (erro, resultso) => {
+      if (erro) {
+        console.log(erro);
+        return res.status(500).json({
+          success: 0,
+          message: "Database connection errror",
+        });
+      }
+      const bodyg = req.body.GramaOfficer;
+      updateOfficer(bodyg, (errg, resultsg) => {
+        if (errg) {
+          console.log(errg);
+          return res.status(500).json({
+            success: 0,
+            message: "Database connection errror",
+          });
+        }
+        console.log("sasa");
+        return res.json({
+          success: 1,
+          message: "I know",
           data: resultsg,
         });
       });
@@ -175,7 +204,7 @@ module.exports = {
       }
       return res.json({
         success: 1,
-        data: results
+        data: results,
       });
     });
   },

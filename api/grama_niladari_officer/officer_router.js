@@ -8,18 +8,20 @@ const {
   updateOfficer,
   deleteOfficer,
   GetGramaOfficerByOfficers,
-  GetGramaDetails
+  GetGramaDetails,
+  updateGramaOfficer,
 } = require("./officer_controller");
 
 const { checkToken } = require("../../auth/token_validation");
 
 router.post("/", createOfficer);
-router.post("/gramaofficer", createGramaOfficer);
+router.post("/gramaofficer", checkToken, createGramaOfficer);
 router.get("/topost/:gramaniladari_division_id", checkToken, GetGramaDetails);
 router.get("/topost", checkToken, GetGramaOfficerByOfficers);
 router.get("/", checkToken, getOfficers);
 router.get("/:grmaniladari_officer_id", checkToken, getOfficerByOfficerID);
 
+router.patch("/updategramaofficer", checkToken, updateGramaOfficer);
 router.patch("/", checkToken, updateOfficer);
 router.delete("/", checkToken, deleteOfficer);
 

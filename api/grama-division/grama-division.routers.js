@@ -6,13 +6,12 @@ const {
   updateGramaDivision,
   deleteGramaDivision,
   getToBeVerifyList,
-
+  getGramaDivisionsToSelectOfficers,
   getGramaDivisionsToSelectBox,
   getBenifisherListToGram,
 
   getGramaDivisionsIDonly,
-  getAgentVerifyList
-
+  getAgentVerifyList,
 } = require("./grama-division.controllers");
 const { checkToken } = require("../../auth/token_validation");
 
@@ -20,6 +19,7 @@ router.get("/gramandionly", checkToken, getGramaDivisionsIDonly);
 router.get("/agent", checkToken, getAgentVerifyList);
 
 router.post("/", checkToken, createGramaDivision);
+router.get("/selectofficer", checkToken, getGramaDivisionsToSelectOfficers);
 router.get("/selectbox", checkToken, getGramaDivisionsToSelectBox);
 router.get("/", checkToken, getGramaDivisions);
 

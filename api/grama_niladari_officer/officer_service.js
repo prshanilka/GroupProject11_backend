@@ -51,6 +51,8 @@ module.exports = {
     );
   },
   updateOfficer: (data, callBack) => {
+    console.log("ww");
+    console.log(data);
     pool.query(
       `UPDATE gramaniladari SET gramaniladari_division_id=?,district_id=?,divisional_secratary_id=? WHERE grmaniladari_officer_id=?`,
       [
