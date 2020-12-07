@@ -73,7 +73,7 @@ module.exports = {
           title:"elder.gramaniladari"
         });
       }
-z
+
       return res.json({
         success: 1,
         presentage:0
