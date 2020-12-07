@@ -45,9 +45,6 @@ module.exports = {
     });
   },
   updateOfficers: (data, callBack) => {
-    console.log("ogg");
-    console.log(data);
-
     pool.query(
       `UPDATE officers SET  nic_no=? ,name=? ,email=? ,phone=? where officer_id=? `,
       [data.nic_no, data.name, data.email, data.phone, data.officer_id],
