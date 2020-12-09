@@ -6,7 +6,9 @@ const {
   updateUsers,
   deleteUser,
   login,
-  refresh
+  refresh,
+  checkUsername,
+  createElder
 } = require("./user.controller");
 const { checkToken,
         checkRToken
@@ -22,6 +24,8 @@ router.get("/:user_id",checkToken,getUserByUserId);
 router.patch("/",checkToken,updateUsers);
 router.delete("/",checkToken,deleteUser);
 router.post("/login",login);
+router.post("/checkusername",checkUsername);
+router.post("/elderreg",createElder);
 
 
 
