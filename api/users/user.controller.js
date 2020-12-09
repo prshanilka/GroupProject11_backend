@@ -5,6 +5,8 @@ const {
   updateUser,
   deleteUser,
   getUserByUserName,
+  checkUsername
+  
 } = require("./user.service");
 const { tokenLogin } = require("../token/token.controller");
 const { genSaltSync, hashSync, compareSync } = require("bcrypt");
@@ -19,6 +21,25 @@ module.exports = {
     const salt = genSaltSync(10);
     body.password = hashSync(body.password, salt);
     create(body, (err, results) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).json({
+          success: 0,
+          message: "Database connection errror",
+        });
+      }
+      return res.status(200).json({
+        success: 1,
+        data: results,
+      });
+    });
+  },
+  createElder: (req, res) => {
+    const body = req.body;
+    console.log(body.user_name);
+    const salt = genSaltSync(10);
+    body.password = hashSync(body.password, salt);
+    create(body,10,10,(err, results) => {
       if (err) {
         console.log(err);
         return res.status(500).json({
@@ -155,7 +176,7 @@ module.exports = {
         const userData = {
           id: results.user_id,
           title: results.user_name,
-          img: "/assets/img/profiles/l-1.jpg",
+          img: "/assets/img/profiles/def.jpg",
           date: "Last seen today 15:24",
           role: results.role_id,
         };
@@ -215,4 +236,26 @@ module.exports = {
       });
     });
   },
+  checkUsername: (req, res) => {
+    const body = req.body;
+    checkUsername(body.user_name,(err, results) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      
+      if(!results.length == 0){
+        return res.status(200).json({
+          success: 1,
+          data: false,
+        });
+      }
+      return res.status(200).json({
+        success: 1,
+        data: true,
+      });
+      
+    });
+  }
+
 };
