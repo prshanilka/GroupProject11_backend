@@ -7,6 +7,8 @@ const {
   getApplicationToVerifyByDivision,
   getDivisionsToSelectBox,
   getBenifisherListTodiv,
+  getConstant,
+  updateConstant
 } = require("./divisional-office.services");
 
 const { sign } = require("jsonwebtoken");
@@ -200,4 +202,41 @@ module.exports = {
       });
     });
   },
+  getConstant: (req,res) => {
+    getConstant((err, result) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      return res.json({
+        success: 1,
+        data: result,
+      });
+    });
+  },
+  updateConstant: (req, res) => {
+    const body = req.body;
+    updateConstant(body, (err, results) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).json({
+          success: 0,
+          message: "Database Connection error",
+        });
+      }
+
+      if (!results) {
+        return res.json({
+          success: 0,
+          message: "Record Not Found",
+        });
+      }
+
+      return res.status(200).json({
+        success: 1,
+        message: "Updated Succecfully",
+        data: results,
+      });
+    });
+  }
 };

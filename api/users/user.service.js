@@ -69,6 +69,7 @@ module.exports = {
       }
     );
   },
+
   checkUsername: (userName,callBack) => {
     pool.query(`SELECT * FROM user WHERE user_name=?`, [userName], (error, results, fields) => {
       if (error) {

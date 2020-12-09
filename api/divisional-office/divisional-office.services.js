@@ -117,4 +117,31 @@ module.exports = {
       }
     );
   },
+  getConstant:(callBack) => {
+    pool.query(
+      "SELECT * FROM constants",
+      [],
+      (error, results, fields) => {
+        if(error){
+          return callBack(error);
+        }
+        return callBack(null, results);
+      }
+    );
+  },
+  updateConstant:(data,callBack) => {
+    pool.query(
+      "UPDATE constants SET value=? WHERE name=?",
+      [
+        data.value,
+        data.name
+      ],
+      (error, results, fields) => {
+        if(error){
+          return callBack(error);
+        }
+        return callBack(null, results);
+      }
+    );
+  },
 };
