@@ -6,17 +6,40 @@ const {
   deleteElders,
   elderRegistration,
   elderDetailstoPayId,
+  getElderDetail,
+  
 } = require("./elder.service");
 const { checkPermision } = require("../../auth/roleauth");
 const { createAgent } = require("../agent/agent.services");
 const {
   createverifyFirstElder,
+  updateverifyElder
 } = require("../verify_elder/verify_elder.service");
 
 const { updateIdByUserId } = require("../users/user.service");
 module.exports = {
   getElderByElderID: (req, res) => {
     const elder_id = req.params.elder_id;
+    getElderByElderID(elder_id, (err, results) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      if (!results) {
+        return res.json({
+          success: 0,
+          message: "Record not found",
+        });
+      }
+      return res.json({
+        success: 1,
+        data: results,
+      });
+    });
+  },
+
+  getElderDetail: (req, res) => {
+    const elder_id = req.auth.result.id;
     getElderByElderID(elder_id, (err, results) => {
       if (err) {
         console.log(err);
@@ -160,6 +183,62 @@ module.exports = {
       });
     });
   },
+  updateElderRegistration: ((req, res) => {
+    
+    const body = req.body.elder;
+    body.elder_id = req.auth.result.id;
+     updateElders(body, (err, result) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).json({
+          success: 0,
+          message: "Database Connection Error",
+        });
+      }
+
+      if (!result) {
+        return res.json({
+          success: 0,
+          message: "Record Not Found",
+        });
+       }
+       const bodyV = req.body.verify;
+      bodyV.elder_id = req.auth.result.id;
+      console.log(bodyV);
+       updateverifyElder(bodyV, (errV, resultV) => {
+         if (errV) {
+           console.log(err);
+           return res.status(500).json({
+             success: 0,
+             message: "Database Connection Error",
+           });
+         }
+
+         if (!resultV) {
+           return res.json({
+             success: 0,
+             message: "Record Not Found",
+           });
+         }
+
+
+         return res.status(200).json({
+           success: 1,
+           message: "Updated Both SuccesFully",
+           data: resultV,
+         });
+         
+       });
+       
+      // return res.status(200).json({
+      //   success: 1,
+      //   message: "Updated SuccesFully",
+      //   data: result,
+      // });
+    });
+    
+
+  }),
   elderRegistration: (req, res) => {
     const bodyE = req.body.elder;
     createElders(bodyE, (errorE, resultE) => {
