@@ -24,7 +24,7 @@ const paymentposttoben = require("./api/pyment-post-to-benifisher/pyment-post-to
 const deadcomplainRouter = require("./api/deaths_complains/deaths_complains.routers")
 const marksRouter = require("./api/marks/marks.router");
 app.use(express.json());
-app.use(cors())
+app.use(cors());
 app.use("/api/users", userRouter);
 app.use("/api/elders", elderRouter);
 app.use("/api/token", tokenRouter);
