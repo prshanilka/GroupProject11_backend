@@ -45,6 +45,18 @@ module.exports = {
       }
     );
   },
+  updateIdByUserId:(data, callBack) => {
+    pool.query(
+      `UPDATE user SET id=? WHERE user_id=?`,
+      [data.id , data.user_id],
+      (error, results, fields) => {
+        if (error) {
+          return callBack(error);
+        }
+        return callBack(null, results[0]);
+      }
+    );
+  },
   deleteUser: (data, callBack) => {
     pool.query(
       `delete from user WHERE user_id=?`,
