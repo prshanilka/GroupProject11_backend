@@ -87,4 +87,16 @@ module.exports = {
       }
     );
   },
+  getOfficersFromVID:(vid, callBack) => {
+    pool.query(
+      `SELECT * FROM divisional_secratory_officer WHERE officer_id=?`,
+      [vid],
+      (error, results, fields) => {
+        if (error) {
+          return callBack(error);
+        }
+        return callBack(null, results[0]);
+      }
+    );
+  },
 };
