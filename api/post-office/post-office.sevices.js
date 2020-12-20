@@ -51,7 +51,7 @@ module.exports = {
   },
   getPostOfficeBenifisherphoneList: (post_office_id,message, callBack) => {
     pool.query(
-      "SELECT    elder.number , ? FROM `elder` ,`benifesher` WHERE elder.elder_id = benifesher.elder_id AND benifesher.is_deleted =0 and elder.near_post_office_id = ?",
+      "SELECT    elder.number , ? as massage FROM `elder` ,`benifesher` WHERE elder.elder_id = benifesher.elder_id AND benifesher.is_deleted =0 and elder.near_post_office_id = ?",
       [message,post_office_id],
       (error, results, fields) => {
         if (error) {

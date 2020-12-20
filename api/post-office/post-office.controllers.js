@@ -17,6 +17,8 @@ const {
 } = require("../post_office_Officers/post_officer.service");
 const { sign } = require("jsonwebtoken");
 
+const { sendMesssage } = require("../../auth/notification");
+
 const { checkPermision } = require("../../auth/roleauth");
 
 module.exports = {
@@ -128,10 +130,26 @@ module.exports = {
             message: "Record not found",
           });
         }
+
+         
+        results.forEach(res => {
+          res.number = "+94" +res.number.substring(1);
+          // console.log(res);
+
+        const reqM = {
+          pnum: res.number,
+          text: res.massage
+        }
+
+          sendMesssage(reqM, (resM) => {
+          // console.log(resM.status);
+        });
+        });
         return res.json({
           success: 1,
-          data: results,
+             data: results,
         });
+       
       });
     });
   },
