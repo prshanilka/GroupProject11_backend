@@ -9,7 +9,7 @@ const {
   getGramaDivisionsToSelectOfficers,
   getGramaDivisionsToSelectBox,
   getBenifisherListToGram,
-
+  getBenifisherCountToGram,
   getGramaDivisionsIDonly,
   getAgentVerifyList,
 } = require("./grama-division.controllers");
@@ -22,7 +22,7 @@ router.post("/", checkToken, createGramaDivision);
 router.get("/selectofficer", checkToken, getGramaDivisionsToSelectOfficers);
 router.get("/selectbox", checkToken, getGramaDivisionsToSelectBox);
 router.get("/", checkToken, getGramaDivisions);
-
+router.get("/count", checkToken, getBenifisherCountToGram);
 router.get("/verifylist", checkToken, getToBeVerifyList);
 router.get("/benifisherlist", checkToken, getBenifisherListToGram);
 router.get("/:gram_div_id", checkToken, getGramaDivisionByGramaDivisionID);

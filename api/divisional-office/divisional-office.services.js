@@ -144,4 +144,18 @@ module.exports = {
       }
     );
   },
+  officeDetails:(office_id,callBack) => {
+    pool.query(
+      "SELECT COUNT(post_office_table.post_office_id) AS post,divisional_secratory_office.name,divisional_secratory_office.count_of_benifishers_elders FROM divisional_secratory_office,post_office_table WHERE divisional_secratory_office.divisional_secratary_id = post_office_table.divisional_id AND post_office_table.is_deleted = '0' AND divisional_secratory_office.is_deleted = '0' AND divisional_secratory_office.divisional_secratary_id = ?",
+      [
+        office_id
+      ],
+      (error, results, fields) => {
+        if(error){
+          return callBack(error);
+        }
+        return callBack(null, results);
+      }
+    );
+  },
 };
