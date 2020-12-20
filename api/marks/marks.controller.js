@@ -1,7 +1,8 @@
 const {
   getCriteria,
   insertCriteria,
-  deleteCriteria
+  deleteCriteria,
+  getMarksByvID
 } = require("./marks.service");
 const { checkPermision } = require("../../auth/roleauth");
 
@@ -58,5 +59,19 @@ module.exports = {
         data: results,
       });
     });
+  },
+  getMarksByvID: (req, res) => {
+    const vid = req.params.vid;
+    getMarksByvID(vid,(err, results) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      return res.status(200).json({
+        status:true,
+        data: results,
+      });
+    });
+
   },
 };

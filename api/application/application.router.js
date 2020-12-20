@@ -5,7 +5,8 @@ const {
   selectApplicaton,
   getSelectedAppliationDofficer,
   removeApplicaton,
-  submitApplicationReview
+  submitApplicationReview,
+  getAppliationDHead
 } = require("./application.controller");
 
 const { checkToken } = require("../../auth/token_validation");
@@ -14,6 +15,7 @@ router.get("/dappdetails", checkToken,  getAppliationDofficer);
 router.get("/dsappdetails", checkToken,  getSelectedAppliationDofficer);
 router.patch("/selectapplicaton/:vid", checkToken, selectApplicaton);
 router.patch("/removeapplicaton/:vid", checkToken, removeApplicaton);
+router.get("/dhappdetails", checkToken,  getAppliationDHead);
 
 
 

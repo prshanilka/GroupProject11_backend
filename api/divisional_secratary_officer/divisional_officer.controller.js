@@ -4,6 +4,7 @@ const {
   createOfficers,
   updateOfficers,
   deleteOfficers,
+  getOfficersFromVID,
 } = require("./divisional_officer.service");
 
 const { create } = require("../officers/officer.service");
@@ -118,6 +119,25 @@ module.exports = {
       return res.json({
         success: 1,
         message: "Officer deleted successfully",
+      });
+    });
+  },
+  getOfficersFromVID: (req, res) => {
+  const vid = req.params.vid;
+    getOfficersFromVID(vid, (err, results) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      if (!results) {
+        return res.json({
+          success: 0,
+          message: "Record not found",
+        });
+      }
+      return res.json({
+        success: 1,
+        data: results,
       });
     });
   },
