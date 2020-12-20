@@ -129,7 +129,6 @@ module.exports = {
         }
       );
   },
-
   removeApplicaton: (vid, callBack) => {
     pool.query(
       `UPDATE verification_of_elders SET divisional_officer_id = NULL WHERE vid=?`,
@@ -160,7 +159,50 @@ module.exports = {
       }
     );
   },
+  getAppliationDHead: (officer_id,limitf,limitl,grama_division, callBack) => {
+    console.log(grama_division)
+    if(grama_division){
+     sqlc= `SELECT COUNT(verification_of_elders.elder_id) AS total FROM verification_of_elders,elder where elder.elder_id IN( SELECT elder_id FROM elder WHERE divisional_secratory_id IN( SELECT divisional_secratary_id FROM divisional_secratory_officer WHERE officer_id=?) ) AND validity_by_divisional_head IS NULL AND validity_by_divisional_officer=1 AND elder.elder_id = verification_of_elders.elder_id`
+     sql=`SELECT verification_of_elders.vid,verification_of_elders.elder_id,elder.name,elder.gramaniladari_division_id FROM verification_of_elders,elder where elder.elder_id IN( SELECT elder_id FROM elder WHERE gramaniladari_division_id=${grama_division} AND divisional_secratory_id IN( SELECT divisional_secratary_id FROM divisional_secratory_officer WHERE officer_id=?) ) AND validity_by_divisional_head IS NULL AND validity_by_divisional_officer=1 AND elder.elder_id = verification_of_elders.elder_id LIMIT ?,?`
+    }
+    else{
+    sqlc= `SELECT COUNT(verification_of_elders.elder_id) AS total FROM verification_of_elders,elder where elder.elder_id IN( SELECT elder_id FROM elder WHERE divisional_secratory_id IN( SELECT divisional_secratary_id FROM divisional_secratory_officer WHERE officer_id=?) ) AND validity_by_divisional_head IS NULL AND validity_by_divisional_officer=1 AND elder.elder_id = verification_of_elders.elder_id`
+    sql=`SELECT verification_of_elders.vid,verification_of_elders.elder_id,elder.name,elder.gramaniladari_division_id FROM verification_of_elders,elder where elder.elder_id IN( SELECT elder_id FROM elder WHERE divisional_secratory_id IN( SELECT divisional_secratary_id FROM divisional_secratory_officer WHERE officer_id=2) ) AND validity_by_divisional_head IS NULL AND validity_by_divisional_officer=1 AND elder.elder_id = verification_of_elders.elder_id LIMIT ?,?`
+    }
+    console.log(sql)
+    pool.query(
+        sqlc
+        ,
+        [officer_id],
+        (error, count, fields) => {
+          if (error) {
+            return callBack(error);
+            //return callBack(error);
+          }
 
+          //second
+          
+          pool.query(
+          sql
+              , 
+            [limitf-1,limitl-1],
+            (error, results, fields) => {
+              if (error) {
+                return callBack(error);
+                //return callBack(error);
+              }
+              console.log(officer_id)
+              return callBack(null,results, count[0].total);
+             // return callBack(null, results[0]);
+    
+            }
+          );
+
+         // return callBack(null, results[0]);
+
+        }
+      );
+  },
 
   
 

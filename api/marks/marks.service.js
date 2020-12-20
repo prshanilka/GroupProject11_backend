@@ -73,4 +73,16 @@ module.exports = {
       return callBack(null, results);
     });
   },
+  getMarksByvID: (vid, callBack) => {
+    pool.query(
+      "SELECT criteria,marks FROM criteriamarks,criteria WHERE  criteriamarks.criteria_id = criteria.criteria_id AND v_id=?",
+      [vid],
+      (error, results, fields) => {
+        if(error){
+          return callBack(error);
+        }
+        return callBack(null, results);
+      }
+    );
+  },
 };
