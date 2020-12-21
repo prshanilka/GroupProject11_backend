@@ -10,15 +10,17 @@ const {
   getpostOfficePayHistory,
   endPostPaymentToDivPayId,
   getPaymentInfo,
+  sendNotifySms
 } = require("./post-office.controllers");
 const { checkToken } = require("../../auth/token_validation");
 
 router.get("/selectbox", checkToken, getPostOfficesToSelectBox);
 router.post("/", checkToken, createPostOffice);
-
+router.post("/notifyelders", checkToken, sendNotifySms);
 router.get("/", checkToken, getPostOffices);
 
 router.get("/benfisherslist", checkToken, getPostOfficeBenifisherList);
+
 router.get("/patmentinfo/:post_office_id", checkToken, getPaymentInfo);
 router.get("/paymenthistory", checkToken, getpostOfficePayHistory);
 router.get("/:post_office_id", checkToken, getPostOfficeByPostOfficeID);

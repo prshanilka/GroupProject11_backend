@@ -23,6 +23,7 @@ const paymentdivtopost = require("./api/payment-div-to-post/payment-div-to-post.
 const paymentposttoben = require("./api/pyment-post-to-benifisher/pyment-post-to-benifisher.routers");
 const deadcomplainRouter = require("./api/deaths_complains/deaths_complains.routers")
 const marksRouter = require("./api/marks/marks.router");
+const notification = require("./api/notification/notification.router");
 
 
 
@@ -49,7 +50,7 @@ app.use("/api/paymentposttoben", paymentposttoben);
 app.use("/api/deadcomplain", deadcomplainRouter);
 app.use("/api/application",application)
 app.use("/api/marks", marksRouter);
-
+app.use("/api/notification", notification);
 
 /*
 app.get("/api" , (req , res) => {
