@@ -8,7 +8,8 @@ const {
   login,
   refresh,
   checkUsername,
-  createElder
+  createElder,
+  changePass
 } = require("./user.controller");
 const { checkToken,
         checkRToken
@@ -26,6 +27,7 @@ router.delete("/",checkToken,deleteUser);
 router.post("/login",login);
 router.post("/checkusername",checkUsername);
 router.post("/elderreg",createElder);
+router.post("/changepass",checkToken,changePass);
 
 
 

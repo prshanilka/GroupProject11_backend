@@ -5,7 +5,8 @@ const {
   updateUser,
   deleteUser,
   getUserByUserName,
-  checkUsername
+  checkUsername,
+  changePass
   
 } = require("./user.service");
 const { tokenLogin } = require("../token/token.controller");
@@ -256,6 +257,60 @@ module.exports = {
       });
       
     });
-  }
+  },
+  changePass: (req, res) => {
+    const body = req.body;
+;
+    //body.password = hashSync(body.cpassword, salt);
+    //const result = compareSync(body.password, results.password);
+        console.log(req.auth.result.user_name)
+        getUserByUserName(req.auth.result.user_name, (err, results) => {
+          if (err) {
+            console.log(err);
+          }
+          if (!results) {
+            return res.json({
+              success: 0,
+              message: "Error",
+            });
+          }
+          const result = compareSync(body.password, results.password);
+          if(result){
+            const salt = genSaltSync(10);
+            pass = hashSync(body.cpassword, salt)
+            changePass(pass,req.auth.result.user_id, (err, results) => {
+              if (err) {
+                console.log(err);
+                return;
+              }
+        
+              return res.json({
+                success: 1,
+                message: "Password changed successfully",
+              });
+            });
+            
+          }
+          else{
+              return res.json({
+                success: 0,
+                message: "Wrong Current Password",
+              });
+          }
+        })
+
+
+
+
+
+
+
+
+
+
+
+
+
+  },
 
 };
