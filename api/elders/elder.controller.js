@@ -329,4 +329,70 @@ module.exports = {
       }
     });
   },
+  gramaDivElderRegistration: (req, res) => {
+    const bodyE = req.body.elder;
+    createElders(bodyE, (errorE, resultE) => {
+      if (errorE) {
+        console.log(error);
+        return res.status(500).json({
+          success: 0,
+          message: "Databse Connection Error",
+        });
+      }
+
+      const bodyA = req.body.agent;
+      if (bodyA.available) {
+        bodyA.elder_id = resultE.insertId;
+        createAgent(bodyA, (errorA, resultA) => {
+          if (errorA) {
+            console.log(error);
+            return res.status(500).json({
+              success: 0,
+              message: "Databse Connection Error",
+            });
+          }
+
+          const bodyV = req.body.verify;
+          bodyV.elder_id = resultE.insertId;
+          createverifyFirstElder(bodyV, (errorV, resultV) => {
+            if (errorV) {
+              console.log(error);
+              return res.status(500).json({
+                success: 0,
+                message: "Databse Connection Error",
+              });
+            }
+             
+              return res.status(200).json({
+                success: 1,
+                message:
+                  " SuccesFully Inserted Elder Agent Verified Elder   Table",
+                data: resultV,
+              });
+            });
+           
+        });
+      } else {
+        const bodyV = req.body.verify;
+        bodyV.elder_id = resultE.insertId;
+        createverifyFirstElder(bodyV, (errorV, resultV) => {
+          if (errorV) {
+            console.log(error);
+            return res.status(500).json({
+              success: 0,
+              message: "Databse Connection Error",
+            });
+          }
+
+             return res.status(200).json({
+              success: 1,
+              message:
+                " SuccesFully Inserted Elder an Verified Elder   Updated ",
+              data: resultV,
+            });
+          });
+  
+      }
+    });
+  },
 };
