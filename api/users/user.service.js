@@ -90,4 +90,16 @@ module.exports = {
       return callBack(null, results);
     });
   },
+  changePass: (id,pass, callBack) => {
+    pool.query(
+      `UPDATE user SET password=? WHERE user_id=?`,
+      [pass,id],
+      (error, results, fields) => {
+        if (error) {
+          return callBack(error);
+        }
+        return callBack(null, results[0]);
+      }
+    );
+  },
 };
