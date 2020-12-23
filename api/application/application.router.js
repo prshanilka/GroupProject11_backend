@@ -6,7 +6,9 @@ const {
   getSelectedAppliationDofficer,
   removeApplicaton,
   submitApplicationReview,
-  getAppliationDHead
+  getAppliationDHead,
+  verifyApplicationByHead,
+  refreshPrirityList
 } = require("./application.controller");
 
 const { checkToken } = require("../../auth/token_validation");
@@ -16,7 +18,8 @@ router.get("/dsappdetails", checkToken,  getSelectedAppliationDofficer);
 router.patch("/selectapplicaton/:vid", checkToken, selectApplicaton);
 router.patch("/removeapplicaton/:vid", checkToken, removeApplicaton);
 router.get("/dhappdetails", checkToken,  getAppliationDHead);
-
+router.get("/verifydhead/:vid", checkToken, verifyApplicationByHead);
+router.get("/priority", refreshPrirityList);
 
 
 router.post("/applicationreview", checkToken,  submitApplicationReview);
