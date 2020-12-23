@@ -8,8 +8,13 @@ const {
   getDivisionsToSelectBox,
   getBenifisherListTodiv,
   getConstant,
-  updateConstant
+  updateConstant,
+  officeDetails
 } = require("./divisional-office.services");
+
+const {
+  getOfficerByOfficerID
+} = require("../divisional_secratary_officer/divisional_officer.service");
 
 const { sign } = require("jsonwebtoken");
 
@@ -238,5 +243,27 @@ module.exports = {
         data: results,
       });
     });
-  }
+  },
+  officeDetails: (req,res) => {
+    const officer_id = req.auth.result.id;
+    getOfficerByOfficerID(officer_id, (err, result) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      if(result){
+        const office_id = result.divisional_secratary_id;
+        officeDetails(office_id, (err, resultO) => {
+          if (err) {
+            console.log(err);
+            return;
+          }
+          return res.json({
+            success: 1,
+            data: resultO,
+          });
+        });
+      }
+    });
+  },
 };
