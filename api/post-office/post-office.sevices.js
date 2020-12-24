@@ -49,6 +49,18 @@ module.exports = {
       }
     );
   },
+  getPostOfficeBenifisherphoneList: (post_office_id,message, callBack) => {
+    pool.query(
+      "SELECT    elder.number , ? as massage FROM `elder` ,`benifesher` WHERE elder.elder_id = benifesher.elder_id AND benifesher.is_deleted =0 and elder.near_post_office_id = ?",
+      [message,post_office_id],
+      (error, results, fields) => {
+        if (error) {
+          return callBack(error);
+        }
+        return callBack(null, results);
+      }
+    );
+  },
   getPostOffices: (callBack) => {
     pool.query(
       "SELECT * FROM `post_office_table` WHERE `is_deleted`=0",

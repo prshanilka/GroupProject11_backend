@@ -25,6 +25,7 @@ const paymentposttoben = require("./api/pyment-post-to-benifisher/pyment-post-to
 const deadcomplainRouter = require("./api/deaths_complains/deaths_complains.routers")
 const marksRouter = require("./api/marks/marks.router");
 const uploadR =require("./api/upload/upload.router")
+const notification = require("./api/notification/notification.router");
 
 app.use(express.static('public')); //to access the files in public folder
 app.use(fileUpload());
@@ -51,7 +52,11 @@ app.use("/api/paymentposttoben", paymentposttoben);
 app.use("/api/deadcomplain", deadcomplainRouter);
 app.use("/api/application",application)
 app.use("/api/marks", marksRouter);
+
 app.use('/upload', uploadR)
+
+app.use("/api/notification", notification);
+
 
 /*
 app.get("/api" , (req , res) => {

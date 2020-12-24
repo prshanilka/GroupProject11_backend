@@ -8,7 +8,7 @@ const {
   getGramaDivisionsToSelectOfficers,
   getGramaDivisionsToSelectBox,
   getBenifisherListToGram,
-
+  getBenifisherCountToGram,
   getGramaDivisionsIDonly,
   getAgentVerifyList,
 } = require("./grama-division.services");
@@ -187,6 +187,40 @@ module.exports = {
             "https://api.coloredstrategies.com/cakes/fordatatable?sort=&page=2&per_page=8",
           from: 1,
           to: 8,
+          data: results,
+        });
+      });
+    });
+  },
+  getBenifisherCountToGram: (req, res) => {
+    const grmaniladari_officer_id = req.auth.result.id;
+    getOfficerGramaIdByOfficerID(grmaniladari_officer_id, (errO, resultsO) => {
+      if (errO) {
+        console.log(errO);
+        return res.status(500).json({
+          success: 0,
+          message: "database Connection error",
+        });
+      }
+
+      if (!resultsO) {
+        return res.json({
+          success: 0,
+          message: "record Not Found",
+        });
+      }
+
+      const gram_div_id = resultsO.gramaniladari_division_id;
+      getBenifisherCountToGram(gram_div_id, (err, results) => {
+        if (err) {
+          console.log(err);
+          return res.status(500).json({
+            success: 0,
+            message: "database Connection error",
+          });
+        }
+        return res.json({
+          success: 1,
           data: results,
         });
       });
