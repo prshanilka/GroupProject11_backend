@@ -12,7 +12,7 @@ const { checkPermision } = require("../../auth/roleauth");
 
 module.exports = {
   getApplicationStatus: (req, res) => {
-    const elder_id = req.auth.result.user_id;
+    const elder_id = req.auth.result.id;
     getApplicationStatus(elder_id, (err, results) => {
       if (err) {
         console.log(err);
