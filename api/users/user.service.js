@@ -12,6 +12,24 @@ module.exports = {
       }
     );
   },
+  createOffUser: (data, callBack) => {
+    pool.query(
+      `INSERT INTO user(id,user_name,password,email,role_id) VALUES (?,?,?,?,?)`,
+      [
+        data.officer_id,
+				data.uname,
+				data.pword,
+				data.email,
+				data.role
+      ],
+      (error, results, fields) => {
+        if (error) {
+          return callBack(error);
+        }
+        return callBack(null, results);
+      }
+    );
+  },
   getUsers: (callBack) => {
     pool.query(`SELECT * FROM user`, [], (error, results, fields) => {
       if (error) {
