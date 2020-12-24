@@ -52,8 +52,7 @@ app.use("/api/paymentposttoben", paymentposttoben);
 app.use("/api/deadcomplain", deadcomplainRouter);
 app.use("/api/application",application)
 app.use("/api/marks", marksRouter);
-
-app.use('/upload', uploadR)
+app.use("/api/upload", uploadR)
 
 app.use("/api/notification", notification);
 

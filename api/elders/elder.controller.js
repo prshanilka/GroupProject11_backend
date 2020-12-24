@@ -274,6 +274,7 @@ module.exports = {
             }
             const dataU = {
               id: resultE.insertId,
+              profile:bodyE.profile,
               user_id: req.auth.result.user_id,
             };
             updateIdByUserId(dataU, (errU, resultU) => {
@@ -306,9 +307,10 @@ module.exports = {
           }
 
           const dataU = {
-            id: resultE.insertId,
-            user_id: req.auth.result.user_id,
-          };
+              id: resultE.insertId,
+              profile:bodyE.profile,
+              user_id: req.auth.result.user_id,
+            };
 
           updateIdByUserId(dataU, (errU, resultU) => {
             if (errU) {

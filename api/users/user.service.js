@@ -47,8 +47,8 @@ module.exports = {
   },
   updateIdByUserId:(data, callBack) => {
     pool.query(
-      `UPDATE user SET id=? WHERE user_id=?`,
-      [data.id , data.user_id],
+      `UPDATE user SET id=? , profile=? WHERE user_id=?`,
+      [data.id, data.profile, data.user_id],
       (error, results, fields) => {
         if (error) {
           return callBack(error);
