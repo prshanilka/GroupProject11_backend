@@ -50,7 +50,7 @@ module.exports = {
   },
   createAgent: (data, callBack) => {
     pool.query(
-      "INSERT INTO `agent`( `elder_id`, `name`, `nic`, `address`, `phone`, `email`,`relation_with_elder`) VALUES (?, ?, ?, ?, ?, ? , ?)",
+      "INSERT INTO `agent`( `elder_id`, `name`, `nic`, `address`, `phone`, `email`,`pic`,`relation_with_elder`) VALUES (?, ?, ?, ?, ?, ? ,?, ?)",
       [
         data.elder_id,
         data.name,
@@ -58,8 +58,8 @@ module.exports = {
         data.address,
         data.phone,
         data.email,
+        data.pic,
         data.relation_with_elder,
-        data.agent_is_avilable,
       ],
       (error, results, fields) => {
         if (error) {
