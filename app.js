@@ -27,7 +27,7 @@ const marksRouter = require("./api/marks/marks.router");
 const uploadR =require("./api/upload/upload.router")
 const notification = require("./api/notification/notification.router");
 
-app.use(express.static('public')); //to access the files in public folder
+
 app.use(fileUpload());
 app.use(express.json());
 app.use(cors());
@@ -55,10 +55,8 @@ app.use("/api/marks", marksRouter);
 app.use("/api/upload", uploadR)
 
 app.use("/api/notification", notification);
-app.get("/public", function(request, response) {
-  response.render("image");
-});
 
+app.use('/api/uploads', express.static(__dirname + '/public'));
 
 /*
 app.get("/api" , (req , res) => {
