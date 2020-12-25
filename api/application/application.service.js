@@ -225,7 +225,7 @@ module.exports = {
           }
 
           //second
-          sql=`SELECT COUNT(*) AS tot FROM priority_list WHERE is_deleted=0 AND divisional_sec =?`
+          sql=`SELECT COUNT(*) AS tot FROM benifesher WHERE is_deleted=0 AND divisional_sec =?`
           pool.query(sql,[divisionalid],
             (error, tot, fields) => {
               if (error) {
@@ -234,7 +234,7 @@ module.exports = {
               c=count[0].count-tot[0].tot
               if(c>0){
                 sqla=`SELECT elder.elder_id,elder.divisional_secratory_id,finalmarks.final_marks FROM elder,verification_of_elders,finalmarks WHERE
-                elder.elder_id=verification_of_elders.elder_id AND verification_of_elders.vid=finalmarks.v_id AND verification_of_elders.validity_by_divisional_head=1 AND  elder.divisional_secratory_id=? and elder.elder_id NOT IN(SELECT priority_list.elder_id from priority_list) ORDER BY finalmarks.final_marks DESC,finalmarks.added ASC LIMIT ?`
+                elder.elder_id=verification_of_elders.elder_id AND verification_of_elders.vid=finalmarks.v_id AND verification_of_elders.validity_by_divisional_head=1 AND  elder.divisional_secratory_id=? and elder.elder_id NOT IN(SELECT benifesher.elder_id from benifesher) ORDER BY finalmarks.final_marks DESC,finalmarks.added ASC LIMIT ?`
                 pool.query(sqla, [divisionalid,c],
                       (error, data, fields) => {
                         if (error) {
@@ -246,7 +246,7 @@ module.exports = {
 
                         }
                                 arr=[];
-                                sqlv="INSERT INTO priority_list(elder_id, divisional_sec) VALUES (?,?)"
+                                sqlv="INSERT INTO benifesher(elder_id, divisional_sec) VALUES (?,?)"
                                 i=0;
                                 data.forEach(element => {
                                   if(i==1){
