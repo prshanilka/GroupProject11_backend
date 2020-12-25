@@ -173,11 +173,11 @@ module.exports = {
           }
         });
 
-        //console.log(results);
+        console.log(results);
         const userData = {
           id: results.user_id,
           title: results.user_name,
-          img: "/assets/img/profiles/def.jpg",
+          img: results.profile,
           date: "Last seen today 15:24",
           role: results.role_id,
         };
