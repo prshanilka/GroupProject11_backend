@@ -18,7 +18,7 @@ module.exports = {
             return res.status(500).send({ msg: "Error occured" });
         }
         // returing the response with file path and name
-        return res.send({name: name, path: `./public/profile/${name}`});
+        return res.send({name: name, path: `/uploads/public/profile/${name}`});
     });
 },
   
