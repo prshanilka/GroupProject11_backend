@@ -43,7 +43,6 @@ module.exports = {
       }
     );
   },
-
   getOfficers: (callBack) => {
     pool.query(
       `SELECT * FROM divisional_secratory_officer`,

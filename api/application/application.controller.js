@@ -5,7 +5,9 @@ const {
   getSelectedApplicationsForFofficer,
   removeApplicaton,
   completeApplication,
-  getAppliationDHead
+  getAppliationDHead,
+  verifyApplicationByHead,
+  refreshPrirityList
 } = require("./application.service");
 const { insertMarks, insertFinalMarks } = require("../marks/marks.service");
 const { checkPermision } = require("../../auth/roleauth");
@@ -473,5 +475,71 @@ module.exports = {
       .catch((error) => {
         console.log(error);
       });
+  },
+  verifyApplicationByHead: (req, res) => {
+    // checkPermision(
+    //   { role_id: req.auth.result.role_id, cap_id: 22 },
+    //   (err, results) => {
+    //     if (err) {
+    //       console.log(err);
+    //     }
+    //     if (!results) {
+    //       return res.json({
+    //         success: 0,
+    //         error: "Unauthorized access",
+    //       });
+    //     }
+    //   }
+    // );
+    const vid = req.params.vid;
+    const divheadid = req.auth.result.user_id;
+
+    verifyApplicationByHead(vid,divheadid, (err, results) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      refreshPrirityList("G1", (err, results) => {
+        if (err) {
+          console.log(err);
+          return;
+        }
+        console.log(results);
+          return res.json({
+            success: 1,
+            message: "updated successfully",
+          });
+      });
+
+    });
+  },
+  
+  refreshPrirityList: (req, res) => {
+    // checkPermision(
+    //   { role_id: req.auth.result.role_id, cap_id: 22 },
+    //   (err, results) => {
+    //     if (err) {
+    //       console.log(err);
+    //     }
+    //     if (!results) {
+    //       return res.json({
+    //         success: 0,
+    //         error: "Unauthorized access",
+    //       });
+    //     }
+    //   }
+    // );
+
+    refreshPrirityList("G1", (err, results) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+
+      return res.json({
+        success: 1,
+        message: results,
+      });
+    });
   },
 };
