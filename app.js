@@ -52,13 +52,12 @@ app.use("/api/paymentposttoben", paymentposttoben);
 app.use("/api/deadcomplain", deadcomplainRouter);
 app.use("/api/application",application)
 app.use("/api/marks", marksRouter);
-
-app.use('/api/upload', uploadR)
+app.use("/api/upload", uploadR)
 
 app.use("/api/notification", notification);
 app.get("/public", function(request, response) {
   response.render("image");
- });
+});
 
 
 /*

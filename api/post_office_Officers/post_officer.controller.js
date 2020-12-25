@@ -9,10 +9,13 @@ const {
 
 } = require("./post_officer.service");
 
+const { createOffUser } = require("../users/user.service");
 const { sign } = require("jsonwebtoken");
 
 const { checkPermision } = require("../../auth/roleauth");
 const { createOffOfficer,updateOfficers } = require("../officers/officer.service");
+const { genSaltSync, hashSync, compareSync } = require("bcrypt");
+
 module.exports = {
   createOfficer: (req, res) => {
     const body = req.body;
@@ -144,27 +147,40 @@ module.exports = {
     });
   },
   addPostOfficer: (req, res) => {
-    const dataO = req.body.officer;
-    createOffOfficer(dataO, (errO, resultO) => {
-      if (errO) {
-        console.log(errO);
+    const bodyUser = req.body.User;
+    console.log(bodyUser.uname);
+    const salt = genSaltSync(10);
+    bodyUser.pword = hashSync(bodyUser.pword, salt);
+    createOffUser(bodyUser, (err,resultsUser) => {
+      if (err) {
+        console.log(err);
         return res.status(500).json({
           success: 0,
           message: "Database connection errror",
         });
       }
-      const dataP = req.body.postofficer;
-      create(dataP, (errP, resultsP) => {
-        if (errP) {
-          console.log(errP);
+      const dataO = req.body.officer;
+      createOffOfficer(dataO, (errO, resultO) => {
+        if (errO) {
+          console.log(errO);
           return res.status(500).json({
             success: 0,
             message: "Database connection errror",
           });
         }
-        return res.status(200).json({
-          success: 1,
-          data: resultsP,
+        const dataP = req.body.postofficer;
+        create(dataP, (errP, resultsP) => {
+          if (errP) {
+            console.log(errP);
+            return res.status(500).json({
+              success: 0,
+              message: "Database connection errror",
+            });
+          }
+          return res.status(200).json({
+            success: 1,
+            data: resultsP,
+          });
         });
       });
     });

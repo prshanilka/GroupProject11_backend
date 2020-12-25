@@ -15,7 +15,6 @@ const { checkPermision } = require("../../auth/roleauth");
 module.exports = {
   getApplicationStatus: (req, res) => {
     const elder_id = req.auth.result.id;
-P
     getApplicationStatus(elder_id, (err, results) => {
       if (err) {
         console.log(err);
