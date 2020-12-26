@@ -7,6 +7,7 @@ const {
   elderRegistration,
   elderDetailstoPayId,
   getElderDetail,
+  searchElders
   
 } = require("./elder.service");
 const { checkPermision } = require("../../auth/roleauth");
@@ -77,6 +78,25 @@ module.exports = {
       });
     });
   },
+
+  searchElders: (req, res) => {
+    const body = req.body;
+
+    searchElders(body, (error, results) => {
+      if (error) {
+        console.log(error);
+        return res.status(500).json({
+          success: 0,
+          message: "Database Connection error ",
+        });
+      }
+      return res.status(200).json({
+        success: 1,
+        data: results,
+      });
+    });
+  },
+
   createElders: (req, res) => {
     const body = req.body;
 

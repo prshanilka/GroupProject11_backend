@@ -9,12 +9,14 @@ const {
   elderDetailstoPayId,
   getElderDetail,
   updateElderRegistration,
-  gramaDivElderRegistration
+  gramaDivElderRegistration,
+  searchElders
 } = require("./elder.controller");
 
 const { checkToken } = require("../../auth/token_validation");
 
 router.post("/", checkToken, createElders);
+router.post("/search", checkToken, searchElders);
 router.post("/elder-registration", checkToken, elderRegistration);
 router.post("/grama-div-elder-registration", checkToken, gramaDivElderRegistration);
 router.get("/eldertopatid/:pay_id", checkToken, elderDetailstoPayId);
