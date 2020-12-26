@@ -34,7 +34,7 @@ module.exports = {
     });
   },
   getAgentByElderID: (req, res) => {
-    const elder_id = "8";
+    const elder_id = req.params.elder_id;
     getAgentByElderID(elder_id, (err, results) => {
       if (err) {
         console.log(err);

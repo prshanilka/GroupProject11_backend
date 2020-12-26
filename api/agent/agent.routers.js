@@ -12,7 +12,7 @@ const {
 const { checkToken } = require("../../auth/token_validation");
 
 router.get("/qulify", checkToken, getQulifyAgentByElderID);
-router.get("/elder", checkToken, getAgentByElderID);
+router.get("/elder/:elder_id", checkToken, getAgentByElderID);
 router.get("/aid/:elder_id", checkToken, getAgentByAgentID);
 router.post("/", checkToken, createAgent);
 
