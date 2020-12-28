@@ -14,13 +14,14 @@ module.exports = {
   },
   createOffUser: (data, callBack) => {
     pool.query(
-      `INSERT INTO user(id,user_name,password,email,role_id) VALUES (?,?,?,?,?)`,
+      `INSERT INTO user(id,user_name,password,email,role_id,profile) VALUES (?,?,?,?,?,?)`,
       [
         data.officer_id,
 				data.uname,
 				data.pword,
 				data.email,
-				data.role
+        data.role,
+        data.profile,
       ],
       (error, results, fields) => {
         if (error) {

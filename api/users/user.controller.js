@@ -192,7 +192,7 @@ module.exports = {
       } else {
         return res.json({
           success: 0,
-          data: "Invalid email or password",
+          message: "Invalid email or password",
         });
       }
     });
