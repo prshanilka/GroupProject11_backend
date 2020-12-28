@@ -289,7 +289,19 @@ module.exports = {
         }
       );
   },
-
+  getGramacomment: (vid, callBack) => {
+    pool.query(
+      `SELECT  gramaniladari_comment AS gc FROM verification_of_elders WHERE vid=?`,
+      [vid],
+      (error, results, fields) => {
+        if (error) {
+          //console.log(results);
+          return callBack(error);
+        }
+        return callBack(null, results[0]);
+      }
+    );
+  },
 
   
 

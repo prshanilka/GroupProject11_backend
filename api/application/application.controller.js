@@ -7,7 +7,8 @@ const {
   completeApplication,
   getAppliationDHead,
   verifyApplicationByHead,
-  refreshPrirityList
+  refreshPrirityList,
+  getGramacomment
 } = require("./application.service");
 const { insertMarks, insertFinalMarks } = require("../marks/marks.service");
 const { checkPermision } = require("../../auth/roleauth");
@@ -80,6 +81,7 @@ module.exports = {
       });
     });
   },
+
   getAppliationDofficer: (req, res) => {
     const page = req.query.page;
     const per_page = req.query.per_page;
@@ -513,7 +515,6 @@ module.exports = {
 
     });
   },
-  
   refreshPrirityList: (req, res) => {
     // checkPermision(
     //   { role_id: req.auth.result.role_id, cap_id: 22 },
@@ -542,4 +543,19 @@ module.exports = {
       });
     });
   },
+  getGramacomment: (req, res) => {
+    const vid = req.params.vid;
+    getGramacomment(vid, (err, results) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+
+      return res.json({
+        success: 1,
+        message: results.gc,
+      });
+    });
+  },
+
 };
