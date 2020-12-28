@@ -12,12 +12,21 @@ const {
 } = require("./elder.service");
 const { checkPermision } = require("../../auth/roleauth");
 const { createAgent } = require("../agent/agent.services");
+const { create } = require("../users/user.service")
 const {
   createverifyFirstElder,
   updateverifyElder
 } = require("../verify_elder/verify_elder.service");
 
 const { updateIdByUserId } = require("../users/user.service");
+
+
+ 
+const { genSaltSync, hashSync, compareSync } = require("bcrypt");
+  
+
+
+
 module.exports = {
   getElderByElderID: (req, res) => {
     const elder_id = req.params.elder_id;
@@ -352,28 +361,81 @@ module.exports = {
     });
   },
   gramaDivElderRegistration: (req, res) => {
-    const bodyE = req.body.elder;
-    createElders(bodyE, (errorE, resultE) => {
-      if (errorE) {
-        console.log(error);
+    const bodyUE = req.body.user;
+    console.log(bodyUE.user_name);
+    const salt = genSaltSync(10);
+    bodyUE.password = hashSync(bodyUE.password, salt);
+
+    create(bodyUE, 10, 10, (err, resultUE) => {
+      if (err) {
+        console.log(err);
         return res.status(500).json({
           success: 0,
-          message: "Databse Connection Error",
+          message: "Database connection errror",
         });
       }
 
-      const bodyA = req.body.agent;
-      if (bodyA.available) {
-        bodyA.elder_id = resultE.insertId;
-        createAgent(bodyA, (errorA, resultA) => {
-          if (errorA) {
-            console.log(error);
-            return res.status(500).json({
-              success: 0,
-              message: "Databse Connection Error",
-            });
-          }
 
+      const bodyE = req.body.elder;
+      createElders(bodyE, (errorE, resultE) => {
+        if (errorE) {
+          console.log(error);
+          return res.status(500).json({
+            success: 0,
+            message: "Databse Connection Error",
+          });
+        }
+
+        const bodyA = req.body.agent;
+        if (bodyA.available) {
+          bodyA.elder_id = resultE.insertId;
+          createAgent(bodyA, (errorA, resultA) => {
+            if (errorA) {
+              console.log(error);
+              return res.status(500).json({
+                success: 0,
+                message: "Databse Connection Error",
+              });
+            }
+
+            const bodyV = req.body.verify;
+            bodyV.elder_id = resultE.insertId;
+            createverifyFirstElder(bodyV, (errorV, resultV) => {
+              if (errorV) {
+                console.log(error);
+                return res.status(500).json({
+                  success: 0,
+                  message: "Databse Connection Error",
+                });
+              }
+         
+              const dataU = {
+                id: resultE.insertId,
+                profile: bodyE.profile,
+                user_id: resultUE.insertId,
+              };
+
+              updateIdByUserId(dataU, (errU, resultU) => {
+                if (errU) {
+                  console.log(error);
+                  return res.status(500).json({
+                    success: 0,
+                    message: "Databse Connection Error",
+                  });
+                }
+         
+              
+                return res.status(200).json({
+                  success: 1,
+                  message:
+                    " SuccesFully Inserted Elder Agent Verified Elder  User  Table",
+                  data: resultV,
+                });
+              });
+            });
+           
+          });
+        } else {
           const bodyV = req.body.verify;
           bodyV.elder_id = resultE.insertId;
           createverifyFirstElder(bodyV, (errorV, resultV) => {
@@ -384,37 +446,33 @@ module.exports = {
                 message: "Databse Connection Error",
               });
             }
-             
+              
+            const dataU = {
+              id: resultE.insertId,
+              profile: bodyE.profile,
+              user_id: resultUE.insertId,
+            };
+
+            updateIdByUserId(dataU, (errU, resultU) => {
+              if (errU) {
+                console.log(error);
+                return res.status(500).json({
+                  success: 0,
+                  message: "Databse Connection Error",
+                });
+              }
+         
+              
               return res.status(200).json({
                 success: 1,
                 message:
-                  " SuccesFully Inserted Elder Agent Verified Elder   Table",
+                  " SuccesFully Inserted Elder an Verified Elder   Updated ",
                 data: resultV,
               });
             });
-           
-        });
-      } else {
-        const bodyV = req.body.verify;
-        bodyV.elder_id = resultE.insertId;
-        createverifyFirstElder(bodyV, (errorV, resultV) => {
-          if (errorV) {
-            console.log(error);
-            return res.status(500).json({
-              success: 0,
-              message: "Databse Connection Error",
-            });
-          }
-
-             return res.status(200).json({
-              success: 1,
-              message:
-                " SuccesFully Inserted Elder an Verified Elder   Updated ",
-              data: resultV,
-            });
           });
-  
-      }
+        }
+      });
     });
   },
 };
