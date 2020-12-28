@@ -3,7 +3,7 @@ const {
 } = require('./upload.service');
 
 module.exports = {
-  propic: (req, res) => {
+    propic: (req, res) => {
 
     if (!req.files) {
         return res.status(500).send({ msg: "file is not found" })
