@@ -15,7 +15,7 @@ module.exports = {
   },
   getpriorityListbydiv: (div_id, callBack) => {
     pool.query(
-      "SELECT elder.elder_id as id, elder.name ,elder.nic_id,elder.email , elder.address , priority_list.marks ,elder.gramaniladari_division_id , gramaniladari_division.name as divname FROM `gramaniladari_division`,`priority_list` ,`elder` WHERE priority_list.elder_id = elder.elder_id AND gramaniladari_division.gramaniladari_division_id =elder.gramaniladari_division_id AND priority_list.still_dead_or_alive ='1' and priority_list.eligibility ='1' AND elder.divisional_secratory_id=?",
+      "SELECT elder.elder_id as id, elder.name ,elder.nic_id,elder.email , elder.address,elder.gramaniladari_division_id , gramaniladari_division.name as divname FROM `gramaniladari_division`,`priority_list` ,`elder` WHERE priority_list.elder_id = elder.elder_id AND gramaniladari_division.gramaniladari_division_id =elder.gramaniladari_division_id  and priority_list.eligibility ='1' AND elder.divisional_secratory_id=?",
       [div_id],
       (error, results, fields) => {
         if (error) {

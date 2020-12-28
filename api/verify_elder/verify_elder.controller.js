@@ -123,6 +123,7 @@ module.exports = {
   },
   updateVerifyElderAfterGramAccept: (req, res) => {
     const body = req.body;
+    body.gramaniladari_id = req.auth.result.id;
     updateVerifyElderAfterGramAccept(body, (err, results) => {
       if (err) {
         console.log(err);
@@ -137,7 +138,7 @@ module.exports = {
   },
   updateVerifyElderAfterGramDisQualified: (req, res) => {
     const body = req.body;
-    //body=req.auth.result.id;
+    body.gramaniladari_id = req.auth.result.id;
     updateVerifyElderAfterGramDisQualified(body, (err, results) => {
       if (err) {
         console.log(err);
