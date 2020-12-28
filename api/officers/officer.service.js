@@ -46,8 +46,8 @@ module.exports = {
   },
   updateOfficers: (data, callBack) => {
     pool.query(
-      `UPDATE officers SET officer_id=? ,nic_no=? ,name=? ,email=? ,phone=?`,
-      [data.officer_id, data.nic_no, data.name, data.email, data.phone],
+      `UPDATE officers SET  nic_no=? ,name=? ,email=? ,phone=? where officer_id=? `,
+      [data.nic_no, data.name, data.email, data.phone, data.officer_id],
       (error, results, fields) => {
         if (error) {
           return callBack(error);

@@ -7,7 +7,14 @@ const {
   getApplicationToVerifyByDivision,
   getDivisionsToSelectBox,
   getBenifisherListTodiv,
+  getConstant,
+  updateConstant,
+  officeDetails
 } = require("./divisional-office.services");
+
+const {
+  getOfficerByOfficerID
+} = require("../divisional_secratary_officer/divisional_officer.service");
 
 const { sign } = require("jsonwebtoken");
 
@@ -198,6 +205,65 @@ module.exports = {
         success: 1,
         data: results,
       });
+    });
+  },
+  getConstant: (req,res) => {
+    getConstant((err, result) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      return res.json({
+        success: 1,
+        data: result,
+      });
+    });
+  },
+  updateConstant: (req, res) => {
+    const body = req.body;
+    updateConstant(body, (err, results) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).json({
+          success: 0,
+          message: "Database Connection error",
+        });
+      }
+
+      if (!results) {
+        return res.json({
+          success: 0,
+          message: "Record Not Found",
+        });
+      }
+
+      return res.status(200).json({
+        success: 1,
+        message: "Updated Succecfully",
+        data: results,
+      });
+    });
+  },
+  officeDetails: (req,res) => {
+    const officer_id = req.auth.result.id;
+    getOfficerByOfficerID(officer_id, (err, result) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      if(result){
+        const office_id = result.divisional_secratary_id;
+        officeDetails(office_id, (err, resultO) => {
+          if (err) {
+            console.log(err);
+            return;
+          }
+          return res.json({
+            success: 1,
+            data: resultO,
+          });
+        });
+      }
     });
   },
 };

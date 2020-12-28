@@ -43,7 +43,6 @@ module.exports = {
       }
     );
   },
-
   getOfficers: (callBack) => {
     pool.query(
       `SELECT * FROM divisional_secratory_officer`,
@@ -79,6 +78,18 @@ module.exports = {
     pool.query(
       `DELETE FROM divisional_secratory_officer WHERE officer_id=?`,
       [data.officer_id],
+      (error, results, fields) => {
+        if (error) {
+          return callBack(error);
+        }
+        return callBack(null, results[0]);
+      }
+    );
+  },
+  getOfficersFromVID:(vid, callBack) => {
+    pool.query(
+      `SELECT * FROM divisional_secratory_officer WHERE officer_id=?`,
+      [vid],
       (error, results, fields) => {
         if (error) {
           return callBack(error);

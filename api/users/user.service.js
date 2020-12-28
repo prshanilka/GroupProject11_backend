@@ -1,9 +1,28 @@
 const pool = require("../../config/database");
 module.exports = {
-  create: (data, callBack) => {
+  create: (data,role,table, callBack) => {
     pool.query(
-      `INSERT INTO user(user_name,password,email,role_id) VALUES (?,?,?,?)`,
-      [data.user_name, data.password, data.email, data.role_id],
+      `INSERT INTO user(user_name,password,email,table_id,role_id) VALUES (?,?,?,?,?)`,
+      [data.userName, data.password, data.email,table,role],
+      (error, results, fields) => {
+        if (error) {
+          return callBack(error);
+        }
+        return callBack(null, results);
+      }
+    );
+  },
+  createOffUser: (data, callBack) => {
+    pool.query(
+      `INSERT INTO user(id,user_name,password,email,role_id,profile) VALUES (?,?,?,?,?,?)`,
+      [
+        data.officer_id,
+				data.uname,
+				data.pword,
+				data.email,
+        data.role,
+        data.profile,
+      ],
       (error, results, fields) => {
         if (error) {
           return callBack(error);
@@ -45,6 +64,18 @@ module.exports = {
       }
     );
   },
+  updateIdByUserId:(data, callBack) => {
+    pool.query(
+      `UPDATE user SET id=? , profile=? WHERE user_id=?`,
+      [data.id, data.profile, data.user_id],
+      (error, results, fields) => {
+        if (error) {
+          return callBack(error);
+        }
+        return callBack(null, results[0]);
+      }
+    );
+  },
   deleteUser: (data, callBack) => {
     pool.query(
       `delete from user WHERE user_id=?`,
@@ -64,6 +95,27 @@ module.exports = {
       (error, results, fields) => {
         if (error) {
           callBack(error);
+        }
+        return callBack(null, results[0]);
+      }
+    );
+  },
+
+  checkUsername: (userName,callBack) => {
+    pool.query(`SELECT * FROM user WHERE user_name=?`, [userName], (error, results, fields) => {
+      if (error) {
+        return callBack(error);
+      }
+      return callBack(null, results);
+    });
+  },
+  changePass: (id,pass, callBack) => {
+    pool.query(
+      `UPDATE user SET password=? WHERE user_id=?`,
+      [pass,id],
+      (error, results, fields) => {
+        if (error) {
+          return callBack(error);
         }
         return callBack(null, results[0]);
       }

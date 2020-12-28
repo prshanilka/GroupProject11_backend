@@ -1,6 +1,8 @@
 require("dotenv").config();
+var cors = require('cors')
 const express = require("express");
 const app = express();
+const fileUpload = require('express-fileupload');
 
 const userRouter = require("./api/users/user.router");
 const tokenRouter = require("./api/token/token.router");
@@ -22,8 +24,13 @@ const paymentdivtopost = require("./api/payment-div-to-post/payment-div-to-post.
 const paymentposttoben = require("./api/pyment-post-to-benifisher/pyment-post-to-benifisher.routers");
 const deadcomplainRouter = require("./api/deaths_complains/deaths_complains.routers")
 const marksRouter = require("./api/marks/marks.router");
-app.use(express.json());
+const uploadR =require("./api/upload/upload.router")
+const notification = require("./api/notification/notification.router");
 
+
+app.use(fileUpload());
+app.use(express.json());
+app.use(cors());
 app.use("/api/users", userRouter);
 app.use("/api/elders", elderRouter);
 app.use("/api/token", tokenRouter);
@@ -45,7 +52,11 @@ app.use("/api/paymentposttoben", paymentposttoben);
 app.use("/api/deadcomplain", deadcomplainRouter);
 app.use("/api/application",application)
 app.use("/api/marks", marksRouter);
+app.use("/api/upload", uploadR)
 
+app.use("/api/notification", notification);
+
+app.use('/api/uploads', express.static(__dirname + '/public'));
 
 /*
 app.get("/api" , (req , res) => {
