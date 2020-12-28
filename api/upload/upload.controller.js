@@ -12,7 +12,7 @@ module.exports = {
     const myFile = req.files.file;
 
     //  mv() method places the file inside public directory
-        const name = req.auth.result.user_name + req.auth.result.user_id +myFile.name.substring(myFile.name.length - 4); ;
+        const name = req.auth.result.user_name + req.auth.result.user_id + Math.floor(Math.random() * 1000) +myFile.name.substring(myFile.name.length - 4); ;
 
     myFile.mv(`./public/profile/${name}`, function (err) {
         if (err) {
@@ -33,7 +33,7 @@ module.exports = {
     const myFile = req.files.file;
 
     //  mv() method places the file inside public directory
-        const name = req.auth.result.user_name + req.auth.result.user_id +myFile.name.substring(myFile.name.length - 4); ;
+        const name = req.auth.result.user_name + req.auth.result.user_id + Math.floor(Math.random() * 1000) +myFile.name.substring(myFile.name.length - 4); ;
 
     myFile.mv(`./public/guardian/${name}`, function (err) {
         if (err) {
