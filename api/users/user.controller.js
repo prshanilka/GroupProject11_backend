@@ -188,6 +188,7 @@ module.exports = {
           token: jsontoken,
           refresh: refreshtoken,
           data: userData,
+          
         });
       } else {
         return res.json({

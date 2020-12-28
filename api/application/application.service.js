@@ -163,7 +163,7 @@ module.exports = {
     }
     else{
     sqlc= `SELECT COUNT(verification_of_elders.elder_id) AS total FROM verification_of_elders,elder where elder.elder_id IN( SELECT elder_id FROM elder WHERE divisional_secratory_id IN( SELECT divisional_secratary_id FROM divisional_secratory_officer WHERE officer_id=?) ) AND validity_by_divisional_head IS NULL AND validity_by_divisional_officer=1 AND elder.elder_id = verification_of_elders.elder_id`
-    sql=`SELECT verification_of_elders.vid,verification_of_elders.elder_id,elder.name,elder.gramaniladari_division_id FROM verification_of_elders,elder where elder.elder_id IN( SELECT elder_id FROM elder WHERE divisional_secratory_id IN( SELECT divisional_secratary_id FROM divisional_secratory_officer WHERE officer_id=2) ) AND validity_by_divisional_head IS NULL AND validity_by_divisional_officer=1 AND elder.elder_id = verification_of_elders.elder_id LIMIT ?,?`
+    sql=`SELECT verification_of_elders.vid,verification_of_elders.elder_id,elder.name,elder.gramaniladari_division_id FROM verification_of_elders,elder where elder.elder_id IN( SELECT elder_id FROM elder WHERE divisional_secratory_id IN( SELECT divisional_secratary_id FROM divisional_secratory_officer WHERE officer_id=?) ) AND validity_by_divisional_head IS NULL AND validity_by_divisional_officer=1 AND elder.elder_id = verification_of_elders.elder_id LIMIT ?,?`
     }
     pool.query(
         sqlc
@@ -180,7 +180,7 @@ module.exports = {
           pool.query(
           sql
               , 
-            [limitf-1,limitl-1],
+            [officer_id,limitf-1,limitl-1],
             (error, results, fields) => {
               if (error) {
                 return callBack(error);

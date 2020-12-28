@@ -137,6 +137,7 @@ module.exports = {
   },
   updateVerifyElderAfterGramDisQualified: (req, res) => {
     const body = req.body;
+    //body=req.auth.result.id;
     updateVerifyElderAfterGramDisQualified(body, (err, results) => {
       if (err) {
         console.log(err);
