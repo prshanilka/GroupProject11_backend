@@ -25,6 +25,27 @@ module.exports = {
       }
     );
   },
+  searchElders: (data, callBack) => {
+    pool.query(
+      "SELECT * FROM `elder` WHERE name LIKE  ?  and elder_id  LIKE ?  AND address LIKE ?  and gramaniladari_division_id  LIKE ?  AND near_post_office_id LIKE ? AND district_id like ? AND divisional_secratory_id LIKE ? ",
+      [
+        "%"+data.name+"%",
+        "%"+data.elder_id+"%" ,  
+        "%"+data.address +"%",
+        "%"+data.gramaniladari_division_id +"%",
+        "%"+data.near_post_office_id +"%",
+        "%"+data.district_id +"%",
+        "%"+data.divisional_secratory_id +"%",
+      ],
+      (error, results, fields) => {
+        if (error) {
+          return callBack(error);
+        }
+
+        return callBack(null, results);
+      }
+    );
+  },
 
   createElders: (data, callBack) => {
     pool.query(

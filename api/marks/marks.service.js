@@ -13,6 +13,30 @@ module.exports = {
       return callBack(null, results);
     });
   },
+  insertCriteria: (data, callBack) => {
+    pool.query(
+      "INSERT INTO criteria(criteria) VALUES (?)",
+      [data.criteria],
+      (error, results, fields) => {
+        if(error){
+          return callBack(error);
+        }
+        return callBack(null, callBack);
+      }
+    );
+  },
+  deleteCriteria: (criteria_id, callBack) => {
+    pool.query(
+      "UPDATE criteria SET is_deleted='1' WHERE criteria_id=?",
+      [criteria_id],
+      (error, results, fields) => {
+        if(error){
+          return callBack(error);
+        }
+        return callBack(null, callBack);
+      }
+    );
+  },
   insertMarks: (vid,data,callBack) => {
     arr=[];
     sql="INSERT INTO criteriamarks(criteria_id,v_id,marks) VALUES (?,?,?)"
@@ -48,5 +72,17 @@ module.exports = {
       }
       return callBack(null, results);
     });
+  },
+  getMarksByvID: (vid, callBack) => {
+    pool.query(
+      "SELECT criteria,marks FROM criteriamarks,criteria WHERE  criteriamarks.criteria_id = criteria.criteria_id AND v_id=?",
+      [vid],
+      (error, results, fields) => {
+        if(error){
+          return callBack(error);
+        }
+        return callBack(null, results);
+      }
+    );
   },
 };

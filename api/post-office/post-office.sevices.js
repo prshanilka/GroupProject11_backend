@@ -27,7 +27,7 @@ module.exports = {
   },
   getpostOfficePayHistory: (post_office_id, callBack) => {
     pool.query(
-      "SELECT `payment_id` ,`post_office_id`, `check_no`, `date`, `total_money_amount`, `no_qualified_elders`, `amount_of_money_debited_to_centrel_bank`, `sent_amount_to_post_office` , `year`, `month`, `no_of_elders_got_money`, `elders_dose_not_resive_total_money`, `send_date`,`is_completed`, `completed_date` FROM `payments_devisional_to_post_office` WHERE `post_office_id` =? AND is_deleted='0' ORDER BY `payments_devisional_to_post_office`.`payment_id` DESC",
+      "SELECT `payment_id`, months.m_name ,`post_office_id`, `check_no`, `date`, `total_money_amount`, `no_qualified_elders`, `amount_of_money_debited_to_centrel_bank`, `sent_amount_to_post_office` , `year`, `month`, `no_of_elders_got_money`, `elders_dose_not_resive_total_money`, `send_date`,`is_completed`, `completed_date` FROM `payments_devisional_to_post_office` ,`months` WHERE month=months.month_id and `post_office_id` =? AND is_deleted='0' ORDER BY `payments_devisional_to_post_office`.`payment_id` DESC",
       [post_office_id],
       (error, results, fields) => {
         if (error) {
@@ -41,6 +41,18 @@ module.exports = {
     pool.query(
       "SELECT    * FROM `elder` ,`benifesher` WHERE elder.elder_id = benifesher.elder_id AND benifesher.is_deleted =0 and elder.near_post_office_id = ?",
       [post_office_id],
+      (error, results, fields) => {
+        if (error) {
+          return callBack(error);
+        }
+        return callBack(null, results);
+      }
+    );
+  },
+  getPostOfficeBenifisherphoneList: (post_office_id,message, callBack) => {
+    pool.query(
+      "SELECT    elder.number , ? as massage FROM `elder` ,`benifesher` WHERE elder.elder_id = benifesher.elder_id AND benifesher.is_deleted =0 and elder.near_post_office_id = ?",
+      [message,post_office_id],
       (error, results, fields) => {
         if (error) {
           return callBack(error);
